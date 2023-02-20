@@ -24,7 +24,9 @@ print(list(moviesFull.dtypes))
 
 userRatings = []
 
+moviesPartial['title'] = moviesPartial['title'].map(lambda string: string[:-7])
 
+print(moviesPartial['title'])
 
 
 for item in userRatings:
@@ -39,8 +41,6 @@ for item in userRatings:
 #will be used in the regresion model
 
 #how do we get the training dataset for this?
-
-
 
 #for each user:
 #take a random selection of half the users movie ratings and use the other half in the...
@@ -58,11 +58,20 @@ for item in userRatings:
 #and will contribute to that items predicted rating based on its similairty score and rating
 
 #how will it contribute?:
-#sum all the similairity scores
-#sum all the ratings
+#example:
+
+#three sim scores: 1,1,1
+#three corresponding ratings: 2,3,4
+
+#(1*(2-2.5)+1*(3-2.5)+1*(4-2.5))/3 = (-.5+.5+1.5)/3 = .5 + 2.5 = 3
+
+#three sim scores: .8,.75,.9
+#three corresponding ratings: 2,3,4
+
+#(.8*(2-2.5)+.75*(3-2.5) +.9*(4-2.5))/3 = (-.4+.375+1.35)/3 + 2.5 = .44167 + 2.5 = 2.94167
 
 
-#average of all (sim score X rating) is taken
+
 
 
 
