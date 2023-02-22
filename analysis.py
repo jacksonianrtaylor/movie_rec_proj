@@ -12,6 +12,8 @@ moviesPartial = pd.read_csv('dataset/movies.csv')
 moviesFull = pd.read_csv('dataset/movie_dataset.csv')
 
 
+moviesFull.drop_duplicates(subset = 'title', inplace=True)
+
 #drop certain columns that do nothing
 ratings = ratings.drop(['timestamp'], axis = 1)
 moviesPartial = moviesPartial.drop(['genres'],axis=1)
@@ -20,7 +22,13 @@ moviesPartial = moviesPartial.drop(['genres'],axis=1)
 firstUserRatings  = ratings[ratings['userId'] ==1]
 
 #remove the year and keep the name
+
 moviesPartial['title'] = moviesPartial['title'].map(lambda string: string[:-7])
+print(len(list(moviesPartial['title'])))
+moviesPartial.drop_duplicates(subset = 'title', inplace=True)
+print(len(list(moviesPartial['title'])))
+
+#need to remove dupicates otherwise batman
 
 #get title from movie id
 def get_title_from_movieId(tmp):
@@ -29,11 +37,12 @@ def get_title_from_movieId(tmp):
 #check if both the partial dataset and the movies full dataset have the same name
 def checkTitle(tmp):
     if(tmp not in list(moviesFull["title"])):
-        #The word "the" is being appedned to the ends of titles
+        #The word "the" is being apended to the ends of titles
         tmp = tmp[-3:] +" "+ tmp[:-5]
         return moviesFull[moviesFull["title"] == tmp]["title"].to_string(index=False)
     else:
         return moviesFull[moviesFull["title"] == tmp]["title"].to_string(index=False)
+
 
 
 firstUserTitles = []
@@ -47,18 +56,33 @@ for rating, id in zip(list(firstUserRatings["rating"]), list(firstUserRatings["m
         firstUserTitles.append(checked)
         newFirstUserRatings.append(rating)
 
+
+print(len(firstUserTitles)) 
+print(len(newFirstUserRatings))
 #print(firstUserTitles)
 
+print(firstUserTitles)
 
 #store the moviesFull data for all the movies that user one rated
 fullInfo = pd.DataFrame(columns = list(moviesFull.columns))
 
 
+i = 0
 for name in firstUserTitles:
     if(len(moviesFull[moviesFull["title"] == name]) !=0):
-        fullInfo.loc[len(fullInfo.index)] = moviesFull[moviesFull["title"] == name].iloc[0]
+        fullInfo.loc[i] = moviesFull[moviesFull["title"] == name].iloc[0]
+    else:
+        print("help", i, name)
+    i+=1
         #fullData.append(list(moviesFull[moviesFull["title"] == name].iloc[0]))
 
+
+#why is there a zero val for len(moviesFull[moviesFull["title"] == name])???
+#what is the batman glitch???
+#after year is removed batman has a copy movie title
+
+
+print(len(fullInfo))
 
 features = ['keywords','cast','genres','director']
 
@@ -110,10 +134,12 @@ cosine_sim = cosine_similarity(count_matrix)
 #contains all the simlairities of the first users first rated movie with the rest of the movies...
 #need to extact the actual ratings to predict the rating of the first movie
 #then compare the actual to the predicted rating
-list(cosine_sim[0])[1:len(list(cosine_sim[0]))]
-print(len(list(cosine_sim[1])))
+
+
+
+print(len(list(cosine_sim[0])))
 print(len(newFirstUserRatings))
-print(list(cosine_sim[1]))
+print(list(cosine_sim[0]))
 print(newFirstUserRatings)
 
 #pick a single point in the test training set to predict its rating using the cos siliarty to it from all the different data points 
