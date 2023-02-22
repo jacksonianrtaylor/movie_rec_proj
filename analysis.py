@@ -18,18 +18,14 @@ moviesPartial = moviesPartial.drop(['genres'],axis=1)
 #single users rating to be tested
 firstUserRatings  = ratings[ratings['userId'] ==1]
 
-# print(firstUserRatings["movieId"])
-# print(firstUserRatings)
-
 #remove the year and keep the name
 moviesPartial['title'] = moviesPartial['title'].map(lambda string: string[:-7])
 
-
-#get title with the movie id
-#if the movie id does not exist return false
+#get title from movie id
 def get_title_from_movieId(tmp):
     return moviesPartial[moviesPartial["movieId"]== tmp]["title"].to_string(index=False)
 
+#check if both the partial dataset and the movies full dataset have the same name
 def checkTitle(tmp):
     if(tmp not in list(moviesFull["title"])):
         #The word "the" is being appedned to the ends of titles
@@ -51,8 +47,7 @@ for item in list(firstUserRatings["movieId"]):
 print(firstUserTitles)
 
 
-
-
+#store the moviesFull data for all the movies that user one rated
 fullInfo = pd.DataFrame(columns = list(moviesFull.columns))
 
 
@@ -60,50 +55,38 @@ for name in firstUserTitles:
     if(len(moviesFull[moviesFull["title"] == name]) ==1):
         fullInfo.loc[len(fullInfo.index)] = moviesFull[moviesFull["title"] == name].iloc[0]
 
-# # print(fullInfo)
 
 
-# userRatings = []
+#copied code for vectorization
+#used to find simlair movies to avatar
+features = ['keywords','cast','genres','director']
 
+def combine_features(row):
+    return row['keywords']+" "+row['cast']+" "+row['genres']+" "+row['director']
 
+for feature in features:
+    moviesFull[feature] = moviesFull[feature].fillna('')
 
+moviesFull["combined_features"] = moviesFull.apply(combine_features,axis=1)
 
+cv = CountVectorizer() 
 
-# features = ['keywords','cast','genres','director']
+count_matrix = cv.fit_transform(moviesFull["combined_features"])
 
-# def combine_features(row):
-#     return row['keywords']+" "+row['cast']+" "+row['genres']+" "+row['director']
+cosine_sim = cosine_similarity(count_matrix)
 
-# for feature in features:
-#     moviesFull[feature] = moviesFull[feature].fillna('')
+def get_title_from_index(index):
+    return moviesFull[moviesFull.index == index]["title"].values[0]
+def get_index_from_title(title):
+    return moviesFull[moviesFull.title == title]["index"].values[0]
 
-# moviesFull["combined_features"] = moviesFull.apply(combine_features,axis=1)
+movie_user_likes = "Avatar"
+movie_index = get_index_from_title(movie_user_likes)
 
+similar_movies = list(enumerate(cosine_sim[movie_index]))
+sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1], reverse = True)[1:6]
 
-# cv = CountVectorizer() 
-# count_matrix = cv.fit_transform(moviesFull["combined_features"])
-
-
-# cosine_sim = cosine_similarity(count_matrix)
-
-# def get_title_from_index(index):
-#     return moviesFull[moviesFull.index == index]["title"].values[0]
-# def get_index_from_title(title):
-#     return moviesFull[moviesFull.title == title]["index"].values[0]
-
-
-# movie_user_likes = "Avatar"
-# movie_index = get_index_from_title(movie_user_likes)
-
-
-
-
-
-# similar_movies = list(enumerate(cosine_sim[movie_index]))
-
-
-# #find the nest matches
-# sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1], reverse = True)[1:6]
+#end of copied code
 
 
 
@@ -114,18 +97,6 @@ for name in firstUserTitles:
 #they should be matched by name since the ids are different 
 #the inputs of both the collaborative anaylis as well as content based analysis
 #will be used in the regresion model
-
-
-# print("Top 5 similar movies to "+movie_user_likes+" are:\n")
-# for element in sorted_similar_movies:
-#     print(get_title_from_index(element[0]))
-#     print(element[1])
-#     i=i+1
-#     if i>5:
-#         break
-
-#cosine_sim = cosine_similarity(count_matrix)
-
 
 #the inputs of both the collaborative analysis as well as conten based analysis
 #will be used in the regresion model
