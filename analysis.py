@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import random
 
 #load data
 ratings = pd.read_csv('dataset/ratings.csv')
@@ -36,67 +37,129 @@ def checkTitle(tmp):
 
 
 firstUserTitles = []
-for item in list(firstUserRatings["movieId"]):
-    title = get_title_from_movieId(item)
+newFirstUserRatings = []
+for rating, id in zip(list(firstUserRatings["rating"]), list(firstUserRatings["movieId"])):
+    title = get_title_from_movieId(id)
     #print(title)
     checked = checkTitle(title)
     #print(checked)
     if(checked != 'Series([], )'):
         firstUserTitles.append(checked)
+        newFirstUserRatings.append(rating)
 
-print(firstUserTitles)
+#print(firstUserTitles)
 
 
 #store the moviesFull data for all the movies that user one rated
 fullInfo = pd.DataFrame(columns = list(moviesFull.columns))
-fullData = []
+
 
 for name in firstUserTitles:
-    if(len(moviesFull[moviesFull["title"] == name]) ==1):
+    if(len(moviesFull[moviesFull["title"] == name]) !=0):
         fullInfo.loc[len(fullInfo.index)] = moviesFull[moviesFull["title"] == name].iloc[0]
-        fullData.append(list(moviesFull[moviesFull["title"] == name].iloc[0]))
+        #fullData.append(list(moviesFull[moviesFull["title"] == name].iloc[0]))
 
 
-#print(fullInfo[0:3])
-
-print(fullData[0])
-
-testDataSet = []
-trainDataSet = []
-
-
-
-#copied code for vectorization
-#used to find simlair movies to avatar
 features = ['keywords','cast','genres','director']
 
-def combine_features(row):
-    return row['keywords']+" "+row['cast']+" "+row['genres']+" "+row['director']
 
 for feature in features:
-    moviesFull[feature] = moviesFull[feature].fillna('')
+    fullInfo[feature] = fullInfo[feature].fillna('')
 
-moviesFull["combined_features"] = moviesFull.apply(combine_features,axis=1)
+
+#the columns numbers used to make the extra column
+#there are four indices
+colNumbers = []
+for item in features:   
+    colNumbers.append(fullInfo.columns.get_loc(item))
+
+
+fullData = []
+for index, row in fullInfo.iterrows():
+    temp = []
+    for i in range(len(fullInfo.columns)):
+        temp.append(row[i])
+    fullData.append(temp)
+
+
+#print(fullData)
+
+#make the extra column with the coresponding column indices above 
+combined_features = []
+index =0
+for row in fullData:
+    fullData[index].append(row[colNumbers[0]]+" "+row[colNumbers[1]]+" "+row[colNumbers[2]]+" "+row[colNumbers[3]])
+    combined_features.append(row[colNumbers[0]]+" "+row[colNumbers[1]]+" "+row[colNumbers[2]]+" "+row[colNumbers[3]])
+    index+=1
+
+#dont shuffle in order to keep in ordered acording to rating
+#random.shuffle(fullData)
+
+
+#not currently being used, just pick an indice with cosin_sim...
+testDataSet = fullData[0:int(len(fullData)/2)]
+trainDataSet = fullData[int(len(fullData)/2):len(fullData)]
+
 
 cv = CountVectorizer() 
-
-count_matrix = cv.fit_transform(moviesFull["combined_features"])
-
+count_matrix = cv.fit_transform(combined_features)
 cosine_sim = cosine_similarity(count_matrix)
 
-def get_title_from_index(index):
-    return moviesFull[moviesFull.index == index]["title"].values[0]
-def get_index_from_title(title):
-    return moviesFull[moviesFull.title == title]["index"].values[0]
+#this is the function that
 
-movie_user_likes = "Avatar"
-movie_index = get_index_from_title(movie_user_likes)
+#contains all the simlairities of the first users first rated movie with the rest of the movies...
+#need to extact the actual ratings to predict the rating of the first movie
+#then compare the actual to the predicted rating
+list(cosine_sim[0])[1:len(list(cosine_sim[0]))]
+print(len(list(cosine_sim[1])))
+print(len(newFirstUserRatings))
+print(list(cosine_sim[1]))
+print(newFirstUserRatings)
 
-similar_movies = list(enumerate(cosine_sim[movie_index]))
+#pick a single point in the test training set to predict its rating using the cos siliarty to it from all the different data points 
+#in the train Data set
 
-sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1], reverse = True)[1:6]
 
-print(sorted_similar_movies)
+
+
+# cv = CountVectorizer() 
+
+# count_matrix = cv.fit_transform(moviesFull["combined_features"])
+
+# cosine_sim = cosine_similarity(count_matrix)
+
+
+# #copied code for vectorization
+# #used to find simlair movies to avatar
+# features = ['keywords','cast','genres','director']
+
+# def combine_features(row):
+#     return row['keywords']+" "+row['cast']+" "+row['genres']+" "+row['director']
+
+# for feature in features:
+#     moviesFull[feature] = moviesFull[feature].fillna('')
+
+# moviesFull["combined_features"] = moviesFull.apply(combine_features,axis=1)
+
+# cv = CountVectorizer() 
+
+# count_matrix = cv.fit_transform(moviesFull["combined_features"])
+
+# cosine_sim = cosine_similarity(count_matrix)
+
+# def get_title_from_index(index):
+#     return moviesFull[moviesFull.index == index]["title"].values[0]
+# def get_index_from_title(title):
+#     return moviesFull[moviesFull.title == title]["index"].values[0]
+
+# movie_user_likes = "Avatar"
+# movie_index = get_index_from_title(movie_user_likes)
+
+# similar_movies = list(enumerate(cosine_sim[movie_index]))
+
+# sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1], reverse=True)[1:6]
+
+#print(sorted_similar_movies)
 
 #end of copied code
 
@@ -145,8 +208,4 @@ print(sorted_similar_movies)
 
 #note: cosine similairity is betwen (-1,1) if not simly map from (0,1) it before calling
 
-
-
-
-
-
+#note: average user ratin may be important to incorporate
