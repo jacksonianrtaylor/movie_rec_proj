@@ -142,6 +142,21 @@ print(len(newFirstUserRatings))
 print(list(cosine_sim[0]))
 print(newFirstUserRatings)
 
+#find the average for all the ratings excluding the first rating which should be predicted
+print(sum(newFirstUserRatings[1:])/(len(newFirstUserRatings)-1))
+
+average = sum(newFirstUserRatings[1:])/(len(newFirstUserRatings)-1)
+similairities = list(cosine_sim[0])[1:]
+ratings = newFirstUserRatings[1:]
+
+
+sum1 = 0
+for item1, item2 in zip(similairities, ratings):
+    sum1 += item1*(item2-average)
+
+print(sum1/(len(newFirstUserRatings)-1)+average)
+
+
 #pick a single point in the test training set to predict its rating using the cos siliarty to it from all the different data points 
 #in the train Data set
 
