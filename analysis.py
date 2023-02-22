@@ -49,11 +49,20 @@ print(firstUserTitles)
 
 #store the moviesFull data for all the movies that user one rated
 fullInfo = pd.DataFrame(columns = list(moviesFull.columns))
-
+fullData = []
 
 for name in firstUserTitles:
     if(len(moviesFull[moviesFull["title"] == name]) ==1):
         fullInfo.loc[len(fullInfo.index)] = moviesFull[moviesFull["title"] == name].iloc[0]
+        fullData.append(list(moviesFull[moviesFull["title"] == name].iloc[0]))
+
+
+#print(fullInfo[0:3])
+
+print(fullData[0])
+
+testDataSet = []
+trainDataSet = []
 
 
 
@@ -84,7 +93,10 @@ movie_user_likes = "Avatar"
 movie_index = get_index_from_title(movie_user_likes)
 
 similar_movies = list(enumerate(cosine_sim[movie_index]))
+
 sorted_similar_movies = sorted(similar_movies,key=lambda x:x[1], reverse = True)[1:6]
+
+print(sorted_similar_movies)
 
 #end of copied code
 
