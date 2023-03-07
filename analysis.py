@@ -157,11 +157,42 @@ for item1, item2 in zip(similairities, ratings):
 print(sum1/(len(newFirstUserRatings)-1)+average)
 
 
+#this is a simple model at the moment:
+#the sum1 value is fair but somewhat arbitrary
+#it should take into account the variance of the users rating data
+
+#example:
+#if a user never rates a movie as a 5 then when it does that movie is probably
+#extremely good for that user
+#also a distribution for the simlarity score must be established
+#what is an average similiarity score?
+#what does that distribution look like?
+#visualize data^^^
+#should low simlairity and a heigh score reduce sum1
+#low simlairty doesnt necessarily mean the movie is bad quality for the viewer
+#https://www.youtube.com/watch?v=ieMjGVYw9ag&ab_channel=KrishNaik
+
+
+
+#assume a cosine sim of one means the movie is exactly the same
+#assume two movies in a dataset
+#assume these two movies have a cosine similarity of one to the target movie in question:
+#then they both have the same amount of influence on the sum1
+#if these are the only two values in the dataset the movie rating is the average of the two scores
+
+
+#then suppose you have another movie with a cossine similairty of .5 to the movie in question
+#what is the influence on sum1
+#answer: its based on variance of all the data point so far how (much more unlikely is it)
+#use the tail end of the distibution from the point .5
+
+
+
+
+
+
 #pick a single point in the test training set to predict its rating using the cos siliarty to it from all the different data points 
 #in the train Data set
-
-
-
 
 # cv = CountVectorizer() 
 
