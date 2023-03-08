@@ -159,32 +159,38 @@ print(sum1/(len(newFirstUserRatings)-1)+average)
 
 #this is a simple model at the moment:
 #the sum1 value is fair but somewhat arbitrary
-#it should take into account the variance of the users rating data
+#it should take into account the variance of the users rating data and the variance of similarity data
 
-#example:
-#if a user never rates a movie as a 5 then when it does that movie is probably
-#extremely good for that user
-#also a distribution for the simlarity score must be established
-#what is an average similiarity score?
-#what does that distribution look like?
-#visualize data^^^
-#should low simlairity and a heigh score reduce sum1
-#low simlairty doesnt necessarily mean the movie is bad quality for the viewer
-#https://www.youtube.com/watch?v=ieMjGVYw9ag&ab_channel=KrishNaik
+#idea: visualize data
+
+#the simalirity scores of movies to the movie that the user rated has a distribution
+#the users ratings to the other movies also has a distribution
+
+#simple model:
+#sum all the (similairity*ratings) pairs
+#then divide by the number of pairs
 
 
+#advanced model:
 
-#assume a cosine sim of one means the movie is exactly the same
-#assume two movies in a dataset
-#assume these two movies have a cosine similarity of one to the target movie in question:
-#then they both have the same amount of influence on the sum1
-#if these are the only two values in the dataset the movie rating is the average of the two scores
+#apply variance to make very high similiarty scores weigh much more
+#and the low similairty scores weigh much less
+#The abs min is 0 and the abs max is 1
+#https://numpy.org/doc/stable/reference/generated/numpy.var.html
+#https://numpy.org/doc/stable/reference/generated/numpy.std.html
+
+#compare heights of the distribution if its normal:
+#https://guides.fscj.edu/Statistics/standardnormal#:~:text=The%20Normal%20Curve,and%20width%20of%20the%20graph.
+
+#if you divide two hieghts you get how much more likely is one verse the other
+
+#divide each similarity point by the sum of all items of the previous step
+#now the entire similairty distribution sums to one 
 
 
-#then suppose you have another movie with a cossine similairty of .5 to the movie in question
-#what is the influence on sum1
-#answer: its based on variance of all the data point so far how (much more unlikely is it)
-#use the tail end of the distibution from the point .5
+
+
+
 
 
 
