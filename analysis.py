@@ -188,7 +188,7 @@ print(sum1/(len(newFirstUserRatings)-1)+average)
 #now the entire similairty distribution sums to one 
 
 
-
+#note: should also try clustering
 
 
 
