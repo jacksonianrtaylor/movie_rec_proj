@@ -5,6 +5,12 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import random
+from matplotlib import pyplot as plt
+from scipy.stats import norm
+import numpy as np
+from fitter import Fitter, get_common_distributions, get_distributions
+
+
 
 #load data
 ratings = pd.read_csv('dataset/ratings.csv')
@@ -150,6 +156,8 @@ similairities = list(cosine_sim[0])[1:]
 ratings = newFirstUserRatings[1:]
 
 
+
+
 sum1 = 0
 for item1, item2 in zip(similairities, ratings):
     sum1 += item1*(item2-average)
@@ -191,7 +199,23 @@ print(sum1/(len(newFirstUserRatings)-1)+average)
 #note: should also try clustering
 
 
+count  =len(similairities)
 
+plt.hist(similairities, count)
+plt.show()
+
+f = Fitter(similairities,distributions=['gamma','lognorm',"beta", "burr","norm"])
+
+f.fit()
+print(f.summary())
+
+
+
+#fitter
+#https://medium.com/the-researchers-guide/finding-the-best-distribution-that-fits-your-data-using-pythons-fitter-library-319a5a0972e9
+
+# plt.hist(ratings)
+# plt.show()
 
 
 
