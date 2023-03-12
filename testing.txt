@@ -3,3 +3,6 @@ with [average,totalRating] and intercepts: 0.19684288205550737
 need to think about different types of inputs
 to a linear model or nearal network
 like variance
+
+new model in analysis3: 0.20148761629572365
+new model in analysis3: 0.2038009340738396
