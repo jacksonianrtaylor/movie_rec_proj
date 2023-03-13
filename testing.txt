@@ -6,3 +6,5 @@ like variance
 
 new model in analysis3: 0.20148761629572365
 new model in analysis3: 0.2038009340738396
+new model in analysis3: 0.2097488320903519
+new model in analysis3: 0.240741756905692
