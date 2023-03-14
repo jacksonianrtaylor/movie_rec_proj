@@ -71,3 +71,70 @@ hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.26056407534432846 ***
 hidden_layer_sizes=(45, 45, 45), max_iter = 1000 0.20560261809547942
 hidden_layer_sizes=(55, 55, 55), max_iter = 1000 0.1729662119161296
 hidden_layer_sizes=(51, 51, 51), max_iter = 1000 0.12497005775918868
+
+
+removed simZ:
+linearRession (all features): 0.229875631997298
+
+hidden_layer_sizes=(51, 51, 51), max_iter = 1000 0.22583825728994522
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.22270340210053552
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.1755732638324955
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.20243359909126357
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.22396718064897725
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.1755732638324955
+hidden_layer_sizes=(300, 300, 300), max_iter = 1000 0.22189969026529532
+hidden_layer_sizes=(40, 40, 40), max_iter = 1000 0.24567206171672062 ***
+hidden_layer_sizes=(30, 30, 30), max_iter = 1000 0.1821558369056644
+hidden_layer_sizes=(35, 35, 35), max_iter = 1000 0.19371805380643314
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.20595787761379591
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2145057637036234
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.1780292890544728
+
+trying other solver and activation function  (activation = "tanh", solver ="sgd"):
+
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.234207851831437
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.22941675571449238
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.20967093385045987
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.21730689378886503
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22563194016777943
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22563194016777943
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.2402783729879382
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.017449526193954124
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.24748921171713212 ***
+
+
+#remove average similairity and variance of similarity (worse)
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.24573477477011962
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.25742425890238096
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22421152239658226
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2283281267078483
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 -0.11995909873272592
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2012804143582707
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.0005391866662172173
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.2137868051231644
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.20691178535952282
+hidden_layer_sizes=(200, 100, 5), max_iter = 1000 0.00351091493257516
+hidden_layer_sizes=(200, 100, 5), max_iter = 1000 0.11938139468863052
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.17704130457281242
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.16873303284445185
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.1742169443124726
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.18370301313022697
+
+
+#new params:
+hidden_layer_sizes=(500, 500, 500), activation = "tanh", solver ="sgd", learning_rate_init = .001, max_iter=1000, random_state =1:
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.28260521134250605
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.29923725886118135
+hidden_layer_sizes=(100, 50, 20), max_iter = 1000 0.2894576016482615
+hidden_layer_sizes=(100, 70, 50), max_iter = 1000 0.30420835047757633
+hidden_layer_sizes=(100, 70, 50), max_iter = 200 0.31927484682333207
+
+#new params:
+hidden_layer_sizes=(100, 100, 100),  random_state =1:
+hidden_layer_sizes=(100, 100, 100), max_iter = 200 0.3141123132474454
+hidden_layer_sizes=(200, 100, 50), max_iter = 200 0.31955309949167565
+hidden_layer_sizes=(200, 200, 200), max_iter = 200 0.3192545399879274
+hidden_layer_sizes=(200, 200, 200), max_iter = 200 0.3192545399879274
