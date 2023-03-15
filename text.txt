@@ -46,17 +46,26 @@ James Cameron
 
 This means the keywords data set has all the tags and more than the keywords column in the movie dataset.
 
-ocean drug abuse exotic island east india trading company love of one's life
-Johnny Depp Orlando Bloom Keira Knightley Stellan Skarsg\u00e5rd Chow Yun-fat
-Adventure Fantasy Action
-Gore Verbinski
-['[{\'id\': 270, \'name\': \'ocean\'}, {\'id\': 726, \'name\': \'drug abuse\'}, {\'id\': 911, \'name\': \'exotic island\'}, {\'id\': 1319, \'name\': \'east india trading company\'}, {\'id\': 2038, \'name\': "love of one\'s life"}, {\'id\': 2052, \'name\': \'traitor\'}, {\'id\': 2580, \'name\': \'shipwreck\'}, {\'id\': 2660, \'name\': \'strong woman\'}, {\'id\': 3799, \'name\': \'ship\'}, {\'id\': 5740, \'name\': \'alliance\'}, {\'id\': 5941, \'name\': \'calypso\'}, {\'id\': 6155, \'name\': \'afterlife\'}, {\'id\': 6211, \'name\': \'fighter\'}, {\'id\': 12988, \'name\': \'pirate\'}, {\'id\': 157186, \'name\': \'swashbuckler\'}, {\'id\': 179430, \'name\': \'aftercreditsstinger\'}]']Index(['cast\n', 'crew\n', 'id\n'], dtype='object')ocean drug abuse exotic island east india trading company love of one's life
-Johnny Depp Orlando Bloom Keira Knightley Stellan Skarsg\u00e5rd Chow Yun-fat
-Adventure Fantasy Action
-Gore Verbinski
-ocean drug abuse exotic island east india trading company love of one's life
-Johnny Depp Orlando Bloom Keira Knightley Stellan Skarsg\u00e5rd Chow Yun-fat
-Adventure Fantasy Action
-Gore Verbinski
-['[{\'id\': 270, \'name\': \'ocean\'}, {\'id\': 726, \'name\': \'drug abuse\'}, {\'id\': 911, \'name\': \'exotic island\'}, {\'id\': 1319, \'name\': \'east india trading company\'}, {\'id\': 2038, \'name\': "love of one\'s life"}, {\'id\': 2052, \'name\': \'traitor\'}, {\'id\': 2580, \'name\': \'shipwreck\'}, {\'id\': 2660, \'name\': \'strong woman\'}, {\'id\': 3799, \'name\': \'ship\'}, {\'id\': 5740, \'name\': \'alliance\'}, {\'id\': 5941, \'name\': \'calypso\'}, {\'id\': 6155, \'name\': \'afterlife\'}, {\'id\': 6211, \'name\': \'fighter\'}, {\'id\': 12988, \'name\': \'pirate\'}, {\'id\': 157186, \'name\': \'swashbuckler\'}, {\'id\': 179430, \'name\': \'aftercreditsstinger\'}]']
+
+dc comics crime fighter terrorist secret identity burglar
+Christian Bale Michael Caine Gary Oldman Anne Hathaway Tom Hardy
+Action Crime Drama Thriller
+Christopher Nolan
+["[{'id': 28, 'name': 'Action'}, {'id': 80, 'name': 'Crime'}, {'id': 18, 'name': 'Drama'}, {'id': 53, 'name': 'Thriller'}]"]
+["[{'id': 849, 'name': 'dc comics'}, {'id': 853, 'name': 'crime fighter'}, {'id': 949, 'name': 'terrorist'}, {'id': 1308, 'name': 'secret identity'}, {'id': 1437, 'name': 'burglar'}, {'id': 3051, 'name': 'hostage drama'}, {'id': 3562, 'name': 'time bomb'}, {'id': 6969, 'name': 'gotham city'}, {'id': 7002, 'name': 'vigilante'}, {'id': 9665, 'name': 'cover-up'}, {'id': 9715, 'name': 'superhero'}, {'id': 9990, 'name': 'villainess'}, {'id': 10044, 'name': 'tragic hero'}, {'id': 13015, 'name': 'terrorism'}, {'id': 14796, 'name': 'destruction'}, {'id': 18933, 'name': 'catwoman'}, {'id': 156082, 'name': 'cat burglar'}, {'id': 156395, 'name': 'imax'}, {'id': 173272, 'name': 'flood'}, {'id': 179093, 'name': 'criminal underworld'}, {'id': 230775, 'name': 'batman'}]"]
+Index(['cast\n', 'crew\n', 'id\n'], dtype='object')
+
+
+dc comics crime fighter terrorist secret identity burglar
+Christian Bale Michael Caine Gary Oldman Anne Hathaway Tom Hardy
+Action Crime Drama Thriller
+Christopher Nolan
+["[{'id': 28, 'name': 'Action'}, {'id': 80, 'name': 'Crime'}, {'id': 18, 'name': 'Drama'}, {'id': 53, 'name': 'Thriller'}]"]
+["[{'id': 849, 'name': 'dc comics'}, {'id': 853, 'name': 'crime fighter'}, {'id': 949, 'name': 'terrorist'}, {'id': 1308, 'name': 'secret identity'}, {'id': 1437, 'name': 'burglar'}, {'id': 3051, 'name': 'hostage drama'}, {'id': 3562, 'name': 'time bomb'}, {'id': 6969, 'name': 'gotham city'}, {'id': 7002, 'name': 'vigilante'}, {'id': 9665, 'name': 'cover-up'}, {'id': 9715, 'name': 'superhero'}, {'id': 9990, 'name': 'villainess'}, {'id': 10044, 'name': 'tragic hero'}, {'id': 13015, 'name': 'terrorism'}, {'id': 14796, 'name': 'destruction'}, {'id': 18933, 'name': 'catwoman'}, {'id': 156082, 'name': 'cat burglar'}, {'id': 156395, 'name': 'imax'}, {'id': 173272, 'name': 'flood'}, {'id': 179093, 'name': 'criminal underworld'}, {'id': 230775, 'name': 'batman'}]"]
+Index(['cast\n', 'crew\n', 'id\n'], dtype='object')dc comics crime fighter terrorist secret identity burglar
+Christian Bale Michael Caine Gary Oldman Anne Hathaway Tom Hardy
+Action Crime Drama Thriller
+Christopher Nolan
+["[{'id': 28, 'name': 'Action'}, {'id': 80, 'name': 'Crime'}, {'id': 18, 'name': 'Drama'}, {'id': 53, 'name': 'Thriller'}]"]
+["[{'id': 849, 'name': 'dc comics'}, {'id': 853, 'name': 'crime fighter'}, {'id': 949, 'name': 'terrorist'}, {'id': 1308, 'name': 'secret identity'}, {'id': 1437, 'name': 'burglar'}, {'id': 3051, 'name': 'hostage drama'}, {'id': 3562, 'name': 'time bomb'}, {'id': 6969, 'name': 'gotham city'}, {'id': 7002, 'name': 'vigilante'}, {'id': 9665, 'name': 'cover-up'}, {'id': 9715, 'name': 'superhero'}, {'id': 9990, 'name': 'villainess'}, {'id': 10044, 'name': 'tragic hero'}, {'id': 13015, 'name': 'terrorism'}, {'id': 14796, 'name': 'destruction'}, {'id': 18933, 'name': 'catwoman'}, {'id': 156082, 'name': 'cat burglar'}, {'id': 156395, 'name': 'imax'}, {'id': 173272, 'name': 'flood'}, {'id': 179093, 'name': 'criminal underworld'}, {'id': 230775, 'name': 'batman'}]"]
 Index(['cast\n', 'crew\n', 'id\n'], dtype='object')

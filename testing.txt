@@ -194,3 +194,30 @@ hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
 hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2479714985942939
 hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
 hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24991959695441157
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.3370445207175118
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24490002291228585
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.16218931834096517
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2530227104423032
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.3370445207175118
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2080035073246257
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.11807329316799786
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24100793803816034
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24285599692078685
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.17905705248900328
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150, 1), max_iter = 1000 -0.0030741571349535146
+hidden_layer_sizes=(200, 150, 150, 1, 1), max_iter = 1000 -0.003994365046477988
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(6, 6, 6), max_iter = 1000 -0.005891039707114132
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.18546903642668933
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(6, 6, 6, 6, 6), max_iter = 1000 -0.0011153139683393043
+hidden_layer_sizes=(6, 6, 6, 6), max_iter = 1000 0.0022115766807006
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849 ***
+hidden_layer_sizes=(300, 300), max_iter = 1000 0.25906917857024125
+hidden_layer_sizes=(500, 500), max_iter = 1000 0.25427892526981866
