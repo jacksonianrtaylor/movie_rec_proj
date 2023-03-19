@@ -250,3 +250,6 @@ hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.25411057452193364
 hidden_layer_sizes=(40, 20, 10), max_iter = 1000 0.2497672088551034
 hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
 hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
+
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (200, 150, 100)mean score: 0.26153115551651807
