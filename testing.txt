@@ -228,3 +228,4 @@ hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.1006053578321574
 hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.03487780302346699
 hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.11353896980501521
 hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.07679396528334381
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -2.264314085460741
