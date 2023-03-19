@@ -229,3 +229,11 @@ hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.03487780302346699
 hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.11353896980501521
 hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.07679396528334381
 hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -2.264314085460741
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10914932362782725
+
+
+#new hidden layers and more traingin data
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.31997205652265137
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.21555618191988457
+hidden_layer_sizes=(5, 5, 5), max_iter = 1000 0.22591006341656217
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.3261118141258166
