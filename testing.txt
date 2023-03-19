@@ -237,3 +237,16 @@ hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.31997205652265137
 hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.21555618191988457
 hidden_layer_sizes=(5, 5, 5), max_iter = 1000 0.22591006341656217
 hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.3261118141258166
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.24313212566246833
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -0.03551622472166782
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.24814060645629243
+hidden_layer_sizes=(100, 100), max_iter = 1000 0.24808587504312618
+hidden_layer_sizes=(100, 100), max_iter = 1000 0.2514111967466972
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.251487299927753
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.2549247613651894
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.25411057452193364
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.26204226903165573
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.25411057452193364
+hidden_layer_sizes=(40, 20, 10), max_iter = 1000 0.2497672088551034
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
