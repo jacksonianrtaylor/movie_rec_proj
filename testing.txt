@@ -253,3 +253,18 @@ hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
 
 hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
 hidden_layer_sizes: (200, 150, 100)mean score: 0.26153115551651807
+hidden_layer_sizes: (200, 150, 100)mean score: 0.13815055694073883
+hidden_layer_sizes: (200, 150, 100)mean score: 0.15749185334902455
+hidden_layer_sizes: (200, 150, 100)mean score: -0.00013518500827029988
+hidden_layer_sizes: (200, 150, 100)mean score: 0.000621564993114343
+hidden_layer_sizes: (200, 150, 100)mean score: 0.2616194570987635
+hidden_layer_sizes: (200, 150, 100)mean score: 0.26153115551651807
+hidden_layer_sizes: (200, 200, 200)mean score: 0.26186729610473997
+hidden_layer_sizes: (200, 200, 200)mean score: 0.2619186241674316
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (100, 100, 100)mean score: 0.25752319154838377 (X_other)
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (500, 100, 80)mean score: 0.26132890459463054
+hidden_layer_sizes: (500, 100, 80)mean score: 0.2611432796623565 (X_other)
+hidden_layer_sizes: (500, 100, 80)mean score: 0.26132890459463054
+(relu)hidden_layer_sizes: (500, 100, 80)mean score: 0.2603696423796158
