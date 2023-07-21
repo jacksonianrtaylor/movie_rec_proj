@@ -22,3 +22,10 @@ rather than simply providing the agregate sim score between the chosen movie and
 this also makes the overall spread variables like variance, skew, and kutosis redundant 
 
 The z-score of ratings and similarity scores can also be included 
+
+
+
+
+need to make sure that it is know that the version of python is 3.10.7
+
+also be aware of requiremnts.txt
