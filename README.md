@@ -43,6 +43,11 @@ The model used is the mlp regresssor model...
 (LOOK) very important...
 paper with similair intention:
 https://www.sjsu.edu/faculty/guangliang.chen/Math285F15/285ProjectPaper.pdf
+SVD???:
+https://www.youtube.com/watch?v=gXbThCXjZFM&ab_channel=SteveBrunton
+https://www.youtube.com/watch?v=nbBvuuNVfco&ab_channel=SteveBrunton
+
+
 
 
 
