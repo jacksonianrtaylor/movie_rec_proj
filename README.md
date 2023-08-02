@@ -40,13 +40,15 @@ The model used is the mlp regresssor model...
 
 
 
+(LOOK) very important...
+paper with similair intention:
+https://www.sjsu.edu/faculty/guangliang.chen/Math285F15/285ProjectPaper.pdf
 
 
 
 
 
-
-extra:
+extras:
 
 need to make sure that it is knowm that the version of python is 3.10.7
 
@@ -57,3 +59,18 @@ also be aware of requiremnts.txt
 #https://www.youtube.com/watch?v=uet8ZQpyJV8&ab_channel=NeuralNine
 #https://stats.stackexchange.com/questions/278566/if-you-standardize-x-must-you-always-standardize-y
 
+
+
+#feature importance scores:
+#https://scikit-learn.org/stable/modules/permutation_importance.html
+#https://scikit-learn.org/stable/modules/generated/sklearn.inspection.permutation_importance.html#sklearn.inspection.permutation_importance
+
+#introduction:
+#https://www.kaggle.com/code/dansbecker/permutation-importance
+
+#types of feature importance:
+#https://towardsdatascience.com/6-types-of-feature-importance-any-data-scientist-should-master-1bfd566f21c9
+
+
+data transformation:
+https://datascience.stackexchange.com/questions/45900/when-to-use-standard-scaler-and-when-normalizer
