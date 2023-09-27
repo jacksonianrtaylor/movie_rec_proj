@@ -1,0 +1,270 @@
+features: average user rating, average user similairt score, user rating variance, similairty score variance:
+hidden_layer_sizes=(100, 50, 10), max_iter = 1000 0.10620893534750586
+hidden_layer_sizes=(50, 25, 10), max_iter = 1000 0.10509171703772169
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.1201613457215136 ***
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.09998297394860722
+hidden_layer_sizes=(100, 50, 10), max_iter = 1000 0.10620893534750586
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.11536538592458445
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.10072931747724079
+hidden_layer_sizes=(8, 8, 8), max_iter = 1000 0.09933671876844774
+hidden_layer_sizes=(12, 12, 12), max_iter = 1000 0.11110483384207759
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.10423945411695956
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10258217801497505
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10258217801497505
+features: average user rating, average user similairt score, user rating variance, similairty score variance, totalRating:
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.14143712444424184
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.010441768064327728
+hidden_layer_sizes=(24, 12, 6), max_iter = 1000 0.14190779725031932
+hidden_layer_sizes=(200, 100, 10), max_iter = 1000 0.10825845749844987
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.14182184661388852
+hidden_layer_sizes=(50, 25, 10), max_iter = 1000 0.16735233135950378 
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.048058546943459235
+hidden_layer_sizes=(150, 150, 150), max_iter = 1000 0.12681503215270873
+hidden_layer_sizes=(120, 120, 120), max_iter = 1000 0.11697330685684793
+hidden_layer_sizes=(300, 200), max_iter = 1000 0.09567820645175185
+hidden_layer_sizes=(200, 200), max_iter = 1000 0.10838749480865184
+hidden_layer_sizes=(150, 150), max_iter = 1000 0.1422073544782777
+hidden_layer_sizes=(100, 100), max_iter = 1000 0.11602151703766761
+hidden_layer_sizes=(60, 30), max_iter = 1000 0.18829676034967813 ***
+hidden_layer_sizes=(80, 30), max_iter = 1000 0.14639255654934658
+hidden_layer_sizes=(50, 30), max_iter = 1000 0.14944153278210437
+hidden_layer_sizes=(55, 30), max_iter = 1000 0.14865809366392424
+hidden_layer_sizes=(60, 30), max_iter = 1000 0.18829676034967813
+hidden_layer_sizes=(50, 30, 10), max_iter = 1000 0.14166473741359098
+hidden_layer_sizes=(40, 30, 10), max_iter = 1000 0.0698350598522095
+hidden_layer_sizes=(50, 25, 10), max_iter = 1000 0.16735233135950378
+hidden_layer_sizes=(70, 35), max_iter = 1000 0.11729895184118633
+hidden_layer_sizes=(50, 25), max_iter = 1000 0.06958299636919951
+hidden_layer_sizes=(1000, 500), max_iter = 1000 0.08790303053701298
+hidden_layer_sizes=(500, 100), max_iter = 1000 0.0725746456638866
+features: average user rating, average user similairt score, user rating variance, similairty score variance, totalRating, average movie rating:
+hidden_layer_sizes=(500, 100), max_iter = 1000 0.21064070708231475
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.21088939076540436
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.06683625244674851
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.2585954752758918 ***
+hidden_layer_sizes=(70, 70, 70), max_iter = 1000 0.22821578869177905
+hidden_layer_sizes=(60, 60, 60), max_iter = 1000 0.2162674478238713
+hidden_layer_sizes=(40, 40, 40), max_iter = 1000 0.04354034519629768
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.2373354606225735
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.2046506841206126
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.18135828082712147
+hidden_layer_sizes=(100, 50, 20), max_iter = 1000 0.22966493072502092
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.2549872972268492
+hidden_layer_sizes=(250, 250, 250), max_iter = 1000 0.2585687033834293
+hidden_layer_sizes=(300, 300, 300), max_iter = 1000 0.20349362432108165
+hidden_layer_sizes=(300, 300), max_iter = 1000 0.23131691919208042
+hidden_layer_sizes=(500, 500), max_iter = 1000 0.22037251387491896
+hidden_layer_sizes=(400, 400), max_iter = 1000 0.2168832502737681
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23877915364579883
+
+linearRegression (all features): 0.28116230249766505
+
+stop words removed:
+linearRession (all features): 0.2818646517818417 (slight improvement) (but overall worse)
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23250634257590574
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.2514784332743626
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.16605155758920742
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.15838120014336354
+hidden_layer_sizes=(300, 300, 300), max_iter = 1000 0.17694290169310078
+hidden_layer_sizes=(400, 400, 400), max_iter = 1000 0.15007973839932642
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.26056407534432846 ***
+hidden_layer_sizes=(45, 45, 45), max_iter = 1000 0.20560261809547942
+hidden_layer_sizes=(55, 55, 55), max_iter = 1000 0.1729662119161296
+hidden_layer_sizes=(51, 51, 51), max_iter = 1000 0.12497005775918868
+
+
+removed simZ:
+linearRession (all features): 0.229875631997298
+
+hidden_layer_sizes=(51, 51, 51), max_iter = 1000 0.22583825728994522
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.22270340210053552
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.1755732638324955
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.20243359909126357
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.22396718064897725
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.1755732638324955
+hidden_layer_sizes=(300, 300, 300), max_iter = 1000 0.22189969026529532
+hidden_layer_sizes=(40, 40, 40), max_iter = 1000 0.24567206171672062 ***
+hidden_layer_sizes=(30, 30, 30), max_iter = 1000 0.1821558369056644
+hidden_layer_sizes=(35, 35, 35), max_iter = 1000 0.19371805380643314
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.20595787761379591
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2145057637036234
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.1780292890544728
+
+trying other solver and activation function  (activation = "tanh", solver ="sgd"):
+
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.234207851831437
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.22941675571449238
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.20967093385045987
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.21730689378886503
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22563194016777943
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22563194016777943
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.23644411523265907
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.2402783729879382
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.017449526193954124
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.24748921171713212 ***
+
+
+#remove average similairity and variance of similarity (worse)
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.24573477477011962
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.25742425890238096
+hidden_layer_sizes=(700, 700), max_iter = 1000 0.22421152239658226
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2283281267078483
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 -0.11995909873272592
+hidden_layer_sizes=(1000, 500, 100), max_iter = 1000 0.2012804143582707
+hidden_layer_sizes=(12, 6, 3), max_iter = 1000 0.0005391866662172173
+hidden_layer_sizes=(50, 50, 50), max_iter = 1000 0.2137868051231644
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.20691178535952282
+hidden_layer_sizes=(200, 100, 5), max_iter = 1000 0.00351091493257516
+hidden_layer_sizes=(200, 100, 5), max_iter = 1000 0.11938139468863052
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.17704130457281242
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.16873303284445185
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.1742169443124726
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.18370301313022697
+
+
+#new params:
+hidden_layer_sizes=(500, 500, 500), activation = "tanh", solver ="sgd", learning_rate_init = .001, max_iter=1000, random_state =1:
+hidden_layer_sizes=(500, 500, 500), max_iter = 1000 0.28260521134250605
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.29923725886118135
+hidden_layer_sizes=(100, 50, 20), max_iter = 1000 0.2894576016482615
+hidden_layer_sizes=(100, 70, 50), max_iter = 1000 0.30420835047757633
+hidden_layer_sizes=(100, 70, 50), max_iter = 200 0.31927484682333207
+
+#new params:
+hidden_layer_sizes=(100, 100, 100),  random_state =1:
+hidden_layer_sizes=(100, 100, 100), max_iter = 200 0.3141123132474454
+hidden_layer_sizes=(200, 100, 50), max_iter = 200 0.31955309949167565
+hidden_layer_sizes=(200, 200, 200), max_iter = 200 0.3192545399879274
+hidden_layer_sizes=(200, 200, 200), max_iter = 200 0.3192545399879274
+
+
+#more params:
+hidden_layer_sizes=(200, 200, 200), max_iter = 200 0.1044307742982995
+hidden_layer_sizes=(20, 10, 5), max_iter = 200 0.17331657924125854
+hidden_layer_sizes=(50, 30, 10), max_iter = 200 0.20195661318322844
+hidden_layer_sizes=(100, 100, 100), max_iter = 200 0.153934153271171
+hidden_layer_sizes=(100, 50, 25), max_iter = 200 0.1882675256066867
+hidden_layer_sizes=(12, 6, 3), max_iter = 200 0.19493634668354032
+hidden_layer_sizes=(12, 6, 3), max_iter = 200 0.19493634668354032
+hidden_layer_sizes=(24, 12, 6), max_iter = 200 0.17045990254666699
+hidden_layer_sizes=(24, 12, 6), max_iter = 1000 0.2129809414682713
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10745989292670965
+hidden_layer_sizes=(100, 50, 25), max_iter = 1000 0.1577872270867362
+hidden_layer_sizes=(50, 30, 20), max_iter = 1000 0.11890254416129609
+hidden_layer_sizes=(50, 30, 20), max_iter = 1000 -0.24680942851229704
+hidden_layer_sizes=(50, 30, 20), max_iter = 1000 -0.07970630594961836
+hidden_layer_sizes=(50, 30, 20), max_iter = 1000 0.11890254416129609
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.16927772645150074
+hidden_layer_sizes=(20, 20), max_iter = 1000 0.17246835993167176
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.18356695370975895
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.18948169098506618
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.18948169098506618
+hidden_layer_sizes=(100, 50), max_iter = 1000 0.17359338613303676
+hidden_layer_sizes=(100, 50, 40, 20), max_iter = 1000 0.0014645392007507363
+hidden_layer_sizes=(100, 50, 40), max_iter = 1000 0.2268513212796297
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.14756507242405859
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.14756507242405859
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.14756507242405859
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.1954854960718927
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -0.05010261466652244
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10745989292670965
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10745989292670965
+
+
+More Changes:
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.1153423564024868
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.1153423564024868
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 -0.10789976108633836
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.1966202974721022
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 -0.10789976108633836
+
+New Params with (hidden_layer_sizes=(200, 100, 50), activation = "tanh", solver ="sgd",  max_iter=1000, random_state =1):
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.24187379593698832
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.26082906936895056
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.2626170534915233
+hidden_layer_sizes=(200, 100, 50), max_iter = 1000 0.2638549846657252
+hidden_layer_sizes=(200, 200, 200), max_iter = 1000 0.27505710804215866
+
+hidden_layer_sizes=(200, 150, 100), max_iter = 1000 0.2613805536889713
+hidden_layer_sizes=(200, 200, 100), max_iter = 1000 0.2759250868336621
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2479714985942939
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24991959695441157
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.3370445207175118
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24490002291228585
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.16218931834096517
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2530227104423032
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.3370445207175118
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2080035073246257
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.11807329316799786
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24100793803816034
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.24285599692078685
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.17905705248900328
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.12787176378142084
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(200, 150, 150, 1), max_iter = 1000 -0.0030741571349535146
+hidden_layer_sizes=(200, 150, 150, 1, 1), max_iter = 1000 -0.003994365046477988
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(6, 6, 6), max_iter = 1000 -0.005891039707114132
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.18546903642668933
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849
+hidden_layer_sizes=(6, 6, 6, 6, 6), max_iter = 1000 -0.0011153139683393043
+hidden_layer_sizes=(6, 6, 6, 6), max_iter = 1000 0.0022115766807006
+hidden_layer_sizes=(200, 150, 150), max_iter = 1000 0.2687037793110849 ***
+hidden_layer_sizes=(300, 300), max_iter = 1000 0.25906917857024125
+hidden_layer_sizes=(500, 500), max_iter = 1000 0.25427892526981866
+
+#lower amount of train data
+hidden_layer_sizes=(500, 500), max_iter = 1000 0.12456776912311252
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.1006053578321574
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.03487780302346699
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.11353896980501521
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.07679396528334381
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -2.264314085460741
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.10914932362782725
+
+
+#new hidden layers and more traingin data
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.31997205652265137
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.21555618191988457
+hidden_layer_sizes=(5, 5, 5), max_iter = 1000 0.22591006341656217
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.3261118141258166
+hidden_layer_sizes=(20, 10, 5), max_iter = 1000 0.24313212566246833
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 -0.03551622472166782
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.24814060645629243
+hidden_layer_sizes=(100, 100), max_iter = 1000 0.24808587504312618
+hidden_layer_sizes=(100, 100), max_iter = 1000 0.2514111967466972
+hidden_layer_sizes=(100, 100, 100), max_iter = 1000 0.251487299927753
+hidden_layer_sizes=(10, 10, 10), max_iter = 1000 0.2549247613651894
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.25411057452193364
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.26204226903165573
+hidden_layer_sizes=(20, 20, 20), max_iter = 1000 0.25411057452193364
+hidden_layer_sizes=(40, 20, 10), max_iter = 1000 0.2497672088551034
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
+hidden_layer_sizes=(40, 20), max_iter = 1000 0.2542271755282173
+
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (200, 150, 100)mean score: 0.26153115551651807
+hidden_layer_sizes: (200, 150, 100)mean score: 0.13815055694073883
+hidden_layer_sizes: (200, 150, 100)mean score: 0.15749185334902455
+hidden_layer_sizes: (200, 150, 100)mean score: -0.00013518500827029988
+hidden_layer_sizes: (200, 150, 100)mean score: 0.000621564993114343
+hidden_layer_sizes: (200, 150, 100)mean score: 0.2616194570987635
+hidden_layer_sizes: (200, 150, 100)mean score: 0.26153115551651807
+hidden_layer_sizes: (200, 200, 200)mean score: 0.26186729610473997
+hidden_layer_sizes: (200, 200, 200)mean score: 0.2619186241674316
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (100, 100, 100)mean score: 0.25752319154838377 (X_other)
+hidden_layer_sizes: (100, 100, 100)mean score: 0.2634555185819704
+hidden_layer_sizes: (500, 100, 80)mean score: 0.26132890459463054
+hidden_layer_sizes: (500, 100, 80)mean score: 0.2611432796623565 (X_other)
+hidden_layer_sizes: (500, 100, 80)mean score: 0.26132890459463054
+(relu)hidden_layer_sizes: (500, 100, 80)mean score: 0.2603696423796158
