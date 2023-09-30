@@ -34,6 +34,7 @@ ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
 
 
 #https://stackoverflow.com/questions/72121390/how-to-use-jupyterlab-in-visual-studio-code
+#https://www.google.com/search?q=acess+a+local+jupyter+server+vscode&sca_esv=569640401&rlz=1C1ONGR_enUS1021US1021&sxsrf=AM9HkKmGSVWUP-lP2zOMSTCsROy5_wLeZA%3A1696043985794&ei=0ZMXZbaPMLiT0PEPuvmMuAo&ved=0ahUKEwj2u6-asNGBAxW4CTQIHbo8A6cQ4dUDCBE&uact=5&oq=acess+a+local+jupyter+server+vscode&gs_lp=Egxnd3Mtd2l6LXNlcnAiI2FjZXNzIGEgbG9jYWwganVweXRlciBzZXJ2ZXIgdnNjb2RlMgoQIRigARjDBBgKMgoQIRigARjDBBgKSLQRUMcEWPAOcAJ4AZABAJgBgAGgAZAHqgEDNC41uAEDyAEA-AEBwgIKEAAYRxjWBBiwA-IDBBgAIEGIBgGQBgg&sclient=gws-wiz-serp
 #steps to connect to a jupyter server in vs code
 
 
