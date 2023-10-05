@@ -8,11 +8,13 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y python3 \
     python3-pip
 
-RUN pip3 install jupyter
+#is this needed???
+# RUN pip3 install jupyter
+
 
 #to use kaggle api...
-RUN pip3 install kaggle
-RUN kaggle datasets download -d rounakbanik/the-movies-dataset
+# RUN pip3 install kaggle
+# RUN kaggle datasets download -d rounakbanik/the-movies-dataset
 #https://www.google.com/search?q=how+to+download+file+from+a+kaggle+data+set&rlz=1C1ONGR_enUS1021US1021&oq=how+to+download+file+from+a+kaggle+data+set&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKABMgkIAhAhGAoYoAEyCQgDECEYChigATIHCAQQIRirAjIHCAUQIRiPAjIHCAYQIRiPAtIBCTIyNDM3ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
 #https://www.youtube.com/watch?v=W86uvkzaqLg&ab_channel=JonathanPerry
 #need to have credentials
@@ -21,11 +23,25 @@ RUN kaggle datasets download -d rounakbanik/the-movies-dataset
 #https://www.geeksforgeeks.org/how-to-download-kaggle-datasets-into-jupyter-notebook/
 
 
+#need to copy requirement.txt from outside the container then use pip install on all the requirements
+
+# WORKDIR /packages
+RUN mkdir packages
+
+COPY requirements.txt ./packages
+
+#python script that removes versions...
+# RUN pip install pip-upgrader
+# old code:
+# RUN pip3 install -r requirements.txt
+
+# WORKDIR 
+RUN pip3 install --upgrade --force-reinstall -r ./packages/requirements.txt
+
+
+#does user need to run before this???
 RUN useradd -ms /bin/bash jupyter
-
 USER jupyter
-
-
 WORKDIR /home/jupyter
 
 #need to copy the jupyter notebook from the host
