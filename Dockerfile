@@ -10,6 +10,16 @@ RUN apt-get update && apt-get install -y python3 \
 
 RUN pip3 install jupyter
 
+#to use kaggle api...
+RUN pip3 install kaggle
+RUN kaggle datasets download -d rounakbanik/the-movies-dataset
+#https://www.google.com/search?q=how+to+download+file+from+a+kaggle+data+set&rlz=1C1ONGR_enUS1021US1021&oq=how+to+download+file+from+a+kaggle+data+set&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKABMgkIAhAhGAoYoAEyCQgDECEYChigATIHCAQQIRirAjIHCAUQIRiPAjIHCAYQIRiPAtIBCTIyNDM3ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
+#https://www.youtube.com/watch?v=W86uvkzaqLg&ab_channel=JonathanPerry
+#need to have credentials
+#what is this compared to using open od downlaod
+#alternative:
+#https://www.geeksforgeeks.org/how-to-download-kaggle-datasets-into-jupyter-notebook/
+
 
 RUN useradd -ms /bin/bash jupyter
 
@@ -22,6 +32,19 @@ WORKDIR /home/jupyter
 COPY complete_02_08_2023.ipynb .
 
 ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
+
+#this is the api call to kaggle data...
+
+
+#https://www.kaggle.com/docs/api
+
+#this link explaines how to interact with data using the cli
+#potential download...
+#kaggle datasets download -d rounakbanik/the-movies-dataset
+
+#https://www.youtube.com/watch?v=W86uvkzaqLg&ab_channel=JonathanPerry
+#how to use api
+
 
 #solutions:
 #how to copy files from host to container
