@@ -2,6 +2,20 @@
 # https://www.youtube.com/watch?v=ajPppaAVXQU&ab_channel=MultiMindsInnovationLab
 # https://www.youtube.com/watch?v=0qG_0CPQhpg&ab_channel=AbhishekThakur
 
+#access running jupyter server with vscode:
+#https://saturncloud.io/blog/how-to-use-vscode-ssh-remote-to-run-jupyter-notebooks/#:~:text=To%20do%20this%2C%20click%20on%20the%20Remote%20Explorer%20icon%20and,Window%E2%80%9D%20from%20the%20dropdown%20menu.
+#https://saturncloud.io/blog/how-to-connect-vs-code-to-jupyter-server-with-a-password-instead-of-token/#:~:text=Connect%20VS%20Code%20to%20the,server's%20URL%20and%20port%20number.
+#https://www.youtube.com/watch?v=-j6y-5t37os&ab_channel=devinschumacher
+#https://www.youtube.com/watch?v=czlfsMZwCmU&ab_channel=MacPCZoneLondon
+#https://devinschumacher.com/how-to-setup-jupyter-notebook-virtual-environment-vs-code-kernels/#install-jupyter
+
+#^^^this has changed!!!!:
+#https://github.com/microsoft/vscode-jupyter/discussions/13145
+#https://code.visualstudio.com/docs/datascience/jupyter-kernel-management
+
+
+#use this to build: docker build -t image_1 .
+#use this to run: docker run -p 8888:8888 image_1
 
 FROM ubuntu:latest
 
@@ -13,10 +27,22 @@ RUN apt-get update && apt-get install -y python3 \
 
 
 
+#note sure if these are necessary...
+# RUN apt install -y sudo
+# RUN sudo apt-get install -y python3-dev default-libmysqlclient-dev build-essential
+# RUN sudo apt-get install -y pkg-config
 
-RUN apt install -y sudo
-RUN sudo apt-get install -y python3-dev default-libmysqlclient-dev build-essential
-RUN sudo apt-get install -y pkg-config
+
+#install all packages
+RUN pip3 install opendatasets
+RUN pip3 install pandas
+RUN pip3 install numpy
+RUN pip3 install scikit-learn
+RUN pip3 install scipy
+RUN pip3 install ordered-set
+RUN pip3 install gensim
+RUN pip3 install nltk
+RUN pip3 install jupyter
 
 # this is providing problems
 # RUN pip3 install mysqlclient
@@ -39,18 +65,17 @@ RUN sudo apt-get install -y pkg-config
 #https://www.geeksforgeeks.org/how-to-download-kaggle-datasets-into-jupyter-notebook/
 
 
-RUN mkdir packages
-
-COPY requirements.txt ./packages
-
-RUN pip3 install --upgrade --force-reinstall -r ./packages/requirements.txt
-#RUN pip3 install -r ./packages/requirements.txt
+# all used with requiremnts.txt
+# RUN mkdir packages
+# COPY requirements.txt ./packages
+# RUN pip3 install --upgrade --force-reinstall -r ./packages/requirements.txt
+# RUN pip3 install -r ./packages/requirements.txt
 
 RUN useradd -ms /bin/bash jupyter
 USER jupyter
 WORKDIR /home/jupyter
 
-#need to copy the jupyter notebook from the host
+#do we really need to copy to the host???
 COPY complete_02_08_2023.ipynb .
 
 ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
