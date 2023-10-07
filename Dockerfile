@@ -75,7 +75,7 @@ RUN useradd -ms /bin/bash jupyter
 USER jupyter
 WORKDIR /home/jupyter
 
-#do we really need to copy to the host???
+#do we really need to copy to the container???
 COPY complete_02_08_2023.ipynb .
 
 ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
