@@ -78,7 +78,28 @@ WORKDIR /home/jupyter
 #do we really need to copy to the container???
 COPY complete_02_08_2023.ipynb .
 
-ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
+#cmd and entrypoint differences
+#https://www.youtube.com/watch?v=C1GE07UEFDo&ab_channel=BretFisherDockerandDevOps
+#https://www.youtube.com/watch?v=U1P7bqVM7xM&ab_channel=ManuelCastellin
+#ENTRYPOINT vs CMD does not seem to make a difference here!!!
+
+
+#https://dmitrijskass.netlify.app/2021/05/04/how-to-start-a-jupyter-notebook-on-the-remote-server/
+#https://saturncloud.io/blog/changing-jupyter-notebooks-default-localhost8888-server-with-other-options/
+
+#what does --ip=* mean???
+#it means local host 
+#nobrowser does nothing since we cant see wat is insdie the container
+#ENTRYPOINT makes more sense here since there are no options
+
+
+
+# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8888"]
+ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "80"]
+
+
+# ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser"]
 
 #how to to migrate packages between systems (windows to ubuntu)
 #python environments solution...
