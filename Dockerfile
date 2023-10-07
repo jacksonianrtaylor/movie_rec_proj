@@ -98,6 +98,15 @@ EXPOSE 8888
 #https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session
 #https://supercomputing.swin.edu.au/rcdocs/jupyter-notebooks/#:~:text=When%20launching%20a%20jupyter%20notebook,8000%20of%20our%20local%20machine.&text=where%20the%20%2DL%20option%20specifies,connect%20i.e.%20creates%20a%20tunnel.
 
+
+#why is 8888 th default port???
+#other ports wont work unless deafult is changed!!!
+#https://saturncloud.io/blog/how-to-change-the-default-port-for-ipython-notebook-server-jupyter/#:~:text=As%20mentioned%20earlier%2C%20Jupyter%20Notebook,also%20using%20the%20same%20port.
+
+#make a public server...
+#https://jupyter-notebook.readthedocs.io/en/5.7.5/public_server.html
+#^info: # Set ip to '*' to bind on all interfaces (ips) for the public server. c.NotebookApp.ip = '*'
+
 CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
 
 # ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8080"]
