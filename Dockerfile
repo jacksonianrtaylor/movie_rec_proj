@@ -92,10 +92,20 @@ COPY complete_02_08_2023.ipynb .
 #nobrowser does nothing since we cant see wat is insdie the container
 #ENTRYPOINT makes more sense here since there are no options
 
+EXPOSE 8888
 
+#jupyter labs and ports:
+#https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session
+#https://supercomputing.swin.edu.au/rcdocs/jupyter-notebooks/#:~:text=When%20launching%20a%20jupyter%20notebook,8000%20of%20our%20local%20machine.&text=where%20the%20%2DL%20option%20specifies,connect%20i.e.%20creates%20a%20tunnel.
 
-# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8888"]
-ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "80"]
+CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
+
+# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8080"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "80"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "80"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "8888"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "80"]
+# ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "8888"]
 
 
 # ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
