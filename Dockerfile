@@ -14,6 +14,16 @@
 #https://code.visualstudio.com/docs/datascience/jupyter-kernel-management
 
 
+
+
+#look!!!!
+#docker for python files:
+#can output results to a text file
+#https://www.geeksforgeeks.org/how-to-run-a-python-script-using-docker/#
+#https://stackoverflow.com/questions/48561981/activate-python-virtualenv-in-dockerfile
+
+
+
 #use this to build: docker build -t image_1 .
 #use this to run: docker run -p 8888:8888 image_1
 
@@ -77,6 +87,7 @@ WORKDIR /home/jupyter
 
 #do we really need to copy to the container???
 COPY complete_02_08_2023.ipynb .
+COPY test.py .
 
 #cmd and entrypoint differences
 #https://www.youtube.com/watch?v=C1GE07UEFDo&ab_channel=BretFisherDockerandDevOps
@@ -107,8 +118,7 @@ EXPOSE 8888
 #https://jupyter-notebook.readthedocs.io/en/5.7.5/public_server.html
 #^info: # Set ip to '*' to bind on all interfaces (ips) for the public server. c.NotebookApp.ip = '*'
 
-CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
-
+# CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
 # ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8080"]
 # ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "80"]
 # ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "80"]
@@ -118,7 +128,7 @@ CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
 
 
 # ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser"]
+ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser"]
 
 #how to to migrate packages between systems (windows to ubuntu)
 #python environments solution...
