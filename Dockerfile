@@ -81,6 +81,7 @@ RUN pip3 install jupyter
 # RUN pip3 install --upgrade --force-reinstall -r ./packages/requirements.txt
 # RUN pip3 install -r ./packages/requirements.txt
 
+#is this necessary???
 RUN useradd -ms /bin/bash jupyter
 USER jupyter
 WORKDIR /home/jupyter
@@ -103,7 +104,7 @@ COPY test.py .
 #nobrowser does nothing since we cant see wat is insdie the container
 #ENTRYPOINT makes more sense here since there are no options
 
-EXPOSE 8888
+# EXPOSE 8888
 
 #jupyter labs and ports:
 #https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session

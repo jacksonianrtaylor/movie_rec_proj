@@ -27,55 +27,55 @@ The model used is the mlp regresssor model...
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-(LOOK) very important...
-paper with similair intention:
-https://www.sjsu.edu/faculty/guangliang.chen/Math285F15/285ProjectPaper.pdf
-SVD???:
-https://www.youtube.com/watch?v=gXbThCXjZFM&ab_channel=SteveBrunton
-https://www.youtube.com/watch?v=nbBvuuNVfco&ab_channel=SteveBrunton
-
-
-
-
-
-
-
 extras:
-
-need to make sure that it is knowm that the version of python is 3.10.7
-
-also be aware of requiremnts.txt
-
-#https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html
-#https://stackoverflow.com/questions/55296675/is-is-necessary-to-normalize-data-before-using-mlpregressor
-#https://www.youtube.com/watch?v=uet8ZQpyJV8&ab_channel=NeuralNine
-#https://stats.stackexchange.com/questions/278566/if-you-standardize-x-must-you-always-standardize-y
+need to make sure that it is known that the version of python is 3.10.7
 
 
 
-#feature importance scores:
-#https://scikit-learn.org/stable/modules/permutation_importance.html
-#https://scikit-learn.org/stable/modules/generated/sklearn.inspection.permutation_importance.html#sklearn.inspection.permutation_importance
+How to install/run:
 
-#introduction:
-#https://www.kaggle.com/code/dansbecker/permutation-importance
+Quick Way (with docker):
 
-#types of feature importance:
-#https://towardsdatascience.com/6-types-of-feature-importance-any-data-scientist-should-master-1bfd566f21c9
+requirements:
+-Git
+-Dockerdesktop
+-Sufficent memory
+
+clone the repository
+navigate to the main project directory
+build docker image using the provided Dockerfile:
+run the created docker image:
+
+browser method: 
+open localhost:8888 in browser window
+open the complete_02_08_2023.ipynb file in the browser notebook and run
+
+vscode method: 
+open the complete_02_08_2023.ipynb file in the main project directory
+select kernel in top right/select another kernel/existing jupyter server
+copt and paste the jupyter server access token that is found in the console
+after "Jupyter Server 2.7.3 is running at:"
+
+note: there are other methods for other editors and IDE's to connect to a remote ipython kernel...
+https://medium.com/@halmubarak/connecting-spyder-ide-to-a-remote-ipython-kernel-25a322f2b2be
+
+then run the notebook 
+computation can take some time (estimation)
 
 
-data transformation:
-https://datascience.stackexchange.com/questions/45900/when-to-use-standard-scaler-and-when-normalizer
+Explicit Way (no docker):
+
+requirements:
+-Git
+-Sufficent memory
+-python3 and pip (working python version: 3.10.7)
+
+with python and pip
+create a python virtual env in the main project directory:
+install the following packages to the virtual env:
+scipy, scikit-learn, pandas, nltk, ordered_set
+activate the virtual environment
+use python to run the transform.py (and observe results in console)
+after completion of transform.py run analysis.py (and observe results in console)
+computation can take some time (estimation)
+
