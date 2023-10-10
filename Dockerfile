@@ -117,27 +117,35 @@ COPY complete_02_08_2023.ipynb .
 EXPOSE 8888
 
 
-ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--allow-root"]
-
-
-
+ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0","--port=8888", "--no-browser", "--allow-root"]
 
 
 # very important!!!:
-# note: ip address is the address of the running server with realtion to the localhost???
+# note: ip address in the entrypoint command is the address of the running server with relation to the the containers, local host
 # https://stackoverflow.com/questions/42848130/why-i-cant-access-remote-jupyter-notebook-server
-# note: the ip of the container is the same as the ip of the host when run of the same machine!!!
 
-# this does not work becaue there is no ip "1.1.1.1" on the network from the local host
+
+# this does not work becaue there is no ip "1.1.1.1" local to the the container
 # ENTRYPOINT ["jupyter", "notebook", "--ip=1.1.1.1","--port=8888", "--no-browser", "--allow-root"]
 
 
 #working...
 #docker run -p 8888:8888 --hostname localhost image_1
+#note: works with 127.0.0.1 and localhost:
 #ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--allow-root"]
-#ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
+#note: works with 127.0.0.1 and localhost:
 #ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0","--port=8888", "--no-browser", "--allow-root"]
 #ENTRYPOINT ["jupyter", "notebook", "--ip=localhost","--port=8888", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
+
+#problem with "--ip=*": anyone who knows your IP and the port you used in jupyter would be able to visit your jupyter notebook
+#however, there is still a needed authentication token
+#https://stackoverflow.com/questions/35345605/ipython-notebook-listening-on-all-ip-addresses
+
+
+#difference between --ip=* and --ip=0.0.0.0:
+#answer: none
+#https://chat.openai.com/c/7b81ae50-b098-4d94-a171-29434c125ae9
 
 
 #not working:
@@ -148,19 +156,42 @@ ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--al
 
 #not working:
 #https://stackoverflow.com/questions/59179831/docker-app-server-ip-address-127-0-0-1-difference-of-0-0-0-0-ip
-#In Docker, 127.0.0.1 almost always means “this container”, not “this machine”.
+#In Docker, 127.0.0.1 almost always means the local host of “this container”, not “this machine”.
 #docker run -p 8888:8888 --hostname localhost image_1
 #ENTRYPOINT ["jupyter", "notebook", "--ip=127.0.0.1", "--no-browser", "--allow-root"]
 
 #not working:
-#note: config file must be changed to allow use of different ports
+#note: config file must be changed to allow use of different ports for jupyter
 #ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root", "--port", "9999"]
+
+#idea:
+#https://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
+#https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach
+#--network="host" can be used in the docker run command, (then --ip=127.0.0.1 will point to the docker host)
+#this only works on docker for linux!!!
 
 #general docker information
 #some docker compose
 #https://www.youtube.com/watch?v=UXxUcZDSNwA&ab_channel=KathrynSchuler
 
 
-
 #New(how do docker ip addresses work!!!)
 #https://linuxhandbook.com/get-container-ip/#:~:text=If%20you%20run%20the%20inspect,That's%20your%20container's%20IP%20address.
+
+
+#important!!!
+#how does this entire stack work???:
+#create a jupyter server in the docker container
+#ip = 0.0.0.0 means that all ips are allowed to access the jupyter notebook (with a required access token)
+#port = 8888 is the port that the jupyter lab runs on by default
+#when the container is created the ports are mapped 8888 of the container to 8888 of the local host of the host machine
+#from inside the container the host machine has a valid ip and the request is served though port 8888 of the host machine
+#as that is the default port that jupyter labs runs on
+
+#question: is the server running on the container???
+#answer: yes
+
+#question: Why does port need to be 8888 on host machine
+#answer: it doesn't, it can be any availble port, like 9999
+#just remeber to access localhost:9999 instead of the deafult localhost:8888
+
