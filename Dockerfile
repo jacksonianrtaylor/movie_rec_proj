@@ -1,6 +1,7 @@
-# general docker for jupyter labs
+# general docker for jupyter notebook
 # https://www.youtube.com/watch?v=ajPppaAVXQU&ab_channel=MultiMindsInnovationLab
 # https://www.youtube.com/watch?v=0qG_0CPQhpg&ab_channel=AbhishekThakur
+
 
 #access running jupyter server with vscode:
 #https://saturncloud.io/blog/how-to-use-vscode-ssh-remote-to-run-jupyter-notebooks/#:~:text=To%20do%20this%2C%20click%20on%20the%20Remote%20Explorer%20icon%20and,Window%E2%80%9D%20from%20the%20dropdown%20menu.
@@ -9,11 +10,10 @@
 #https://www.youtube.com/watch?v=czlfsMZwCmU&ab_channel=MacPCZoneLondon
 #https://devinschumacher.com/how-to-setup-jupyter-notebook-virtual-environment-vs-code-kernels/#install-jupyter
 
+
 #^^^this has changed!!!!:
 #https://github.com/microsoft/vscode-jupyter/discussions/13145
 #https://code.visualstudio.com/docs/datascience/jupyter-kernel-management
-
-
 
 
 #look!!!!
@@ -23,10 +23,6 @@
 #https://stackoverflow.com/questions/48561981/activate-python-virtualenv-in-dockerfile
 
 
-
-#use this to build: docker build -t image_1 .
-#use this to run: docker run -p 8888:8888 image_1
-
 FROM ubuntu:latest
 
 RUN apt-get update && apt-get install -y python3 \
@@ -34,7 +30,6 @@ RUN apt-get update && apt-get install -y python3 \
 
 # not sure if this is aleady done...
 # RUN pip3 install --upgrade pip
-
 
 
 #note sure if these are necessary...
@@ -56,11 +51,9 @@ RUN pip3 install jupyter
 
 # this is providing problems
 # RUN pip3 install mysqlclient
-
 #realted issues:
 #https://www.youtube.com/watch?v=DkjfV4jmZWs&ab_channel=PeterSchneider
 #https://stackoverflow.com/questions/76585758/mysqlclient-cannot-install-via-pip-cannot-find-pkg-config-name
-
 
 
 #to use kaggle api:
@@ -70,94 +63,66 @@ RUN pip3 install jupyter
 #https://www.youtube.com/watch?v=W86uvkzaqLg&ab_channel=JonathanPerry
 #need to have credentials
 
-
-#alternative (open od download):
+#alternative to kaggle api (open od download):
 #https://www.geeksforgeeks.org/how-to-download-kaggle-datasets-into-jupyter-notebook/
 
-
+# this was used to install the same packages...
+# but fails because it is machine dependent
 # all used with requiremnts.txt
 # RUN mkdir packages
 # COPY requirements.txt ./packages
 # RUN pip3 install --upgrade --force-reinstall -r ./packages/requirements.txt
 # RUN pip3 install -r ./packages/requirements.txt
 
-#is this necessary???
-RUN useradd -ms /bin/bash jupyter
-USER jupyter
+# is this necessary???
+# not with root user!!!
+# RUN useradd -ms /bin/bash jupyter
+# USER jupyter
+
 WORKDIR /home/jupyter
 
-#do we really need to copy to the container???
 COPY complete_02_08_2023.ipynb .
-COPY test.py .
+
+
+#what does --ip=* mean???
+#all ips point to the server
+
 
 #cmd and entrypoint differences
 #https://www.youtube.com/watch?v=C1GE07UEFDo&ab_channel=BretFisherDockerandDevOps
 #https://www.youtube.com/watch?v=U1P7bqVM7xM&ab_channel=ManuelCastellin
-#ENTRYPOINT vs CMD does not seem to make a difference here!!!
+#ENTRYPOINT vs CMD does not seem to make a difference here!!! but
+#ENTRYPOINT makes more sense here since there are no options
 
-
+#misc jupyter labs and ports:
+#https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session
+#https://supercomputing.swin.edu.au/rcdocs/jupyter-notebooks/#:~:text=When%20launching%20a%20jupyter%20notebook,8000%20of%20our%20local%20machine.&text=where%20the%20%2DL%20option%20specifies,connect%20i.e.%20creates%20a%20tunnel.
 #https://dmitrijskass.netlify.app/2021/05/04/how-to-start-a-jupyter-notebook-on-the-remote-server/
 #https://saturncloud.io/blog/changing-jupyter-notebooks-default-localhost8888-server-with-other-options/
 
-#what does --ip=* mean???
-#it means local host 
-#nobrowser does nothing since we cant see wat is insdie the container
-#ENTRYPOINT makes more sense here since there are no options
-
-# EXPOSE 8888
-
-#jupyter labs and ports:
-#https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session
-#https://supercomputing.swin.edu.au/rcdocs/jupyter-notebooks/#:~:text=When%20launching%20a%20jupyter%20notebook,8000%20of%20our%20local%20machine.&text=where%20the%20%2DL%20option%20specifies,connect%20i.e.%20creates%20a%20tunnel.
-
 
 #why is 8888 th default port???
-#other ports wont work unless deafult is changed!!!
+#other ports wont work unless default is changed with the method below...
 #https://saturncloud.io/blog/how-to-change-the-default-port-for-ipython-notebook-server-jupyter/#:~:text=As%20mentioned%20earlier%2C%20Jupyter%20Notebook,also%20using%20the%20same%20port.
+
 
 #make a public server...
 #https://jupyter-notebook.readthedocs.io/en/5.7.5/public_server.html
-#^info: # Set ip to '*' to bind on all interfaces (ips) for the public server. c.NotebookApp.ip = '*'
-
-# CMD ["jupyter", "notebook", "--ip","0.0.0.0", "--port", "8888", "--allow-root"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "8080"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip","*", "--port", "80"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "80"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "8888"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "80"]
-# ENTRYPOINT ["jupyter", "notebook", "--ip", "127.0.0.1", "--port", "8888"]
 
 
-# ENTRYPOINT ["jupyter", "notebook", "--ip=*"]
-ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser"]
+#note, pair with: docker run -p 8888:8888 --hostname localhost image_1
+ENTRYPOINT ["jupyter", "notebook", "--no-browser", "--allow-root"]
 
-#how to to migrate packages between systems (windows to ubuntu)
-#python environments solution...
-#https://stackoverflow.com/questions/34684281/the-same-list-of-python-libraries-for-ubuntu-and-windows
-
-
-
-
-#solutions:
-#how to copy files from host to container
-#https://stackoverflow.com/questions/30455036/how-to-copy-file-from-host-to-container-using-dockerfile
+#working
+#ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook",  "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
 
 
-#might solve the issue of the reuse of predefined jupyter notebook:
+#not working:
+#ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root", "--port", "9999"]
+
+#general docker information
+#some docker compose
 #https://www.youtube.com/watch?v=UXxUcZDSNwA&ab_channel=KathrynSchuler
-#docker compose???
-
-#https://stackoverflow.com/questions/72121390/how-to-use-jupyterlab-in-visual-studio-code
-#https://www.google.com/search?q=acess+a+local+jupyter+server+vscode&sca_esv=569640401&rlz=1C1ONGR_enUS1021US1021&sxsrf=AM9HkKmGSVWUP-lP2zOMSTCsROy5_wLeZA%3A1696043985794&ei=0ZMXZbaPMLiT0PEPuvmMuAo&ved=0ahUKEwj2u6-asNGBAxW4CTQIHbo8A6cQ4dUDCBE&uact=5&oq=acess+a+local+jupyter+server+vscode&gs_lp=Egxnd3Mtd2l6LXNlcnAiI2FjZXNzIGEgbG9jYWwganVweXRlciBzZXJ2ZXIgdnNjb2RlMgoQIRigARjDBBgKMgoQIRigARjDBBgKSLQRUMcEWPAOcAJ4AZABAJgBgAGgAZAHqgEDNC41uAEDyAEA-AEBwgIKEAAYRxjWBBiwA-IDBBgAIEGIBgGQBgg&sclient=gws-wiz-serp
-#steps to connect to a jupyter server in vs code
-
-
-
-#potential problem:
-#(if the maximum space is reached then need to figure out how to get more space)
-
-
-
-
-
 

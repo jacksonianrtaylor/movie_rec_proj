@@ -43,20 +43,24 @@ requirements:
 
 clone the repository
 navigate to the main project directory
-build docker image using the provided Dockerfile:
-run the created docker image:
+build docker image using the provided Dockerfile: docker build -t movie_rec_image .
+run the created docker image: docker run -p 8888:8888 movie_rec_image
 
 browser method: 
-open localhost:8888 in browser window
+
+follow th url that is found in the console ouput where you created the container
+The url is in the line after "Jupyter Server *2.7.3* is running at:" 
+this should open a file containing
+
 open the complete_02_08_2023.ipynb file in the browser notebook and run
 
 vscode method: 
 open the complete_02_08_2023.ipynb file in the main project directory
 select kernel in top right/select another kernel/existing jupyter server
-copt and paste the jupyter server access token that is found in the console
+copy and paste the jupyter server access token that is found in the console
 after "Jupyter Server 2.7.3 is running at:"
 
-note: there are other methods for other editors and IDE's to connect to a remote ipython kernel...
+note: there are other methods for other editors and IDE's to connect to a ipython kernel of a jupyter server
 https://medium.com/@halmubarak/connecting-spyder-ide-to-a-remote-ipython-kernel-25a322f2b2be
 
 then run the notebook 
@@ -68,14 +72,19 @@ Explicit Way (no docker):
 requirements:
 -Git
 -Sufficent memory
--python3 and pip (working python version: 3.10.7)
+-python3 and pip (my working python version: 3.10.7)
 
-with python and pip
+clone the repository
+
+with python and pip:
 create a python virtual env in the main project directory:
 install the following packages to the virtual env:
-scipy, scikit-learn, pandas, nltk, ordered_set
+opendatasets, pandas, numpy, scikit-learn, 
+scipy, ordered-set, gensim, nltk, jupyter
 activate the virtual environment
-use python to run the transform.py (and observe results in console)
-after completion of transform.py run analysis.py (and observe results in console)
+
+open the complete_02_08_2023.ipynb file and connect to the kernel of the python virtual environment
+run the complete_02_08_2023.ipynb notebook and observe outputs
+
 computation can take some time (estimation)
 
