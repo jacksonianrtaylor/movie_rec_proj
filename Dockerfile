@@ -38,6 +38,8 @@ RUN apt-get update && apt-get install -y python3 \
 # RUN sudo apt-get install -y pkg-config
 
 
+WORKDIR /home/jupyter
+
 #install all packages
 RUN pip3 install opendatasets
 RUN pip3 install pandas
@@ -79,9 +81,10 @@ RUN pip3 install jupyter
 # RUN useradd -ms /bin/bash jupyter
 # USER jupyter
 
-WORKDIR /home/jupyter
 
 COPY complete_02_08_2023.ipynb .
+
+
 
 
 #what does --ip=* mean???
@@ -110,19 +113,54 @@ COPY complete_02_08_2023.ipynb .
 #https://jupyter-notebook.readthedocs.io/en/5.7.5/public_server.html
 
 
-#note, pair with: docker run -p 8888:8888 --hostname localhost image_1
-ENTRYPOINT ["jupyter", "notebook", "--no-browser", "--allow-root"]
+#not sure if needed, but it is in example code...
+EXPOSE 8888
 
-#working
-#ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
-#ENTRYPOINT ["jupyter", "notebook",  "--no-browser", "--allow-root"]
-#ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+
+ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--allow-root"]
+
+
+
+
+
+# very important!!!:
+# note: ip address is the address of the running server with realtion to the localhost???
+# https://stackoverflow.com/questions/42848130/why-i-cant-access-remote-jupyter-notebook-server
+# note: the ip of the container is the same as the ip of the host when run of the same machine!!!
+
+# this does not work becaue there is no ip "1.1.1.1" on the network from the local host
+# ENTRYPOINT ["jupyter", "notebook", "--ip=1.1.1.1","--port=8888", "--no-browser", "--allow-root"]
+
+
+#working...
+#docker run -p 8888:8888 --hostname localhost image_1
+#ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0","--port=8888", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--ip=localhost","--port=8888", "--no-browser", "--allow-root"]
 
 
 #not working:
+#docker run -p 8888:8888 image_1
+#ENTRYPOINT ["jupyter", "notebook", "--ip=localhost","--port=8888", "--no-browser", "--allow-root"]
+#ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
+#note: others above are working...
+
+#not working:
+#https://stackoverflow.com/questions/59179831/docker-app-server-ip-address-127-0-0-1-difference-of-0-0-0-0-ip
+#In Docker, 127.0.0.1 almost always means “this container”, not “this machine”.
+#docker run -p 8888:8888 --hostname localhost image_1
+#ENTRYPOINT ["jupyter", "notebook", "--ip=127.0.0.1", "--no-browser", "--allow-root"]
+
+#not working:
+#note: config file must be changed to allow use of different ports
 #ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root", "--port", "9999"]
 
 #general docker information
 #some docker compose
 #https://www.youtube.com/watch?v=UXxUcZDSNwA&ab_channel=KathrynSchuler
 
+
+
+#New(how do docker ip addresses work!!!)
+#https://linuxhandbook.com/get-container-ip/#:~:text=If%20you%20run%20the%20inspect,That's%20your%20container's%20IP%20address.
