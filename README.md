@@ -1,18 +1,42 @@
 Goal:
 
-The goal of the program is building a model to predict what a user would rate a particular movie based on their rating to other movies. 
-This should not be confused with predicting a critics score to the movie.
-Rather, it predicts what the target user would score the movie as though it had already been watched.
+The goal of the program is building a model to predict what a new user would rate a particular movie based on their rating to other movies and the movie ratings of similiar users
 
-This is not to be confused with picking movies that are good fit compared to the users movie preference. Instead it seeks to be useful for every user-movie combination even movies that the user would hate.
+In other words, the model attempts to predict what the target user would score movies as though they had already been watched.
+
+In practice this is valuable because it gives a precise value to unwatched movies so the user knows a great deal about how satisfied they will be with the movie
+(of course there is error)
+
+There are alot of challenges with this task, including:
+- Many times the users ratings are not accuracte to their preference (there is weird unexplained variance)
+- What is the definition of similair movies? (what concrete data can we use to test simlairity)
+- predictions to a movie rating can be worse if the user who rated it has a small number of rated movies
+- predictions to a movies rating can be worse when there are a small number of users who rated that same movie
+
+disclaimers:
+
+The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website
+It is based on user preference rather than a prediction based on pure production value that is generally applied to make good movies
+The data used is based off random users and the movie rating predictions are for random users (not necessarily critics)
+
+Additionally, The process should not be confused with simply picking movies that are good fit compared to the users movie preference. Instead it seeks to produce useful rating predictions for every user-movie combination even movies that the user would hate.
 
 
 
 Process: 
 
+Content based filtering:
+
+
+Collaborative filtering:
+
+
+Combination of methods with linear model:
+
+
 Similarity scores are collected between a randomly selected movie the user has watched and rated to the rest of the movies the user has watched and rated. 
 
-An list of input features to the model includes statsticss about the movie to guess the rting rating for (not including rating), sataistics for a single other movie that the user has watched (including rating) and the simialirty score between the movie whose rating is known and the movie whose movie is to be predicted by the model. Then each prediction is agrergated  and summed for all the other movies the used has watched
+An list of input features to the model includes statsticss about the movie to guess the rating rating for (not including rating), sataistics for a single other movie that the user has watched (including rating) and the simialirty score between the movie whose rating is known and the movie whose movie is to be predicted by the model. Then each prediction is agrergated  and summed for all the other movies the used has watched
 
 The similarity score is calculated by comparing the unrated movie and a movies the user has watched by count vectorizing...
 the words/terms formed by combining textual data from metadata, keywords, ratings, and credits for both of the movies in question.
@@ -24,6 +48,8 @@ feeding the model both the similarities of movies that the user has watched to t
 For instance, if a movie is given a high rating and is simlair to the un-watched movie though (cosine similarity) it should be expected that the unwatched movie in question should also be similair in rating.
 
 The model used is the mlp regresssor model...
+
+
 
 
 
