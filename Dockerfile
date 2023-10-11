@@ -117,7 +117,7 @@ COPY complete_02_08_2023.ipynb .
 EXPOSE 8888
 
 
-ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
+ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
 
 
 # very important!!!:
@@ -128,6 +128,8 @@ ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"
 #--hostname: specifies the hostname that will be set inside the container
 #it works to have the same --hostname set in the docker run command and the --ip option in the jupyter server command
 #because then the ip is set to the host
+#the --hostname also specifies the ip section of the first url in the container output
+#the first url will not work if the ip is anything other than localhost or 127.0.0.1, because it needs to be run from the hot machine
 #https://chat.openai.com/c/082d87ff-ab45-4840-8fd0-d4b72a5ab20a
 
 
@@ -150,7 +152,10 @@ ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"
 
 #difference between --ip=* and --ip=0.0.0.0:
 #answer: none
-#https://chat.openai.com/c/7b81ae50-b098-4d94-a171-29434c125ae9
+#https://chat.openai.com/c/7b81ae50-b098-4d94-a171-294334c125ae9
+#then why do they give different urls???
+#why does this show up for --ip=* and not --ip=0.0.0.0: 
+#WARNING: The Jupyter server is listening on all IP addresses and not using encryption. This is not recommended.
 
 
 #not working (not from 127.0.0.1 or localhost):
