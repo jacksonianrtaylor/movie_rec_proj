@@ -100,7 +100,6 @@ COPY complete_02_08_2023.ipynb .
 #misc jupyter labs and ports:
 #https://stackoverflow.com/questions/41159797/how-to-disable-password-request-for-a-jupyter-notebook-session
 #https://supercomputing.swin.edu.au/rcdocs/jupyter-notebooks/#:~:text=When%20launching%20a%20jupyter%20notebook,8000%20of%20our%20local%20machine.&text=where%20the%20%2DL%20option%20specifies,connect%20i.e.%20creates%20a%20tunnel.
-#https://dmitrijskass.netlify.app/2021/05/04/how-to-start-a-jupyter-notebook-on-the-remote-server/
 #https://saturncloud.io/blog/changing-jupyter-notebooks-default-localhost8888-server-with-other-options/
 
 
@@ -117,21 +116,33 @@ COPY complete_02_08_2023.ipynb .
 EXPOSE 8888
 
 
-ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
+ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
 
 
-# very important!!!:
-# note: The ip address in the entrypoint command is the addresses of the allowed connections with relation to the containers, local host
-# https://stackoverflow.com/questions/42848130/why-i-cant-access-remote-jupyter-notebook-server
+# note: The ip address in the entrypoint command is the address that the server will listen on
+# listening: (waiting for a request)
+# https://chat.openai.com/c/74842544-65fa-4bea-9240-23dfcb20b488
+# https://dmitrijskass.netlify.app/2021/05/04/how-to-start-a-jupyter-notebook-on-the-remote-server/
 
 
-#--hostname: specifies the hostname that will be set inside the container
-#it works to have the same --hostname set in the docker run command and the --ip option in the jupyter server command
-#because then the ip is set to the host
-#the --hostname also specifies the ip section of the first url in the container output
-#the first url will not work if the ip is anything other than localhost or 127.0.0.1, because it needs to be run from the hot machine
+# methods to connect to a jupyter server...
+# https://dmitrijskass.netlify.app/2021/05/04/how-to-start-a-jupyter-notebook-on-the-remote-server/
+
+#what does --hostname mean?
 #https://chat.openai.com/c/082d87ff-ab45-4840-8fd0-d4b72a5ab20a
 
+#--hostname: specifies the hostname that will be set relative to the container
+#if the (--hostname set in the docker run command) is equal to the (--ip option in the jupyter notebook command)
+#then the server is listening on the host machine
+#in this case the --hostname also specifies the ip section of the first url in the container output 
+
+#if the --hostname is present and the jupyter server is listening on all ips with "--ip=0.0.0.0" not "--ip=*"
+#then the --hostname also specifies the ip section of the first url in the container output
+
+#if --hostname is equal to localhost and there is no ip specified 
+#then the server is listening on the host machine
+#this is because the default --ip alias is localhost
+#in this case the --hostname(localhost) also specifies the ip section of the first url in the container output
 
 # this does not work becaue there is no ip "1.1.1.1" local to the the container
 # ENTRYPOINT ["jupyter", "notebook", "--ip=1.1.1.1","--port=8888", "--no-browser", "--allow-root"]
@@ -142,7 +153,7 @@ ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
 #ENTRYPOINT ["jupyter", "notebook", "--ip=*","--port=8888", "--no-browser", "--allow-root"]
 #ENTRYPOINT ["jupyter", "notebook", "--ip=0.0.0.0","--port=8888", "--no-browser", "--allow-root"]
 #ENTRYPOINT ["jupyter", "notebook", "--ip=localhost","--port=8888", "--no-browser", "--allow-root"]
-#127.0.0.1 is the default ip but its alias "localhost" is used when the host name "localhost" is used
+#127.0.0.1 is the default ip but its alias "localhost" is applied when the host name "localhost" is used
 #ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
 
 #problem with "--ip=*": anyone who knows your IP and the port you used in jupyter would be able to visit your jupyter notebook
@@ -151,14 +162,16 @@ ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
 
 
 #difference between --ip=* and --ip=0.0.0.0:
-#answer: none
-#https://chat.openai.com/c/7b81ae50-b098-4d94-a171-294334c125ae9
+#answer: chat gpt says none...
+#https://chat.openai.com/c/7b81ae50-b098-4d94-a171-29434c125ae9
 #then why do they give different urls???
-#why does this show up for --ip=* and not --ip=0.0.0.0: 
+#note --ip=* seems to always give the local host in the first url no matter the --hostname and
+#--ip=0.0.0.0 always gives the --hostname in the url and if there is no hostname it creates a string
+#why does this warning show up for --ip=* and not --ip=0.0.0.0: 
 #WARNING: The Jupyter server is listening on all IP addresses and not using encryption. This is not recommended.
 
 
-#not working (not from 127.0.0.1 or localhost):
+#not working:
 #docker run -p 8888:8888 image_1
 #ENTRYPOINT ["jupyter", "notebook", "--ip=localhost","--port=8888", "--no-browser", "--allow-root"]
 #ENTRYPOINT ["jupyter", "notebook", "--port=8888", "--no-browser", "--allow-root"]
@@ -174,34 +187,15 @@ ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root"]
 #note: config file must be changed to allow use of different ports for jupyter
 #ENTRYPOINT ["jupyter", "notebook", "--ip=*", "--no-browser", "--allow-root", "--port", "9999"]
 
-#idea:
+#get the ip of the docker host from inside the docker container
 #https://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
 #https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach
 #--network="host" can be used in the docker run command, (then --ip=127.0.0.1 will point to the docker host)
 #this only works on docker for linux!!!
 
-#general docker information
 #some docker compose
 #https://www.youtube.com/watch?v=UXxUcZDSNwA&ab_channel=KathrynSchuler
 
-
-#New(how do docker ip addresses work!!!)
+#how do docker ip addresses work!!!
 #https://linuxhandbook.com/get-container-ip/#:~:text=If%20you%20run%20the%20inspect,That's%20your%20container's%20IP%20address.
-
-
-#important!!!
-#how does this entire stack work???:
-#create a jupyter server in the docker container
-#ip = 0.0.0.0 means that all ips are allowed to access the jupyter notebook (with a required access token)
-#port = 8888 is the port that the jupyter lab runs on by default
-#when the container is created the ports are mapped 8888 of the container to 8888 of the local host of the host machine
-#from inside the container the host machine has a valid ip and the request is served though port 8888 of the host machine
-
-
-#question: is the server running on the container???
-#answer: yes
-
-#question: Why does port need to be 8888 on host machine
-#answer: it doesn't, it can be any availble port, like 9999
-#just remeber to access localhost:9999 instead of the deafult localhost:8888
 
