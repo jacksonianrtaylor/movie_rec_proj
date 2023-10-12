@@ -27,6 +27,22 @@ Process:
 
 Content based filtering:
 
+In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata
+
+How is this data used to pair similair movies:
+- the constrcutedData.csv is built 
+- this includes all the relevant data columns from every .csv in the entire movies data set tah might produce helpful text data
+- every line in the constrcutedData.csv has a user id and a movie id and a number of columns that hold valuable text data that represent the movie the user watched
+
+- for each movie the user watched certain columns of text data are selected
+
+
+
+- a bag of words is formed from every user by combining the words from
+- 
+
+LOOK: what happens if a user made two ratings for the same movie???
+
 
 Collaborative filtering:
 
@@ -137,5 +153,6 @@ Explicit Way(no docker):
 
 About the notebook:
 
+How to skip cells to save runtime:
 
 results and custom inputs:
