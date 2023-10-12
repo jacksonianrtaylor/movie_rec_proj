@@ -28,72 +28,64 @@ Process:
 Content based filtering:
 
 
-The first feature, feature_1 is simply a non-weighted average of all the users ratings besides the the target movie
+The first feature, feature_1 is simply a non-weighted average of all the ratings for a user besides the the target movie
 This is an effective feature because it reveals how high a user rates movies on average
-this feature along will not be very precise since it does not value anything about the movie in question and is independent of what other users think about the movie
-
+this feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie
+The logic is simply that the target movie rating is related to how high a user rates on average
 
 
 In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata
+This is the process behind feature_2, another content based predictor
 
-How is this data used to define the notion of similair movies?:
-- the constrcutedData.csv is built 
+How is this data used to define the notion of similair movies and how can it be a potential asset:
+
+- the constrcutedData.csv is built from the source data
 - this includes all the relevant data columns from every .csv in the entire movies data set that might produce helpful text data
-- every line in the constrcutedData.csv has a user id and a movie id and a number of columns that hold valuable text data that represent the movie the user watched
-- for each movie the user watched, certain columns of text data are selected to create an ordered set of words
+- every line in the constrcutedData.csv has a user id, a movie id and a number of columns that hold valuable text data of the movie the user watched
 
-- The ordered set of words is unique to a user id and is formed from the words of the columns of all the movies the user rated
+
+- for each movie the user watched, certain columns of text data are selected and combined to create an ordered set of words
+- The ordered set of words is unique to a user id and is formed from the words in the columns of all the movies the user rated
+
+- then, for th current user a random movie is chosen to be the target movies rating
+- this target rating is used to either evaluate the model or train the model
 
 - then for each movie the user watched, the words found in the corpus of the relavent columns for that movie are...
 - count vectorized in the order of the set of words 
 - if a word is not present in the movies corpus the correpsonding index in the vector becomes 0
-- else the value at the corresponding index is equal to the number of times the words comes up in the movies corpus
-- once a vector is created for each movie the user watached, including the target movie...
+- else the value at the corresponding index of teh count vector is equal to the number of times the words comes up in the particular movies corpus
+
+- once a vector is created for each movie the user watched, including the target movie...
 - then the rating of the target movie can be predicted using a function of the cossine similarity between the word count vectors of...
 - the target movie and the other movies the user watched 
-- the function also uses the ratings of the non target movies 
+- the function also uses the ratings of the non-target movies 
 - this function creates feature_2 which it self is a guess to the rating of the target movies of all the users using this method
 
 
+- this method is also independent of what others think of the movie
 
-
-
-- then a random movie rated by each user is chosen as the target movie rating
-- this target rating is used to either evaluate the model or train the model
-
-
-this is also independet of what others think of the movie
-
-
-
-
-
-LOOK: what happens if a user made two ratings for the same movie???
 
 
 Collaborative filtering:
 
+***
+
+
 
 Combination of methods with linear model:
 
-
-Similarity scores are collected between a randomly selected movie the user has watched and rated to the rest of the movies the user has watched and rated. 
-
-An list of input features to the model includes statsticss about the movie to guess the rating rating for (not including rating), sataistics for a single other movie that the user has watched (including rating) and the simialirty score between the movie whose rating is known and the movie whose movie is to be predicted by the model. Then each prediction is agrergated  and summed for all the other movies the used has watched
-
-The similarity score is calculated by comparing the unrated movie and a movies the user has watched by count vectorizing...
-the words/terms formed by combining textual data from metadata, keywords, ratings, and credits for both of the movies in question.
-cossine similarity is used to compute the similairty between the the count vectorized versions of both combined texts.
-
-
-feeding the model both the similarities of movies that the user has watched to the movie to be rated and the user ratings of the movies seen by the user it is expected that the model would be able to derive some idea of the the unwatched movies rating. 
-
-For instance, if a movie is given a high rating and is simlair to the un-watched movie though (cosine similarity) it should be expected that the unwatched movie in question should also be similair in rating.
-
-The model used is the mlp regresssor model...
+conclusions:
+-After trying multiple combinations of features (1,2, and 3) it was found that the order of importance to the linear model was:
+feature_3 , feature_1, and feature_2
+-this mean that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed
+the function using cossine similarity
+-This could mean that movies with similair words in the metadata in them don't necessarily mean that the user will rate them similairly
+-There could be other combinations of movie data or more explicit categories besides text that could produce more effective predictions
+-Both the linear regression model and the mlp regressor model were tested and the linear model out performed what seems to be the strongest
+mlp models
 
 
-
+stats: 
 
 
 extras:
