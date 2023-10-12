@@ -27,19 +27,46 @@ Process:
 
 Content based filtering:
 
+
+The first feature, feature_1 is simply a non-weighted average of all the users ratings besides the the target movie
+This is an effective feature because it reveals how high a user rates movies on average
+this feature along will not be very precise since it does not value anything about the movie in question and is independent of what other users think about the movie
+
+
+
 In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata
 
-How is this data used to pair similair movies:
+How is this data used to define the notion of similair movies?:
 - the constrcutedData.csv is built 
-- this includes all the relevant data columns from every .csv in the entire movies data set tah might produce helpful text data
+- this includes all the relevant data columns from every .csv in the entire movies data set that might produce helpful text data
 - every line in the constrcutedData.csv has a user id and a movie id and a number of columns that hold valuable text data that represent the movie the user watched
+- for each movie the user watched, certain columns of text data are selected to create an ordered set of words
 
-- for each movie the user watched certain columns of text data are selected
+- The ordered set of words is unique to a user id and is formed from the words of the columns of all the movies the user rated
+
+- then for each movie the user watched, the words found in the corpus of the relavent columns for that movie are...
+- count vectorized in the order of the set of words 
+- if a word is not present in the movies corpus the correpsonding index in the vector becomes 0
+- else the value at the corresponding index is equal to the number of times the words comes up in the movies corpus
+- once a vector is created for each movie the user watached, including the target movie...
+- then the rating of the target movie can be predicted using a function of the cossine similarity between the word count vectors of...
+- the target movie and the other movies the user watched 
+- the function also uses the ratings of the non target movies 
+- this function creates feature_2 which it self is a guess to the rating of the target movies of all the users using this method
 
 
 
-- a bag of words is formed from every user by combining the words from
-- 
+
+
+- then a random movie rated by each user is chosen as the target movie rating
+- this target rating is used to either evaluate the model or train the model
+
+
+this is also independet of what others think of the movie
+
+
+
+
 
 LOOK: what happens if a user made two ratings for the same movie???
 
@@ -156,3 +183,6 @@ About the notebook:
 How to skip cells to save runtime:
 
 results and custom inputs:
+
+
+Question: should constcutedData be included in git repo if it is small enough
