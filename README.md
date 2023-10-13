@@ -47,95 +47,117 @@ How is this data used to define the notion of similair movies and how can it be 
 - for each movie the user watched, certain columns of text data are selected and combined to create an ordered set of words
 - The ordered set of words is unique to a user id and is formed from the words in the columns of all the movies the user rated
 
-- then, for th current user a random movie is chosen to be the target movies rating
-- this target rating is used to either evaluate the model or train the model
+- then, for the current user, a random movie is chosen to be the target movies rating
+- if teh user is a train user it is use to train the model
+- if the user is a test user then it is used to evaluate the model
 
 - then for each movie the user watched, the words found in the corpus of the relavent columns for that movie are...
-- count vectorized in the order of the set of words 
-- if a word is not present in the movies corpus the correpsonding index in the vector becomes 0
-- else the value at the corresponding index of teh count vector is equal to the number of times the words comes up in the particular movies corpus
+- count vectorized in the order of the ordered set of words 
+- if a word is not present in the movies corpus, the correpsonding index in the vector becomes 0
+- else the value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus
 
 - once a vector is created for each movie the user watched, including the target movie...
 - then the rating of the target movie can be predicted using a function of the cossine similarity between the word count vectors of...
 - the target movie and the other movies the user watched 
 - the function also uses the ratings of the non-target movies 
-- this function creates feature_2 which it self is a guess to the rating of the target movies of all the users using this method
+- this function creates feature_2 which is (like the other features) a guess to the rating of the target movies of all the users using this method
 
 
-- this method is also independent of what others think of the movie
+- like feature_1, feature_2 is also independent of what others think of the movie
 
 
 
 Collaborative filtering:
 
 Train operation:
-    -This method organizes data into a (user x movies ratings for corresponding user) list
-    -The movies that are included are all movies that are in the train set
-    -movies that are not rated by the user are given an average rating for that movie
-    -The users that are included are train_users
+    -Data is organized into a ((user) x (movies ratings of corresponding user)) list
+    -The users that are included are train_user
+    -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set
+    -movies that are not rated by the user are given an average rating for that movie equal to...
+    [mean rating for the correspnding movie for every user who rated it in the train data]
+    -Then the data is normalized by subtracting the mean for each entry which is again...
+    [mean rating for the correspnding movie for every user who rated it in the train data]
 
-    -Then the data is normalized by subtracting the mean for each entry 
-    -This mean is the mean rating for the correspnding movie for every user who rated it in the train data (the average becomes 0)
 
-    [-The matrix factorization is created with the svd function of the normalized ratings
-    -Then each factor is truncated to 20 features
+    svd:
+    [-The matrix factorization is created with the svd function on the normalized ratings
+    -Then each factor is truncated to 20 "componenets"
     -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-    but points with a normalized rating of zero now have a more informed rating based on the similairy between other users
+    but points with a normalized rating of zero now have a more informed normalized rating based on the similairy between other users
+    -therefore the target ratings can be predicted
 
-    -then this array is scaled back into an array of ratings from (1-5) and the once noramlized ratings...
-    now have in place a reasonable prediction of the target movie 
+    -then this array is scaled back into an array of ratings from (1-5) and the once normalized ratings...
+    have in place of it, a reasonable rating prediction of the target movie 
 
     -The predicted rating for the target movies for every user is found by acessing the
-    -correct index location of the target movie for each users]
+    -corresponding index location of the target movie for each users]
 
-    -These predicted ratings are used to train the model
+    -These predicted ratings are used to train the model with feature_3
 
 
-Test operation:
-    -This method organizes data into a (user x movies ratings for corresponding user) list
-    -The movies that are included are all movies that are in the train set or test set
-    -movies that are not rated by the user are given an average rating for that movie
-    -The users that are included are train_users and test users
+Test operation (similair to train operation):
+    -Data is organized into a ((user) x (movies ratings of corresponding user)) list
+    -The users that are included are train_users and test users (note: the test users come after the train users in the list)
+    -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set or the test set
 
-    -Then the data is normalized by subtracting the mean for each entry
-    -This mean is the mean rating for the correspnding movie for every user who rated it inthe test and train data (the average becomes 0)
+    -movies that are not rated by the user are given an average rating for that movie equal to...
+    [mean rating for the corresponding movie for every user who rated it in the train data and test data]
+    -Then the data is normalized by subtracting the mean for each entry which is again...
+    [mean rating for the corresponding movie for every user who rated it in the train data and test data]
 
-    [-The matrix factorization is created with the svd function of the normalized ratings
-    -Then each factor is truncated to 20 features
+    same svd idea:
+    [-The matrix factorization is created with the svd function on the normalized ratings
+    -Then each factor is truncated to 20 "componenets"
     -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-    but points with a normalized rating of zero now have a more informed rating based on the similairy between other users
+    but points with a normalized rating of zero now have a more informed normalized rating based on the similairy between other users
+    -therefore the target ratings can be predicted
 
-    -then this array is scaled back into an array of ratings from (1-5) and the once noramlized ratings...
-    now have in place a reasonable prediction of the target movie 
+    -then this array is scaled back into an array of ratings from (1-5) and the once normalized ratings...
+    have in place of it, a reasonable rating prediction of the target movie 
 
     -The predicted rating for the target movies for every user is found by acessing the
-    -correct index location of the target movie for each users]
+    -corresponding index location of the target movie for each users]
 
-    -The predicted ratings from the test users section of the svd are used to validate the model
+    -These predicted ratings are used to validate the model that was trained in the train operation with feature_3
+
+
+Note: There are alot more details to this left out for a simpler overview
+For more details see notebook (complete_02_08_2023.ipynb) and follow the comments
+
+After features (1, 2, and 3) for the test and train users are collected,
+then they are used to build a model
+
+Both the basic linear regression model and the strongest mlp regressor model were tested
+and the best model was found to be a basic linear regression model
+the order of importance to all the tested models was feature_3 , feature_1, and feature_2
+and the best combination of features is feature_1 and feature_3
+
+
+the suprising hearistic, was that feature_1 copntained more relevant information than feature 2 did
+in a sense this can be explained because they both have the same orgin (mean of users ratings)
+But feature_2 was weighted and feature_1 was not weighted
+
+
+-a simple conclusion is that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed the function using cossine similarity
+
+-This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly
+-There could be other combinations of text sources or more explicit categories and datatypes besides text that could produce more effective predictions
+
+
 
 
 
 -Questions !!!
 -is the movie rating for the movie to predict averaged out (yes)
 -is the mean the complete average from train and test data for the svd on the full dataset (yes)
+-are some movies listed twice in the ordered complete movie set (no: the sets are combined)
 
 
 
-Combination of methods with linear model:
-
-conclusions:
--After trying multiple combinations of features (1,2, and 3) it was found that the order of importance to the linear model was:
-feature_3 , feature_1, and feature_2
--this means that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed
-the function using cossine similarity
--This could mean that movies with similair words in the metadata in them don't necessarily mean that the user will rate them similairly
--There could be other combinations of movie data or more explicit categories besides text that could produce more effective predictions
--Both the linear regression model and the mlp regressor model were tested and the linear model out performed what seems to be the strongest
-mlp models
 
 
 stats: 
-
+what were the scores for different inputs???
 
 extras:
 need to make sure that it is known that the version of python is 3.10.7
@@ -220,10 +242,9 @@ Explicit Way(no docker):
 
 
 About the notebook:
-
-How to skip cells to save runtime:
+-How to skip cells to save runtime:
 
 results and custom inputs:
 
 
-Question: should constcutedData be included in git repo if it is small enough
+Question: should constcutedData be included in git repo if it is small enough???
