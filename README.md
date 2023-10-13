@@ -13,7 +13,7 @@ There are alot of challenges with this task, including:
 - predictions to a movie rating can be worse if the user who rated it has a small number of rated movies
 - predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
-disclaimers:
+clarifications:
 
 The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website
 It is based on user preference rather than a prediction based on pure production value that is generally applied to make good movies
@@ -53,7 +53,7 @@ How is this data used to define the notion of similair movies and how can it be 
 
 - then for each movie the user watched, the words found in the corpus of the relavent columns for that movie are...
 - count vectorized in the order of the ordered set of words 
-- if a word is not present in the movies corpus, the correpsonding index in the vector becomes 0
+- if a word is not present in the movies corpus, the value in the correpsonding index in the vector becomes 0
 - else the value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus
 
 - once a vector is created for each movie the user watched, including the target movie...
@@ -63,7 +63,7 @@ How is this data used to define the notion of similair movies and how can it be 
 - this function creates feature_2 which is (like the other features) a guess to the rating of the target movies of all the users using this method
 
 
-- like feature_1, feature_2 is also independent of what others think of the movie
+- like feature_1, feature_2 is also independent of what other users think of the movie
 
 
 
@@ -74,9 +74,9 @@ Train operation:
     -The users that are included are train_user
     -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set
     -movies that are not rated by the user are given an average rating for that movie equal to...
-    [mean rating for the correspnding movie for every user who rated it in the train data]
+    [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking)
     -Then the data is normalized by subtracting the mean for each entry which is again...
-    [mean rating for the correspnding movie for every user who rated it in the train data]
+    [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking)
 
 
     svd:
@@ -90,9 +90,9 @@ Train operation:
     have in place of it, a reasonable rating prediction of the target movie 
 
     -The predicted rating for the target movies for every user is found by acessing the
-    -corresponding index location of the target movie for each users]
+    -corresponding index location of the target movie for each user]
 
-    -These predicted ratings are used to train the model with feature_3
+    -These predicted ratings fed into feature_3 are used to train the model 
 
 
 Test operation (similair to train operation):
@@ -101,9 +101,9 @@ Test operation (similair to train operation):
     -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set or the test set
 
     -movies that are not rated by the user are given an average rating for that movie equal to...
-    [mean rating for the corresponding movie for every user who rated it in the train data and test data]
+    [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
     -Then the data is normalized by subtracting the mean for each entry which is again...
-    [mean rating for the corresponding movie for every user who rated it in the train data and test data]
+    [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
 
     same svd idea:
     [-The matrix factorization is created with the svd function on the normalized ratings
@@ -116,9 +116,9 @@ Test operation (similair to train operation):
     have in place of it, a reasonable rating prediction of the target movie 
 
     -The predicted rating for the target movies for every user is found by acessing the
-    -corresponding index location of the target movie for each users]
+    -corresponding index location of the target movie for each user]
 
-    -These predicted ratings are used to validate the model that was trained in the train operation with feature_3
+    -These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation
 
 
 Note: There are alot more details to this left out for a simpler overview
@@ -129,11 +129,11 @@ then they are used to build a model
 
 Both the basic linear regression model and the strongest mlp regressor model were tested
 and the best model was found to be a basic linear regression model
-the order of importance to all the tested models was feature_3 , feature_1, and feature_2
+the order of featurs importance to all the tested models was feature_3 , feature_1, and feature_2
 and the best combination of features is feature_1 and feature_3
 
 
-the suprising hearistic, was that feature_1 copntained more relevant information than feature 2 did
+the suprising hearistic, was that feature_1 was weighed higher than feature 2
 in a sense this can be explained because they both have the same orgin (mean of users ratings)
 But feature_2 was weighted and feature_1 was not weighted
 
@@ -145,14 +145,17 @@ But feature_2 was weighted and feature_1 was not weighted
 
 
 
-
-
 -Questions !!!
 -is the movie rating for the movie to predict averaged out (yes)
 -is the mean the complete average from train and test data for the svd on the full dataset (yes)
 -are some movies listed twice in the ordered complete movie set (no: the sets are combined)
 
+-how to remove the current user from this average???
+[mean rating for the correspnding movie for every user who rated it in the train data]
+answer: the user is already removed
 
+-Is the rating of the target movies from other users included in this average???
+no the rating does not include target ratings and if the the movie was only a traget movie then the overall average is used
 
 
 
