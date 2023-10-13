@@ -68,7 +68,56 @@ How is this data used to define the notion of similair movies and how can it be 
 
 Collaborative filtering:
 
-***
+Train operation:
+    -This method organizes data into a (user x movies ratings for corresponding user) list
+    -The movies that are included are all movies that are in the train set
+    -movies that are not rated by the user are given an average rating for that movie
+    -The users that are included are train_users
+
+    -Then the data is normalized by subtracting the mean for each entry 
+    -This mean is the mean rating for the correspnding movie for every user who rated it in the train data (the average becomes 0)
+
+    [-The matrix factorization is created with the svd function of the normalized ratings
+    -Then each factor is truncated to 20 features
+    -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
+    but points with a normalized rating of zero now have a more informed rating based on the similairy between other users
+
+    -then this array is scaled back into an array of ratings from (1-5) and the once noramlized ratings...
+    now have in place a reasonable prediction of the target movie 
+
+    -The predicted rating for the target movies for every user is found by acessing the
+    -correct index location of the target movie for each users]
+
+    -These predicted ratings are used to train the model
+
+
+Test operation:
+    -This method organizes data into a (user x movies ratings for corresponding user) list
+    -The movies that are included are all movies that are in the train set or test set
+    -movies that are not rated by the user are given an average rating for that movie
+    -The users that are included are train_users and test users
+
+    -Then the data is normalized by subtracting the mean for each entry
+    -This mean is the mean rating for the correspnding movie for every user who rated it inthe test and train data (the average becomes 0)
+
+    [-The matrix factorization is created with the svd function of the normalized ratings
+    -Then each factor is truncated to 20 features
+    -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
+    but points with a normalized rating of zero now have a more informed rating based on the similairy between other users
+
+    -then this array is scaled back into an array of ratings from (1-5) and the once noramlized ratings...
+    now have in place a reasonable prediction of the target movie 
+
+    -The predicted rating for the target movies for every user is found by acessing the
+    -correct index location of the target movie for each users]
+
+    -The predicted ratings from the test users section of the svd are used to validate the model
+
+
+
+-Questions !!!
+-is the movie rating for the movie to predict averaged out (yes)
+-is the mean the complete average from train and test data for the svd on the full dataset (yes)
 
 
 
@@ -77,7 +126,7 @@ Combination of methods with linear model:
 conclusions:
 -After trying multiple combinations of features (1,2, and 3) it was found that the order of importance to the linear model was:
 feature_3 , feature_1, and feature_2
--this mean that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed
+-this means that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed
 the function using cossine similarity
 -This could mean that movies with similair words in the metadata in them don't necessarily mean that the user will rate them similairly
 -There could be other combinations of movie data or more explicit categories besides text that could produce more effective predictions
