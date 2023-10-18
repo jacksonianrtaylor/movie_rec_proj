@@ -89,3 +89,83 @@
 #         movie_ids_list.append(movie_row[1])  
 #     if(len(movie_ids_list)>len(movie_ids_set)):
 #         print("error")
+
+
+
+        # #these are the scaled versions of variables directly above
+        # #these are only relevant with user averages scalings opposed to movie average scaling...
+        # #note currently being used
+        # word_counts_transformed = []
+        # target_word_counts_transformed = []
+
+#word count sums for each word in users_words_in_order for each user
+        # sums = dict()
+
+        # #for each movie the user watched record the wordcount for each word in users_words_in_order
+        # for movie_id in movie_id_to_words.keys():
+        #     if movie_id != user_to_target_movie_id[-1]:
+        #         temp_dict = Counter(movie_id_to_words[movie_id])
+        #         temp_list = []
+        #         # sum = 0
+        #         for word in users_words_in_order:
+        #             if word in temp_dict.keys():
+        #                 temp_list.append(temp_dict[word])
+        #                 # sum+=temp_dict[word]
+        #                 if word in sums.keys():
+        #                     sums[word] += temp_dict[word] 
+        #                 else:
+        #                     sums[word] = temp_dict[word] 
+        #             else:
+        #                 temp_list.append(0) 
+        #                 if word not in sums.keys():
+        #                     sums[word] = 0  
+
+        #         word_counts.append(temp_list)  
+
+        #         # append to word_counts_transformed:
+        #         # avg = float(sum/len(users_words_in_order))
+        #         # word_counts_transformed.append([x - avg for x in temp_list])
+        #     else:
+
+        #         temp_dict = Counter(movie_id_to_words[movie_id])
+        #         temp_list = []
+        #         # sum = 0
+        #         for word in users_words_in_order:
+        #             if word in temp_dict.keys():
+        #                 temp_list.append(temp_dict[word])
+        #                 # sum+=temp_dict[word]
+        #                 if word in sums.keys():
+        #                     sums[word] += temp_dict[word] 
+        #                 else:
+        #                     sums[word] = temp_dict[word]             
+        #             else:
+        #                 temp_list.append(0) 
+        #                 if word not in sums.keys():
+        #                     sums[word] = 0 
+
+        #         target_word_counts = temp_list
+
+        #         # set target_word_counts_transformed:
+        #         # avg = float(sum/len(users_words_in_order))
+        #         # target_word_counts_transformed = [x - avg for x in temp_list]
+
+
+#LOOK:
+#what if there is no movie_id == user_to_target_movie_id[i]
+#this can happen when a test users target movie is not in the train_users.movies_in_order...
+
+
+#solution:
+
+#this could be run once with only train_movies
+#and then used to populate the train svd
+#and then extract the prediction to train the model
+
+
+#then again with all movies train_movies + test_movies
+#then used to populate the full svd
+#and then extract the prediction to test model
+
+
+#note: movie_id_to_average_rating_train should only be used for the train run of this function
+#for the test version of the this movie_id_to_average_rating_full should be used
