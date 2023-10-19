@@ -102,3 +102,24 @@
 #     #evaluation metric 2:
 #     # return(mean_squared_error(test_users.user_to_target_rating, predictions), 
 #     #         mean_squared_error(test_users.user_to_target_rating, rounded_predictions))
+
+
+#LOOK: need to cover the information below
+#this is valuable information that should probably be somewhere
+
+#note: before passing to this function the data is normalized about the average movie ratings (not average user ratings)
+#each user train and test users have a single rating that needs to be trained against in the train case
+#and predicted in the test case
+
+#the svd can be applied to the combined data of the train and test sets
+#both movies that the user didn't watch and movies that should be guesses are...
+#transformed to have a value of zero before svd
+
+#the movie columns are taken from the train dataset...
+#senario: suppose a test user has a rating of a movie not part of the train set and it is not the target movie (ignore it)
+#senario: suppose a test user has a rating of a movie not part of the train set and it is the target movie (guess the rating instead of using svd)
+
+#LOOK this does not seem correct!!! verify if this is true !!!
+
+#...Once the UsV is created...
+#take the rating from the new UsV for the user row and movie column for the target movie

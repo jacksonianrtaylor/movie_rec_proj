@@ -146,6 +146,10 @@ But feature_2 was weighted and feature_1 was not weighted
 
 
 -Questions !!!
+-would it be smart to try to guess users rating when they have a small number of ratings???
+-but still using data for users with alot more ratings???
+-this can be theoreticaly be explained but not necesarliy acted upon!!!
+
 -is the movie rating for the movie to predict averaged out (yes)
 -is the mean the complete average from train and test data for the svd on the full dataset (yes)
 -are some movies listed twice in the ordered complete movie set (no: the sets are combined)
