@@ -19,13 +19,13 @@ functionality notes:
 - the point with keeping the number of test users low is to test how accurate predictions can be made...
 - for a potential app that could use this model to guess users ratings to movies 
 - in this case, the user would be more content to enter a small number of their own ratings than a large number of their own ratings
-- but eas of use comes at a high cost to modeel performance
+- but ease of use comes at a high cost to model performance
 - for the case of the number of train users, a higher number of ratings should lead to better performance at the cost of extra runtime
+- this means that the accuracy scores of the current configuration are not the highest that this system can perform
 
+Question about this: should the train and test users be tested with more required number of ratings than the current amount to test the models
+potential???
 
-
-
-Question abaout this: 
 
 clarifications:
 
