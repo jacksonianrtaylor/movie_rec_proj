@@ -13,6 +13,20 @@ There are alot of challenges with this task, including:
 - predictions to a movie rating can be worse if the user who rated it has a small number of rated movies
 - predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
+functionality notes:
+- this program has the ability to choose users with a specific number of ratings for test and train users
+- the default program focuses on test users with 5-10 ratings and train users with 50-75 rating
+- the point with keeping the number of test users low is to test how accurate predictions can be made...
+- for a potential app that could use this model to guess users ratings to movies 
+- in this case, the user would be more content to enter a small number of their own ratings than a large number of their own ratings
+- but eas of use comes at a high cost to modeel performance
+- for the case of the number of train users, a higher number of ratings should lead to better performance at the cost of extra runtime
+
+
+
+
+Question abaout this: 
+
 clarifications:
 
 The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website
@@ -254,4 +268,4 @@ About the notebook:
 results and custom inputs:
 
 
-Question: should constcutedData be included in git repo if it is small enough???
+Question: should constructedData be included in git repo if it is small enough???
