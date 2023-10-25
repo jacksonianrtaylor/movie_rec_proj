@@ -71,11 +71,16 @@ How is this data used to define the notion of similair movies and how can it be 
 - else the value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus
 
 - once a vector is created for each movie the user watched, including the target movie...
-- then the rating of the target movie can be predicted using a function of the cossine similarity between the word count vectors of...
-- the target movie and the other movies the user watched 
-- the function also uses the ratings of the non-target movies 
-- this function creates feature_2 which is (like the other features) a guess to the rating of the target movies of all the users using this method
+- then the rating of the target movie can be predicted using a function of the cossine similarity between the transformed word count vectors of...
+- the target movie and the other movies the user watched as well as the ratings of the non-target movies 
 
+- the transformed word count vectors are normalized tf-idf vectors 
+- this places value on terms that are un-common in alot of documents,
+- while still placing value on how common they are in the document at hand
+- this leads to a more powerful quantifier for cossine similairity between documents
+
+
+- this function creates feature_2 which is (like the other features) a guess to the rating of the target movies of all the users using this method
 
 - like feature_1, feature_2 is also independent of what other users think of the movie
 
