@@ -1,0 +1,240 @@
+import ast
+import random
+import time
+
+start_time = time.time()
+
+# seed for consistent results across runtime
+seed_int = 2
+random.seed(seed_int)
+
+
+def condition(array):
+    """"
+    originally used to filter out the rows of data with empty entries for certain columns
+    a method simlair to this is used in the previous cell above to reduce the number of checks
+    """
+    length = len(array[4])
+    if(array[4][length-2:] == "[]"):
+        return False
+    length = len(array[5])
+    if(array[5][length-2:] == "[]"):
+        return False
+    length = len(array[6])
+    if(array[6][length-2:] == "[]"):
+        return False
+    length = len(array[7])
+    if(array[7][length-2:] == "[]"):
+        return False   
+    #this is this unecessary with the dropNa function in the previous cell:
+    # length = len(array[8])
+    # if(array[8][length-4:]=="<NA>"):
+    #     return False
+    # length = len(array[9])
+    # if(array[9][length-4:]=="<NA>"):
+    #     return False 
+    return True
+
+
+def populate_names(item):
+    """used to extract names from the syntax of certain data entries"""
+    string  = item[1:-1]
+    jsons = string.split("}, ")   
+    names = ""
+    index = 0
+    for item in jsons:
+        if(index == len(jsons)-1):
+            temp_dict = ast.literal_eval(item)
+            names+=str(temp_dict["name"])
+        else:
+            temp_dict = ast.literal_eval(item+"}")
+            names+=str(str(temp_dict["name"])+" ")
+        index += 1
+    return names
+
+
+def provide_data(array):
+    """extract data from row of complete_array"""
+    movie_data = []
+    movie_data.append(int(array[0]))
+    movie_data.append(int(array[1]))
+    movie_data.append(float(array[2]))
+    movie_data.append(array[3])  
+
+    movie_data.append(populate_names(array[4]))
+    movie_data.append(populate_names(array[5]))
+    movie_data.append(populate_names(array[6]))
+    movie_data.append(populate_names(array[7]))
+
+    movie_data.append(str(array[8]))
+    movie_data.append(str(array[9]))
+    return movie_data
+    
+
+#LOOK: 
+#https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas
+#iterating over pandas objects is slow!!!
+#should check for other datastructures below
+
+
+#LOOK:
+#there is an issue with this!!!
+#complete.loc[complete['userId'] == user_id] is too slow since it observes the entire dataframe
+#should try to make use of the fact that rows are in user order
+#there can be an initial list that is the copy of the dataframe...
+#another idea...
+#need to populate gaps and list_of_user_ids...
+
+
+
+list_of_user_ids = list(complete["userId"].unique())
+complete_list = complete.values.tolist()
+
+print("Complete number of users:", len(list_of_user_ids)) #260788
+
+#the complete list of user rows without ratings of the same movie more than once
+complete_list_no_dups = []
+#distinquish the users the row belongs to 
+last_id = -1
+#the set of movies that a user has rated
+#used to prevent later ratings of a movie that the user has already rated
+movie_set = set()
+#how many rows a single user takes up for each user in the order of their occurance
+gaps = []
+#added to gaps when all of a users rows have been counted
+gap_len = 0
+#prevent adding gap_len to gaps until a real user has been iterated over
+first_it = True
+
+#populates gaps and complete_list_no_dups by omitting movies that already have a rating in respect to each user
+for row in complete_list:
+    if last_id != row[0]:
+        movie_set= set()
+        complete_list_no_dups.append(row)
+        movie_set.add(row[1])
+        if not first_it:    
+            gaps.append(gap_len)
+        gap_len = 1
+        first_it = False
+    else:
+        if row[1] not in movie_set:
+            complete_list_no_dups.append(row)
+            gap_len+=1
+            movie_set.add(row[1])
+    last_id = row[0]
+
+#add the last gap_len
+gaps.append(gap_len)
+
+user_index = 0
+full_index = 0
+
+nof_train_users = 0
+nof_test_users =0
+train_or_test = []
+
+#LOOK: there is an issue here since del is a costly function on a list!!!
+#instead, 
+
+#Reduce gaps, list_of_user_ids, and complete_list_no_dups to force users to to have a certain range of ratings...
+#to be a train or test user
+#also populates nof_train_users, nof_test_users, and train_or_test
+for _ in range(len(gaps)):
+    if 50 <= gaps[user_index] and 70 >= gaps[user_index]:
+        full_index+=gaps[user_index]
+        user_index+=1
+        train_or_test.append(1)
+        nof_train_users+=1
+    elif 5 <= gaps[user_index] and 10 >= gaps[user_index]:
+        full_index+=gaps[user_index]
+        user_index+=1
+        train_or_test.append(0)
+        nof_test_users+=1
+    else:
+        temp = gaps[user_index]
+        del gaps[user_index]
+        del list_of_user_ids[user_index]
+        del complete_list_no_dups[full_index:full_index+temp]
+
+print("Number of train users before random selection:", nof_train_users) #14314
+print("Number of test users before random selection:", nof_test_users) #68048
+
+#LOOK: does the below operation really need to run for the entire data set???
+#instead the above operation can include the random selection
+#answer: this does not improve processing speed because it will make the the else portion run more
+#which is an expensive task. Note: each delete is O(n)
+
+#LOOK: What about filtering users randomly before selecting train and test users??? 
+#the problem with this is that it is unknown how many users will be produced of each user type and if it is enough
+#the users need to be seperated into train and test users to find out which would 
+
+
+#These are the average number of ratings to select from each user type
+#note since the target is 5000 train users and 1000 test users the extra 200 users leaves room for error to avoid...
+#passing less than 5000 or 1000 users
+#this would be a problem since cell 5 needs to select (5000 and 1000) users of each type from the pool
+avg_nof_train_users_to_select = 5200
+avg_nof_test_users_to_select = 1200
+
+#this is a list for all selected users to rows of transformed data for each movie they rated
+user_to_data = []
+
+#index of the current movie row 
+index  = 0
+
+#this is collected for insight
+avg = 0.0
+cnt = 0.0
+
+#populate user_to_data from complete_array
+for i in range(0, len(list_of_user_ids)):
+    #generate a random float to determine a pass for the user
+    if(((train_or_test[i]) and (random.random()<float(avg_nof_train_users_to_select/nof_train_users)))
+       or ((not train_or_test[i]) and (random.random()<float(avg_nof_test_users_to_select/nof_test_users)))):
+        user_to_data.append([])
+        last_index = len(user_to_data) -1
+        for j in range(index, len(complete_list_no_dups)):
+            if complete_list_no_dups[j][0] == list_of_user_ids[i]:
+                #orginally: the condition function checked if the movie row had missing values for certain columns and...
+                #omitted the movie if it had missing values   
+                # if(condition(complete_array[j])):
+                    #transform data...
+                #a more efficient method is used instead in the second cell  
+                transformed = provide_data(complete_list_no_dups[j])
+                user_to_data[last_index].append(transformed)    
+            else:
+                avg += len(user_to_data[last_index])
+                cnt+=1
+                index = j
+                break           
+    else:
+        index += gaps[i]
+
+
+
+#Go through user_to_data and re-index the users in list order since certain users were omitted
+#this is for simplicity, readability, and usage in cell 5
+for i in range(len(user_to_data)):
+    for j in range(len(user_to_data[i])):
+        user_to_data[i][j][0] = i
+
+
+#How many users are in the final user_to_data 
+print("Number of users chosen:", len(user_to_data))
+
+#average number of ratings per users
+#note: omits the very last user but this makes little difference
+print("Average number of ratings for the users chosen:", float(avg/cnt))
+
+
+print("Minutes taken: ", float((time.time()-start_time)/60))
+
+
+# recent run:
+# time to complete: 12 (minutes)
+# Complete number of users: 260788
+# Number of train users before random selection: 14314
+# Number of test users before random selection: 68048
+# Number of users chosen: 6390
+# Average number of ratings for the users chosen: 49.07151799687011
+# Minutes taken:  12.13312626282374
