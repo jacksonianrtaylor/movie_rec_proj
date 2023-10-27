@@ -511,3 +511,33 @@ print("Minutes taken: ", float((time.time()-start_time)/60))
 # Number of users chosen: 6390
 # Average number of ratings for the users chosen: 49.07151799687011
 # Minutes taken:  5.005980257193247
+
+
+
+
+#more...
+def condition(array):
+    """"
+    originally used to filter out the rows of data with empty entries for certain columns
+    a method simlair to this is used in the previous cell above to reduce the number of checks
+    """
+    length = len(array[4])
+    if(array[4][length-2:] == "[]"):
+        return False
+    length = len(array[5])
+    if(array[5][length-2:] == "[]"):
+        return False
+    length = len(array[6])
+    if(array[6][length-2:] == "[]"):
+        return False
+    length = len(array[7])
+    if(array[7][length-2:] == "[]"):
+        return False   
+    #this is this unecessary with the dropNa function in the previous cell:
+    # length = len(array[8])
+    # if(array[8][length-4:]=="<NA>"):
+    #     return False
+    # length = len(array[9])
+    # if(array[9][length-4:]=="<NA>"):
+    #     return False 
+    return True
