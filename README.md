@@ -274,3 +274,7 @@ results and custom inputs:
 
 
 Question: should constructedData be included in git repo if it is small enough???
+
+
+LOOK: need to select a verison of python in the dockerfile
+in case a new versio of python is installed that does support the code somehow
