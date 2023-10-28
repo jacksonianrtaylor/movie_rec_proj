@@ -19,7 +19,7 @@ import pandas as pd
 pd.set_option('display.max_colwidth', None)
 
 movies = pd.read_csv('./the-movies-dataset/movies_metadata.csv',usecols=("genres","id" ,"title","tagline", "overview","production_companies"),
-                          dtype={"tagline": "string", "id":"string", 'genres':"string", "title": "string", "tagline": "string","overview":"string", "production_companies" :"string"})
+                          dtype={"tagline": "string", "id":"string", 'genres':"string", "title": "string", "overview":"string", "production_companies" :"string"})
 movies = movies.dropna()
 movies = movies.reset_index()
 
