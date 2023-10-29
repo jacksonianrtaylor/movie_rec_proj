@@ -1,0 +1,12 @@
+cell 1 extra notes:
+
+#LOOK: can a merge function be created for lists??? does one exist???
+
+#LOOK: is it possible the merge function is not merging data as expected???
+#this could be the reason for the ineffectiveness of the weigthed averages for feature_2
+
+#LOOK: https://chat.openai.com/c/51f0a763-12e3-473b-8353-9af3ecec306d
+#why can't the same operation on dataframes be applied to lists
+#Note: merge is hard to reproduce
+#note: even if there was a way to merge lists like a dataframe then the end results would be a list 
+#which would then require a transformation into a dataframe again to rearrange the columns of the data frames like below
