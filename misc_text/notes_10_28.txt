@@ -10,3 +10,28 @@ cell 1 extra notes:
 #Note: merge is hard to reproduce
 #note: even if there was a way to merge lists like a dataframe then the end results would be a list 
 #which would then require a transformation into a dataframe again to rearrange the columns of the data frames like below
+
+cell 3 extra notes:
+
+#LOOK: 
+#https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas
+#https://towardsdatascience.com/list-comprehensions-vs-for-loops-it-is-not-what-you-think-34071d4d8207#:~:text=List%20comprehensions%20are%20the%20right,altogether%3A%20use%20array%20computations%20instead.
+#iterating over pandas objects is slow!!!
+#should check for other datastructures below
+
+
+#LOOK: should list comprehenshion be used here???
+#answer: no because it would require iteration of the range twice becasue there are two output lists
+
+
+
+cell 7:
+#LOOK: do these need to be dictionaries???
+#Answer: using dictionary keys insetead of a list enables the potential conditional in certain loops
+#when the movie id is equal to the movie id of the target movie
+
+#LOOK:
+#however, this can be mitigated by a movie index for the target instead of a movid_id
+#but later, user_to_movie_id_to_rating should be a list of dictionaries with the movie keys to ratins
+#this is just to avoid needing to have a specifc index to ratings
+#also user_to_target_movie_id needs to be a list of movie ids in the later feature_3 fcuntion
