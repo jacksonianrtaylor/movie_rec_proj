@@ -1,0 +1,96 @@
+#best n value for linear regrssion:
+
+# number of users, train: 5000, test: 1000
+# features: feature 1 and feature 3
+# model type: linear regression
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20, 10 for svd train and full
+# Average r2_score without rounding: 0.25497742034431536
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.22800211045289098
+# Note: the accuracy values check out after rerun
+
+
+mlp layer options with n = 20, 10
+
+# number of users, train: 5000, test: 1000
+# features: feature 1 and feature 3
+# model type: mlp 10,10,5
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20, 10 for svd train and full
+# Average r2_score without rounding: 0.2576396200547925
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.22409820203545902
+#LOOK: re-run and check the values (also try restatring kernel)
+
+Average r2_score without rounding: 0.25769840583281306
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.2338579730790375
+
+Average r2_score without rounding: 0.25769840583281306
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23385797307903758
+
+
+# number of users, train: 5000, test: 1000
+# features: feature 1 and feature 3
+# model type: mlp 10,5,5
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20, 10 for svd train and full
+# Average r2_score without rounding: 0.25118639406199256
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23444355934165273
+#LOOK: re-run and check the values (also try restatring kernel)
+
+Average r2_score without rounding: 0.2566793068613578
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23053965092422135
+
+Average r2_score without rounding: 0.2566793068613578
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23053965092422135
+
+# number of users, train: 5000, test: 1000
+# features: feature 1 and feature 3
+# model type: mlp 10,10,10
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20, 10 for svd train and full
+# Average r2_score without rounding: 0.25687956492241076
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23210121429119376
+#LOOK: re-run and check the values (also try restatring kernel)
+
+Average r2_score without rounding: 0.25719055444369615
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23893305402169931
+
+Average r2_score without rounding: 0.25719055444369615
+Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.23893305402169931
+
+#best linear regssion model for choice of n = (10, 15)
+
+# number of users, train: 5000, test: 1000
+# features: feature 1 and feature 3
+# model type: linear regression
+# train user threshold: 30-50, test user threshold: 5-10
+# n = (10, 15) for svd train and full
+# Average r2_score without rounding: 0.27338731662383964
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.25213661807645976
+
+#LOOK: need to test for mlp models...
+
+
+
+With feature 2 and feature 3:
+Note: train user threshold: 50-70, test user threshold: 5-10 are not the best perfroming...
+thresholds for feature 1 and feature 3
+perhaps this should be testedn with 30 - 50
+
+# number of users, train: 5000, test: 1000
+# featurs: feature 2 and feature 3
+# model type: linear regression
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20, 10 for svd train and full
+# corpus: genres
+# Average r2_score without rounding: 0.21892291084266102
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.20379787826481427
+
+# number of users, train: 5000, test: 1000
+# featurs: feature 2 and feature 3
+# model type: linear regression
+# train user threshold: 50-70, test user threshold: 5-10
+# n = 20,10, for svd train and full
+# corpus: "title", "genres","production_companies","keywords", "cast", "tagline", "overview"
+# Average r2_score without rounding: 0.22770238896575312
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.20165072863522687
