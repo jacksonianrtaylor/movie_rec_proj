@@ -1,0 +1,62 @@
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 10, 15, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.2689016213463154
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26520328312495806
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 10, 10, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.26506473178622614
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.2635627049925162
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 10, 20, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.2658499912010725
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26283355915587564
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 5, 10, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.2653167585181571
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26137526748259265
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 10, 5, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.267358567698242
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26374499145167696
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 15, 10, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.26453420496059343
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.25754725184022687
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 20, 10, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.26461740043321663
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.2580941112177086
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 20, 30, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.26428376671831344
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26028154872763204
+
+# features: feature 1 and feature 3
+# train user threshold: 11-31
+# n = 20, 25, for svd train and full
+# model type: linear regression
+# Average r2_score without rounding: 0.2658443879487748
+# Average r2_score with rounded prediction to nearest .5 (note: the actual ratings a user makes must be divisable by .5): 0.26028154872763204
