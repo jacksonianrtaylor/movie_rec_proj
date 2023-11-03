@@ -1,14 +1,14 @@
 FROM ubuntu:latest
 
 
-#note: need to specify verison of python in case a newer versio of python comes that breaks
-RUN apt-get update && apt-get install -y python3 \
+# Note: An older version of python is specified to mitigate the chance that a newer verison of python runs into an issue with the notebook code.
+# Python 3.10.7 worked on personal machine
+RUN apt-get update && apt-get install -y python3.10 \
     python3-pip
 
 
-# WORKDIR /home/jupyter
 
-#install all packages
+# Install all packages:
 RUN pip3 install opendatasets
 RUN pip3 install pandas
 RUN pip3 install numpy
@@ -20,12 +20,18 @@ RUN pip3 install nltk
 RUN pip3 install jupyter
 
 
-
-#LOOK: there is slight variation in results between running on ubuntu and windows but it is very accurat to a certaun decimal
 WORKDIR /home/jupyter
 
-COPY complete_02_08_2023.ipynb .
+# Copy the notebook file into the container:
+COPY complete_11_03_2023.ipynb .
 
-ENTRYPOINT ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "8888", "--no-browser", "--allow-root"]
+
+EXPOSE 8888
+
+
+#Create a jupyter notebook server listening on all available network interfaces and ips.
+#Therefore, the notebook is accesible outside the container on the host machine, with the correct port binding and token.
+
+ENTRYPOINT ["jupyter", "notebook", "--ip", "*", "--port", "8888", "--no-browser", "--allow-root"]
 
 
