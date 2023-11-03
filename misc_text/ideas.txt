@@ -219,3 +219,7 @@
 
 #svd with tf-idf
 #https://www.kaggle.com/code/parnianmalekian/svd-and-its-application-in-tf-idf
+
+
+# LOOK: how to comment and docstring???:
+# https://www.askpython.com/python/python-comments

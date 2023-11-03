@@ -87,7 +87,7 @@ features: feature 1 and feature 3
 train user threshold: 30-50
 n = (10, 15) for svd train and full
 model type: mlp layers = (10,10,5)
-Average r2_score without rounding: 0.27639324087457673
+Average r2_score without rounding: 0.27639324087457673 
 Average r2_score with rounded prediction to nearest .5: 0.25894841302207205
 
 
