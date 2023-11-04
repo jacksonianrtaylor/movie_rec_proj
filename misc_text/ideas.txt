@@ -223,3 +223,22 @@
 
 # LOOK: how to comment and docstring???:
 # https://www.askpython.com/python/python-comments
+
+
+
+extra questions from readme:
+-Questions !!!
+-would it be smart to try to guess users rating when they have a small number of ratings???
+-but still using data for users with alot more ratings???
+-this can be theoreticaly be explained but not necesarliy acted upon!!!
+
+-is the movie rating for the movie to predict averaged out (yes)
+-is the mean the complete average from train and test data for the svd on the full dataset (yes)
+-are some movies listed twice in the ordered complete movie set (no: the sets are combined)
+
+-how to remove the current user from this average???
+[mean rating for the correspnding movie for every user who rated it in the train data]
+answer: the user is already removed
+
+-Is the rating of the target movies from other users included in this average???
+no the rating does not include target ratings and if the the movie was only a traget movie then the overall average is used

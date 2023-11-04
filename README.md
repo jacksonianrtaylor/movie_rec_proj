@@ -141,7 +141,7 @@ Test operation (similair to train operation):
 
 
 Note: There are alot more details to this left out for a simpler overview
-For more details see notebook (complete_02_08_2023.ipynb) and follow the comments
+For more details see notebook (complete_11_03_2023.ipynb) and follow the comments
 
 After features (1, 2, and 3) for the test and train users are collected,
 then they are used to build a model
@@ -164,34 +164,18 @@ But feature_2 was weighted and feature_1 was not weighted
 
 
 
--Questions !!!
--would it be smart to try to guess users rating when they have a small number of ratings???
--but still using data for users with alot more ratings???
--this can be theoreticaly be explained but not necesarliy acted upon!!!
 
--is the movie rating for the movie to predict averaged out (yes)
--is the mean the complete average from train and test data for the svd on the full dataset (yes)
--are some movies listed twice in the ordered complete movie set (no: the sets are combined)
-
--how to remove the current user from this average???
-[mean rating for the correspnding movie for every user who rated it in the train data]
-answer: the user is already removed
-
--Is the rating of the target movies from other users included in this average???
-no the rating does not include target ratings and if the the movie was only a traget movie then the overall average is used
+...cut off review
 
 
-
-stats: 
+Stats: 
 what were the scores for different inputs???
 
-extras:
-need to make sure that it is known that the version of python is 3.10.7
 
 
 How to install/run:
 
-Quick Way(with docker):
+Automated Way (with docker):
 
     requirements:
         -Git
@@ -199,82 +183,112 @@ Quick Way(with docker):
         -Sufficent memory
         -kaggle account and API token
 
-    clone the repository
-    navigate to the main project directory
-    build docker image using the provided Dockerfile: docker build -t movie_rec_image .
-    run the created docker image: docker run -p 8888:8888 movie_rec_image
+    1. Clone the repository with git.
+    2. Navigate to the main project directory.
+    3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image ."
+    4. Using the same cli, create a contianer from the image...
+       while binding the port of the listening jupyter server to port 8888 of the host machine: "docker run -p 8888:8888 movie_rec_image"
 
-    choose one of the following methods:
-    Note: there are other methods to connect to a ipython kernel of a jupyter server
+    5. Choose one of the following methods to use the kernel of the jupyter server (there are other methods online):
 
-        browser method: 
-        [follow the url that is found in the console ouput where you created the container
-        it is the second url after "Jupyter Server 2.7.3 is running at:"" and starts with http://127.0.0.1:8888 
-        this should open a page with the current working directory set in the dockerfile
-        open the complete_02_08_2023.ipynb file in the browser notebook and run all the cells]
+        Browser ethod: 
+            Follow the url that is found in the console ouput where you created the container.
+            It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
+            This should open a page with the current working directory set in the dockerfile.
+            Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
 
-        vscode method: 
-        [open the complete_02_08_2023.ipynb file in the main project directory
-        select kernel in top right/select another kernel/existing jupyter server
-        copy and paste the jupyter server access token that is found in the console
-        it is the second url after "Jupyter Server 2.7.3 is running at:"" and starts with http://127.0.0.1:8888"
-        then run all the cells in the notebook]
+        Vscode method: 
+            Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
+            Follow these step to connect to the servers python kernel:
+                1. Select kernel in top right
+                2. Select another kernel 
+                3. Select existing jupyter server
+                4. Copy and paste the jupyter server access token that is found in the console. 
+                It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
+                5. Create a server display name
+                6. Select the Python 3 (ipykernel) 
+            Then run all the cells in the notebook.
 
-    kaggle requirments:
-    [upon running the first cell for the first time, it will ask for credentials
-    These credentials is a method of authentification to access the kaggle data
-    You will need a kaggle account
-    Once logged in to your account, you can generate an API token in your settings on the kaggle website
-    Download the token and then enter the username and key from the API token one at a time for the two pop ups from the first cell]
+    7. kaggle requirments:
+        Upon running the first cell for the first time in the containers lifetime,...
+        the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
-    then wait for cells to finish and observe the results
+        Instructions to get api token to authenticate the data request (Note: kaggle account required):
+        1. Sign into kaggle.
+        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+        3. This will trigger the download of kaggle.json, a file containing your API credentials.
+
+        If the folder has been created in the containers lifetime and the files are already in that folder,...
+        than this cell does nothing and requires no credentials.
+
+
+    8. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
 
 
-
-
-Explicit Way(no docker):
+Manual Way (no docker):
 
     requirements:
         -Git
-        -Sufficent memory
         -python3 and pip (my working python version: 3.10.7)
+        -Sufficent memory
         -kaggle account and API token
 
-    clone the repository
+    1. Clone the repository with git.
 
-    with python and pip:
-    create a python virtual env in the main project directory:
-    install the following packages to the virtual env:
-    opendatasets, pandas, numpy, scikit-learn, 
-    scipy, ordered-set, gensim, nltk, jupyter
-    activate the virtual environment
+    2. With python and pip:
+        1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
+        2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
+        5. Activate the virtual environment
 
-    open the complete_02_08_2023.ipynb file and connect to the kernel of the above python virtual environment
-    run the complete_02_08_2023.ipynb notebook
+    3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the above python virtual environment
+
+    4. Run the complete_11_03_2023.ipynb notebook
 
     kaggle requirments (same as above):
-    [upon running the first cell for the first time, it will ask for credentials
-    These credentials is a method of authentification to access the kaggle data
-    You will need a kaggle account
-    Once logged in to your account, you can generate an API token in your settings on the kaggle website
-    Download the token and then enter the username and key from the API token one at a time for the two pop ups from the first cell]
+        Upon running the first cell for the first time in the containers lifetime,...
+        the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
-    then wait for cells to finish and observe the results
+        Instructions to get api token to authenticate the data request (Note: kaggle account required):
+        1. Sign into kaggle.
+        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+        3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    computation can take some time (estimation)
+        If the folder has been created in the containers lifetime and the files are already in that folder,...
+        than this cell does nothing and requires no credentials.
 
-
-
-About the notebook:
--How to skip cells to save runtime:
-
-results and custom inputs:
+    5. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
-Question: should constructedData be included in git repo if it is small enough???
+
+#LOOK: How should teh requirement sufficent memory be explained????
+LOOK: need to make sure that it is known that the version of python is 3.10.7
 
 
-LOOK: need to select a verison of python in the dockerfile
-in case a new versio of python is installed that does support the code somehow
+
+Notes about the notebook:
+
+For testing it is important to note that there are two major sections of the notebook.
+
+(cell 1 - cell 4) is for formatting and cleaning data before building the model.
+It saves the data in the form of a csv file called "constructed_data.csv".
+
+(cell 5 - cell 8) is for transforming the data in "constructed_data.csv" to build a model.
+If the kernel were restarted than the data in the form of "constructed_data.csv" persisits so that only (cell 5 - cell 8) 
+needs to be rerun. 
+
+This is especially critical if even more train and test data was tested with this program, since cell 3 is a relatively expensive cell and can be ignored
+after running once when testing parameters in (cell 5 - cell 8).
+
+#important note:
+#Effectively, the only parameter set in (cell 1 - cell 4) is the bounds for the number of ratings for a user to be a train user or test user
+#this is an important paramter to be set in the early cells (cell 1 - cell 4) becasue it reduces processing time and reduces the size of "constructed_data.csv"
+
+
+
+
+
+
+
+
