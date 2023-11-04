@@ -1,30 +1,22 @@
 Goal:
 
-The goal of the program is building a model to predict what a new user would rate a particular movie based on their rating to other movies and the movie ratings of similiar users
+The goal of the program is building a model to predict what a new user would rate a particular movie based on their rating to other movies and the movie ratings of similiar users.
 
 In other words, the model attempts to predict what the target user would score movies as though they had already been watched.
 
-In practice this is valuable because it gives a precise value to unwatched movies so the user knows a great deal about how satisfied they will be with the movie
-(of course there is error)
+In practice this is valuable because it gives a precise value to unwatched movies so the user has a reasonable idea about how satisfied they will be with the movie.
+
 
 There are alot of challenges with this task, including:
-- Many times the users ratings are not accuracte to their preference (there is weird unexplained variance)
-- What is the definition of similair movies? (what concrete data can we use to test simlairity)
-- predictions to a movie rating can be worse if the user who rated it has a small number of rated movies
+- Many times the users ratings are not accuracte to their preference (there is weird unexplained error).
+- What is the definition of similair movies? (what concrete data can we use to test simlairity).
+- Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but...
+
+- It is best to train and test a model where test users have a small number of ratings because it is more feasible...
+  in a front-end implementation of this model. 
+  (Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn;t watch) (they wouldn't want to feel like they are watsing time entering an excessive number of movie ratings)
+
 - predictions to a movies rating can be worse when there are a small number of users who rated that same movie
-
-functionality notes:
-- this program has the ability to choose users with a specific number of ratings for test and train users
-- the default program focuses on test users with 5-10 ratings and train users with 50-75 rating
-- the point with keeping the number of test users low is to test how accurate predictions can be made...
-- for a potential app that could use this model to guess users ratings to movies 
-- in this case, the user would be more content to enter a small number of their own ratings than a large number of their own ratings
-- but ease of use comes at a high cost to model performance
-- for the case of the number of train users, a higher number of ratings should lead to better performance at the cost of extra runtime
-- this means that the accuracy scores of the current configuration are not the highest that this system can perform
-
-Question about this: should the train and test users be tested with more required number of ratings than the current amount to test the models
-potential???
 
 
 clarifications:
@@ -34,6 +26,23 @@ It is based on user preference rather than a prediction based on pure production
 The data used is based off random users and the movie rating predictions are for random users (not necessarily critics)
 
 Additionally, The process should not be confused with simply picking movies that are good fit compared to the users movie preference. Instead it seeks to produce useful rating predictions for every user-movie combination even movies that the user would hate.
+
+
+functionality notes:
+- this program has the ability to choose users with a specific number of ratings for test and train users
+- the default program focuses on test users with 5-10 ratings and train users with 30-50 ratings
+- the point with keeping the number of test users low is to test how accurate predictions can be made...
+- for a potential app that could use this model to guess users ratings to movies 
+- in this case, the user would be more content to enter a small number of their own ratings than a large number of their own ratings
+- but ease of use comes at a high cost to model performance
+
+
+- For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users...
+  when the number of test users stays constant at 5-10 users
+- the best perfoming number of train user that was chosen tobe tested was the current value in the program (30-50)
+- this performed better than 11-31 and 50-70 users 
+- It is likley that this means that the accuracy scores of the current configuration are not the highest that this system can perform
+
 
 
 
@@ -49,13 +58,17 @@ The logic is simply that the target movie rating is related to how high a user r
 
 
 In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata
-This is the process behind feature_2, another content based predictor
+This is the process behind feature_2, another content based predictor.
 
 How is this data used to define the notion of similair movies and how can it be a potential asset:
 
-- the constrcutedData.csv is built from the source data
-- this includes all the relevant data columns from every .csv in the entire movies data set that might produce helpful text data
-- every line in the constrcutedData.csv has a user id, a movie id and a number of columns that hold valuable text data of the movie the user watched
+- the constructed_data.csv is built from the source data
+- this may include all the relevant data columns from every .csv in the entire movies data set that might produce helpful text data or a        
+  single columns genres. (in the current program genres is the only column used)
+  (Note: see the notebook (cell 7) for changing the current corpus from genres to all columns)
+
+
+- Every line in the constructed_data.csv has a user id, a movie id and a number of columns that hold valuable text data of the movie the user watched
 
 
 - for each movie the user watched, certain columns of text data are selected and combined to create an ordered set of words
