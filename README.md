@@ -7,6 +7,8 @@ In other words, the model attempts to predict what the target user would score m
 In practice this is valuable because it gives a precise value to unwatched movies so the user has a reasonable idea about how satisfied they will be with the movie.
 
 
+
+
 There are alot of challenges with this task, including:
 - Many times the users ratings are not accuracte to their preference (there is weird unexplained error).
 - What is the definition of similair movies? (what concrete data can we use to test simlairity).
@@ -50,52 +52,56 @@ Process:
 
 Content based filtering:
 
+feature_1:
+    The first feature, feature_1 is simply a non-weighted average of all the ratings for a user besides the target movie.
+    This is an effective feature because it reveals how high a user rates movies on average.
+    This feature alone will not be the most precise since it does not value anything about the movie in question...
+    and is independent of what other users think about the movie.
+    The feature works because target movie rating is inevitably linked to how high a user rates movies on average
 
-The first feature, feature_1 is simply a non-weighted average of all the ratings for a user besides the the target movie
-This is an effective feature because it reveals how high a user rates movies on average
-this feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie
-The logic is simply that the target movie rating is related to how high a user rates on average
+feature_2:
 
-
-In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata
+In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata.
 This is the process behind feature_2, another content based predictor.
 
-How is this data used to define the notion of similair movies and how can it be a potential asset:
+How is this data used to define the notion of similair movies and how can it be a potential asset?:
 
-- the constructed_data.csv is built from the source data
-- this may include all the relevant data columns from every .csv in the entire movies data set that might produce helpful text data or a        
-  single columns genres. (in the current program genres is the only column used)
-  (Note: see the notebook (cell 7) for changing the current corpus from genres to all columns)
+The constructed_data.csv is built from the source data.
 
-
-- Every line in the constructed_data.csv has a user id, a movie id and a number of columns that hold valuable text data of the movie the user watched
-
-
-- for each movie the user watched, certain columns of text data are selected and combined to create an ordered set of words
-- The ordered set of words is unique to a user id and is formed from the words in the columns of all the movies the user rated
-
-- then, for the current user, a random movie is chosen to be the target movies rating
-- if teh user is a train user it is use to train the model
-- if the user is a test user then it is used to evaluate the model
-
-- then for each movie the user watched, the words found in the corpus of the relavent columns for that movie are...
-- count vectorized in the order of the ordered set of words 
-- if a word is not present in the movies corpus, the value in the correpsonding index in the vector becomes 0
-- else the value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus
-
-- once a vector is created for each movie the user watched, including the target movie...
-- then the rating of the target movie can be predicted using a function of the cossine similarity between the transformed word count vectors of...
-- the target movie and the other movies the user watched as well as the ratings of the non-target movies 
-
-- the transformed word count vectors are normalized tf-idf vectors 
-- this places value on terms that are un-common in alot of documents,
-- while still placing value on how common they are in the document at hand
-- this leads to a more powerful quantifier for cossine similairity between documents
+Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns...
+for the correponding movie, from every csv in the entire movie data set that might produce helpful text data.
+(in the current program, genres is the only column used)
+(Note: see the notebook (cell 7) for changing the current corpus from genres to all columns)
+(This will increase runtime)
 
 
-- this function creates feature_2 which is (like the other features) a guess to the rating of the target movies of all the users using this method
+For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined...
+to create an ordered set of words.
 
-- like feature_1, feature_2 is also independent of what other users think of the movie
+Also, for the current user, a random movie is chosen to be the target movies rating
+
+If the user is a train user, this movies rating is used as the actual to train the model
+If the user is a test user, this movies rating is used as the actual to evaluate the model
+If this is real world application of the model, then the rating is unknown.
+
+
+After the ordered set of words is created for a user, the words found in the corpus of the relavent columns for that movie are...
+count vectorized in the order of the ordered set of words. 
+The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus.
+
+Once a word count vector is created for each movie the user watched (including the target movie),
+the rating of the target movie can be predicted using a function of the cossine similarity between the transformed word count vectors of...
+the target movie and the other movies the user watched as well as the non-target movies ratings.
+
+This function creates a single entry of feature_2.
+
+What are the transformed word count vectors?
+The transformed word count vectors are normalized tf-idf vectors.
+This places value on terms that are un-common in alot of documents,...
+While still placing value on how common they are in the document at hand.
+This leads to a more powerful quantifier for cossine similairity between documents.
+
+Like feature_1, feature_2 is also independent of what other users think of the movie.
 
 
 
@@ -103,8 +109,9 @@ Collaborative filtering:
 
 Train operation:
     -Data is organized into a ((user) x (movies ratings of corresponding user)) list
-    -The users that are included are train_user
+    -The users that are included are train_users
     -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set
+    
     -movies that are not rated by the user are given an average rating for that movie equal to...
     [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking)
     -Then the data is normalized by subtracting the mean for each entry which is again...
@@ -112,19 +119,18 @@ Train operation:
 
 
     svd:
-    [-The matrix factorization is created with the svd function on the normalized ratings
-    -Then each factor is truncated to 20 "componenets"
-    -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-    but points with a normalized rating of zero now have a more informed normalized rating based on the similairy between other users
-    -therefore the target ratings can be predicted
+        The matrix factorization is created with the svd function on the normalized ratings.
+        Then each factor is truncated to n (currently 10) "components".
+        Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
+        but where the target ratings once were normalized to 0, new normalized predictions takes its place.
+        Then this array is scaled back into an array of ratings from (1-5)...
+        giving a real and more reasonable rating prediction of the target movie than the movies averge rating.
 
-    -then this array is scaled back into an array of ratings from (1-5) and the once normalized ratings...
-    have in place of it, a reasonable rating prediction of the target movie 
 
-    -The predicted rating for the target movies for every user is found by acessing the
-    -corresponding index location of the target movie for each user]
+    The predicted rating for the target movies for every user is found by acessing the
+    corresponding index location of the target movie for each user
 
-    -These predicted ratings fed into feature_3 are used to train the model 
+    These predicted ratings fed into feature_3 are used to train the model 
 
 
 Test operation (similair to train operation):
@@ -138,47 +144,51 @@ Test operation (similair to train operation):
     [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
 
     same svd idea:
-    [-The matrix factorization is created with the svd function on the normalized ratings
-    -Then each factor is truncated to 20 "componenets"
-    -Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-    but points with a normalized rating of zero now have a more informed normalized rating based on the similairy between other users
-    -therefore the target ratings can be predicted
-
-    -then this array is scaled back into an array of ratings from (1-5) and the once normalized ratings...
-    have in place of it, a reasonable rating prediction of the target movie 
-
-    -The predicted rating for the target movies for every user is found by acessing the
-    -corresponding index location of the target movie for each user]
-
-    -These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation
+        The matrix factorization is created with the svd function on the normalized ratings.
+        Then each factor is truncated to n (currently 15) "components".
+        Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
+        but where the target ratings once were normalized to 0, new normalized predictions takes its place.
+        Then this array is scaled back into an array of ratings from (1-5)...
+        giving a real and more reasonable rating prediction of the target movie than the movies averge rating.
 
 
-Note: There are alot more details to this left out for a simpler overview
-For more details see notebook (complete_11_03_2023.ipynb) and follow the comments
+    The predicted rating for the target movies for every user is found by acessing the
+    corresponding index location of the target movie for each user
 
-After features (1, 2, and 3) for the test and train users are collected,
-then they are used to build a model
-
-Both the basic linear regression model and the strongest mlp regressor model were tested
-and the best model was found to be a basic linear regression model
-the order of featurs importance to all the tested models was feature_3 , feature_1, and feature_2
-and the best combination of features is feature_1 and feature_3
+    These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation
 
 
-the suprising hearistic, was that feature_1 was weighed higher than feature 2
-in a sense this can be explained because they both have the same orgin (mean of users ratings)
-But feature_2 was weighted and feature_1 was not weighted
-
-
--a simple conclusion is that the collaborative filtering method was the strongest predictor and the general average of the users ratings outperformed the function using cossine similarity
-
--This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly
--There could be other combinations of text sources or more explicit categories and datatypes besides text that could produce more effective predictions
+Note: There are alot more details to this left out for a simpler overview.
+For more details see the notebook (complete_11_03_2023.ipynb) and follow the comments.
 
 
 
+Regarding cell 8 of the notebook where features are combined into the final model:
+    After features (1, 2, and 3) for the test and train users are collected in cell 7, then they are used to build a model.
 
-...cut off review
+    It is important to note that each feature can function as a predictor to the target movies rating on their own.
+    The purpose of the model is loosley speaking, how much weight to give to each feature for the optimal prediction.
+
+    Using more than one predictor can fill in the short comings of a single model.
+
+    From testing it was shown that the best combination of features are feature_1 and feature_3.
+    Question: Isn't it optimal to user all three features??
+    Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm,
+    when acknowledging the decrease in performance when tested.
+
+    Feature_1 is more predicting than feature_2 so it should replace it. 
+    This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
+
+    Feature_1 being a stronger feature than feature 2 is a suprising hearistic.
+
+    This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly.
+
+    There could be other combinations of text sources or more explicit categories and datatypes besides text that could make up the short comings..
+    of feature_2.
+
+
+
+
 
 
 Stats: 
