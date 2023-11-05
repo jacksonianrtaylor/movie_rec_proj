@@ -2,7 +2,7 @@
 common for all tests: 
 - (number of train users): 5000, (number of test users): 1000
 - test user bounds: 5-10 or 4-9 (see below)
-- 100 models tested with the same input. The acuraccy scores are averaged for each test (this is to reduce error)
+- 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
 
 
 idea: test user bounds need to stay low since it is the number of movies the users gives 

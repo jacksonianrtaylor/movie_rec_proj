@@ -41,7 +41,7 @@ functionality notes:
 
 - For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users...
   when the number of test users stays constant at 5-10 users
-- the best perfoming number of train user that was chosen tobe tested was the current value in the program (30-50)
+- the best perfoming number of train user that was chosen to be tested was the current value in the program (30-50)
 - this performed better than 11-31 and 50-70 users 
 - It is likley that this means that the accuracy scores of the current configuration are not the highest that this system can perform
 
@@ -167,32 +167,114 @@ Regarding cell 8 of the notebook where features are combined into the final mode
     After features (1, 2, and 3) for the test and train users are collected in cell 7, then they are used to build a model.
 
     It is important to note that each feature can function as a predictor to the target movies rating on their own.
-    The purpose of the model is loosley speaking, how much weight to give to each feature for the optimal prediction.
+    The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
 
     Using more than one predictor can fill in the short comings of a single model.
 
     From testing it was shown that the best combination of features are feature_1 and feature_3.
-    Question: Isn't it optimal to user all three features??
-    Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm,
-    when acknowledging the decrease in performance when tested.
+    Question: Isn't it optimal to use all three features??
+    Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm.
+    This conclusion was gathered when acknowledging the decrease in performance when tested.
 
-    Feature_1 is more predicting than feature_2 so it should replace it. 
     This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
+
+    This is also the best combiabtion of features since Feature_1 is more predicting than feature_2 and the combination of them...
+    produce worse results.
 
     Feature_1 being a stronger feature than feature 2 is a suprising hearistic.
 
-    This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly.
 
-    There could be other combinations of text sources or more explicit categories and datatypes besides text that could make up the short comings..
-    of feature_2.
+    This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly...
+    and perhaps the opposite behavior is more common.
 
-
-
-
+    There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2...
+    and make up the shortcomings of the predictor.
 
 
-Stats: 
-what were the scores for different inputs???
+
+Results:
+All the relevant tests can be observed in the results.txt file.
+
+The variables that stay the same for every test are:
+- (number of train users): 5000, (number of test users): 1000
+- test user bounds: 5-10 or 4-9 
+    (min and max bounds are -1 because one movie is target for each user in training and testing,
+    so the model is really being optimized for 4-9 ratings given by the user and one movie with an id given without a rating,
+    which is the movie to be given a rating b the modle)
+- 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
+
+
+The best feature combination (feature 1 and feature 3) are tested with different train user bounds.
+
+There are three train rating bounds for the train users that are tested:
+11-31, 30-50, and 50-70.
+
+For each of these rating bounds, different combinations of n used with the svd_full functions were tested with linear regression.
+
+Once the n values leading to the aproximate best accuracy for linear rergession were found for each of the train bounds,
+the results were recorded. 
+
+Linear regression was not the only model tested.
+
+Standard sklearn mlp models were also tested with the only extra parameter being layers.
+
+The approximate best mlp models for the corresponding train rating bounds were...
+found by using the best combination of n values for the best linear rergession model...
+with matching rating bounds.
+
+For each of the three (rating bounds and corresponding best n values) three mlp models are tested to show the aproximate best mlp model parameters.
+
+This is the number of layer combinations that is neither two small or too large.
+
+
+Three layer combinations are used to show that the approximate best layer combiantion is in the middle grounds for number of layer combination betwen the 2 other models. 
+
+For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered)...
+mlp model and for 11-31 train user bounds the best performing model was linear regression.
+
+
+When comparing the linear regression model and the three other mlp models for each 
+(rating bounds and corresposning best n values) the observations show that the accuracy results are similair,
+often a difference in the thousandths place
+
+
+However, there is more noticable differences in performance when comparing tests with different (rating bounds and corresponding best n values). These differences are often in the hundredths place. 
+
+The test above account for 12 tests shown in results. 
+There are 4 unique models for each of 3 (rating bounds and corresposning best n values).
+
+There is a slight shortcut used here to reduce the testing for mlp models for different values of n.
+
+One could potentially state that the optimal n values for linear regression are not the optimal values...
+for mlp modles with the same (rating bounds and corresposning best n values).
+
+
+However, judging the small difference between models with the same...
+(rating bounds and corresposning best n values), if there were mlp models with different optmal values of n...
+than the linear regression model with the same (rating bounds and corresposning best n values)...
+it would be counterintutive and likely lead to very little perfromance gain.
+
+
+#The other combination of featues worth exploring in results were feature 2 and feature 3.
+
+#Since it was clear that the performance of (feature 2 and feature 3) was worse than (feature 1 and feature 3)...
+after a few tests, only the best perfroming (rating bounds and corresposning best n values) for feature 1 and feature 3 were used knowing that even the most optimaize tweaks to the paramters would not lead to feature 2 and feature 3 outperforming feature 1 and feature 3. 
+
+
+The reason feature 2 and feature 3 are part of the results is to show the difference betwen using
+only the genre column and all the relevant columns.
+
+Linear regression was tested with the variables forced above for (feature 2 and feature 3), for only the genres column and then again for all the columns saved in the constructed_data.csv.
+
+From this test, it was clear that utilizing all the columns was superior to only using genres.
+
+The full corpus was also tested with mlp models using the same technique when testing for
+feature 1 and feature 3. 
+
+The number of layer combinations that is neither two small nor too large is shown to have higher performance compared to two other sets of mlp layers.
+
+This medium layer combiantion was the highest perfrkoing parameters for feature 2 and feature 3.
+
 
 
 
