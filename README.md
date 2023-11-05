@@ -27,7 +27,7 @@ The process should not be confused with predicting something of the nature of a 
 It is based on user preference rather than a prediction based on pure production value that is generally applied to make good movies
 The data used is based off random users and the movie rating predictions are for random users (not necessarily critics)
 
-Additionally, The process should not be confused with simply picking movies that are good fit compared to the users movie preference. Instead it seeks to produce useful rating predictions for every user-movie combination even movies that the user would hate.
+Additionally, The process should not be confused with simply picking movies that are good fit compared to the users movie preference. Instead, it seeks to produce useful rating predictions for every user-movie combination even movies that the user would hate.
 
 
 functionality notes:
@@ -40,10 +40,36 @@ functionality notes:
 
 
 - For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users...
-  when the number of test users stays constant at 5-10 users
+   when the number of test users stays constant at 5-10 users
 - the best perfoming number of train user that was chosen to be tested was the current value in the program (30-50)
 - this performed better than 11-31 and 50-70 users 
-- It is likley that this means that the accuracy scores of the current configuration are not the highest that this system can perform
+- It is likley that this means that the accuracy scores of the current configuration are not...
+  the highest that this system can perform
+- When training and testing bounds are specified in the context of training and evaluating this model...
+  in this notebook the real bounds for ratings are shifted down to omit the target rating that is chosen amoung the users ratings.
+  For exmaple if the ratings bounds are stated to be 30-50 train users the real bounds for the number of
+  ratings they provide is 29-49.
+  As for the testing bounds which are stated 5-10, the model is really being optimized to predict a rating...
+  for 4-9 ratings given by the user
+ 
+
+
+LOOK: What if in training for feature 3 the prediction included only users with ratings of 5-10???
+In the same manor as testing for feature 3 ???
+
+Remember: all training is, is figuring out the weight to give to feature 3 when making predicitons
+
+Rows in the svd output that originally had more non-zero ratings are likely to have better output predictions.
+meaning feature 3 could be improperly weighted from the train step.
+
+However, the current configuration does not need a another group of train users that are within 5-10
+becasue it uses the train users that are within 30-50 to train.
+
+this is a flaw in the model...
+
+should test in a new notebook
+
+
 
 
 
@@ -197,11 +223,10 @@ All the relevant tests can be observed in the results.txt file.
 
 The variables that stay the same for every test are:
 - (number of train users): 5000, (number of test users): 1000
-- test user bounds: 5-10 or 4-9 
-    (min and max bounds are -1 because one movie is target for each user in training and testing,
-    so the model is really being optimized for 4-9 ratings given by the user and one movie with an id given without a rating,
-    which is the movie to be given a rating b the modle)
+- test user bounds: 5-10 
 - 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
+
+LOOK: state th ever bound is -1...
 
 
 The best feature combination (feature 1 and feature 3) are tested with different train user bounds.
