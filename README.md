@@ -1,4 +1,4 @@
-### Goal:
+# Goal:
 
 The goal of the program is to build a model to predict what a new user would rate a particular movie...
 based on their ratings to other movies and the relationship between other users rated movies and their own raetd movie.
@@ -10,7 +10,7 @@ This is valuable goal, because the model can give users an idea about how satisf
 This is why it is a more challenging task than only recommending movies the users would like.
 
 
-### Clarification:
+## Clarification:
 
 The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website.
 
@@ -25,176 +25,111 @@ The data used is based off random users and the movie rating predictions are for
 
 
 
-### Challenges:
+## Challenges:
 
 * Many times the users ratings are not accuracte to their preference (there is wierd unexplained error).
 
 * How can you measure how similair movies are? (Similarity score can be used in a method described in the content based filering section below.
     What data can we use to test simlairity?).
 
-    3. How can the similairties between users help predict rating? (This is the point of svd function below in collaborative filtering)
+* How can the similairties between users help predict rating? (This is the point of svd function below in collaborative filtering)
 
-    4. Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but...
-    It is best to train and test a model where test users have a small number of ratings because it is more feasible...
-    in a front-end implementation of this model.(Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn't watch. They wouldn't want to feel like they are wasting time entering an excessive number of movie ratings)
+* Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but It is best to train and test a model where test users have a small number of ratings because it is more feasible in a front-end implementation of this model. (Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn't watch. They wouldn't want to feel like they are wasting time entering an excessive number of movie ratings)
     
-    5. predictions to a movies rating can be worse when there are a small number of users who rated that same movie
+* Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
 
 
-Functionality notes:
+## Functionality notes:
 
-- this program has the ability to choose users with a specific number of ratings for test and train users
-- the default program focuses on test users with 5-10 ratings and train users with 30-50 ratings
-- the point with keeping the number of test users low is to test how accurate predictions can be made...
-- for a potential app that could use this model to guess users ratings to movies 
-- in this case, the user would be more content to enter a small number of their own ratings than a large number of their own ratings
-- but ease of use comes at a high cost to model performance
+- This program has the ability to choose users with a specific number of ratings for test and train users.
 
+- The default program focuses on test users with 5-10 ratings and train users with 30-50 ratings.
 
-- For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users...
-   when the number of test users stays constant at 5-10 users
-- the best perfoming number of train user that was chosen to be tested was the current value in the program (30-50)
-- this performed better than 11-31 and 50-70 users 
-- It is likley that this means that the accuracy scores of the current configuration are not...
-  the highest that this system can perform
-- When training and testing bounds are specified in the context of training and evaluating this model...
-  in this notebook the real bounds for ratings are shifted down to omit the target rating that is chosen amoung the users ratings.
-  For exmaple if the ratings bounds are stated to be 30-50 train users the real bounds for the number of
-  ratings they provide is 29-49.
-  As for the testing bounds which are stated 5-10, the model is really being optimized to predict a rating...
-  for 4-9 ratings given by the user
+- The point with keeping the number of test users low is explained above in challenges section. Demanding more ratings from a user to improve perfromance comes at a high cost to ease of use.
+
+- For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users, when the number of test users stays constant at 5-10 users.
+
+- The best perfoming number of train user that was chosen to be tested was the current value in the program (30-50). This performed better than 11-31 and 50-70 users.
+
+- The accuracy scores of the current configuration are likely not the highest that this system can perform because not all train bound have been tested with a simialir range to (30-50).
+
+- When training and testing bounds are specified in the context of training and evaluating the model in this notebook, the real bounds for the number of ratings are shifted down to omit the target rating that is chosen randomly amoung the users ratings. For example, if the ratings bounds are stated to be 30-50 for train users, than the real bounds for the number of ratings they need to provide is 29-49. As for the testing bounds which are stated 5-10, the model is really being optimized to predict a rating for 4-9 ratings given by the user. In the training phase of this model, if a user has 7 ratings, one of which is a traget rating of the model than he really is only providing 6 ratings. However, if a user provides 7 ratings of this model in production phase then they are actually providing 7 ratings.
  
 
 
-LOOK: What if in training for feature 3 the prediction included only users with ratings of 5-10???
-In the same manor as testing for feature 3 ???
+# Process: 
 
-Remember: all training is, is figuring out the weight to give to feature 3 when making predicitons
+## Content Based Filtering:
 
-Rows in the svd output that originally had more non-zero ratings are likely to have better output predictions.
-meaning feature 3 could be improperly weighted from the train step.
+### Feature_1:
 
-However, the current configuration does not need a another group of train users that are within 5-10
-becasue it uses the train users that are within 30-50 to train.
+The first feature, feature_1, is a non-weighted average of all the ratings for a user besides the target movie. This is an effective feature because it reveals how high a user rates movies on average. This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
 
-this is a flaw in the model...
+### Feature_2:
 
-should test in a new notebook
-
-
-
-
-
-
-Process: 
-
-Content based filtering:
-
-feature_1:
-    The first feature, feature_1 is simply a non-weighted average of all the ratings for a user besides the target movie.
-    This is an effective feature because it reveals how high a user rates movies on average.
-    This feature alone will not be the most precise since it does not value anything about the movie in question...
-    and is independent of what other users think about the movie.
-    The feature works because target movie rating is inevitably linked to how high a user rates movies on average
-
-feature_2:
-
-In this notebook the answer to the question, how are movies similair? is answered with the notion of similair text based metadata.
-This is the process behind feature_2, another content based predictor.
-
-How is this data used to define the notion of similair movies and how can it be a potential asset?:
+Feature_2 is another content base predictor.
 
 The constructed_data.csv is built from the source data.
 
-Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns...
-for the correponding movie, from every csv in the entire movie data set that might produce helpful text data.
-(in the current program, genres is the only column used)
-(Note: see the notebook (cell 7) for changing the current corpus from genres to all columns)
-(This will increase runtime)
+Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns for the correponding movie, from every csv in the entire movie data set that might produce helpful text data.
+
+ (In the current program, genres is the only column used. See the notebook (cell 7) for changing the current corpus from genres to all columns. This will increase runtime)
 
 
-For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined...
-to create an ordered set of words.
+For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined to create an ordered set of words.
 
-Also, for the current user, a random movie is chosen to be the target movies rating
+Also, for the current user, a random movie is chosen to be the target movie.
 
-If the user is a train user, this movies rating is used as the actual to train the model
-If the user is a test user, this movies rating is used as the actual to evaluate the model
-If this is real world application of the model, then the rating is unknown.
+If the user is a train user, this movies rating is used as the actual to train the model. If the user is a test user, this movies rating is used as the actual to evaluate the model. If this is real world application of the model, then the rating is unknown.
 
 
-After the ordered set of words is created for a user, the words found in the corpus of the relavent columns for that movie are...
-count vectorized in the order of the ordered set of words. 
-The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus.
+After the ordered set of words is created for a user, the words found in the corpus of the relevent columns for that movie are count vectorized in the order of the ordered set of words. The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus.
 
 Once a word count vector is created for each movie the user watched (including the target movie),
-the rating of the target movie can be predicted using a function of the cossine similarity between the transformed word count vectors of...
-the target movie and the other movies the user watched as well as the non-target movies ratings.
+the rating of the target movie can be predicted using a function of the non target movie ratings and the  cossine similarity between the transformed word count vectors of the target movie and the other movies the user watched. (See notebook for more details)
 
-This function creates a single entry of feature_2.
+The output of this function creates a single entry of feature_2.
 
-What are the transformed word count vectors?
-The transformed word count vectors are normalized tf-idf vectors.
-This places value on terms that are un-common in alot of documents,...
-While still placing value on how common they are in the document at hand.
-This leads to a more powerful quantifier for cossine similairity between documents.
+What are the transformed word count vectors?:
 
-Like feature_1, feature_2 is also independent of what other users think of the movie.
+    The transformed word count vectors are normalized tf-idf vectors.
+    This places value on terms that are un-common in alot of documents,while still placing value on how common they are in the document at hand. This leads to a more powerful quantifier for cossine similairity between documents.
 
 
 
-Collaborative filtering:
+## Collaborative filtering:
 
-Train operation:
-    -Data is organized into a ((user) x (movies ratings of corresponding user)) list
-    -The users that are included are train_users
-    -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set
+### Train Operation:
+* Data is organized into a ((user) x (movies ratings of corresponding user)) list.
+
+* The users that are included are train_users.
+
+* The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train user.
     
-    -movies that are not rated by the user are given an average rating for that movie equal to...
-    [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking)
-    -Then the data is normalized by subtracting the mean for each entry which is again...
-    [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking)
+* Movies that are not rated by a user are given an average rating for that movie equal to [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking)
+
+* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking)
+
+svd_full:
+
+    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are founds by acessing the row for the train user in question  and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
 
 
-    svd:
-        The matrix factorization is created with the svd function on the normalized ratings.
-        Then each factor is truncated to n (currently 10) "components".
-        Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-        but where the target ratings once were normalized to 0, new normalized predictions takes its place.
-        Then this array is scaled back into an array of ratings from (1-5)...
-        giving a real and more reasonable rating prediction of the target movie than the movies averge rating.
+### Test Operation (similair to Train Operation):
+* Data is organized into a ((user) x (movies ratings of corresponding user)) list
 
+* The users that are included are train_users and test users (note: the test users come after the train users in the list)
 
-    The predicted rating for the target movies for every user is found by acessing the
-    corresponding index location of the target movie for each user
+* The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train or test user
 
-    These predicted ratings fed into feature_3 are used to train the model 
+* Movies that are not rated by the user are given an average rating for that movie equal to [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking). 
 
+* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
 
-Test operation (similair to train operation):
-    -Data is organized into a ((user) x (movies ratings of corresponding user)) list
-    -The users that are included are train_users and test users (note: the test users come after the train users in the list)
-    -The movies ratings that are part of (movies ratings of corresponding user) are all movies that are present in the train set or the test set
+svd_full:
 
-    -movies that are not rated by the user are given an average rating for that movie equal to...
-    [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
-    -Then the data is normalized by subtracting the mean for each entry which is again...
-    [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
-
-    same svd idea:
-        The matrix factorization is created with the svd function on the normalized ratings.
-        Then each factor is truncated to n (currently 15) "components".
-        Then the factors are multiplied together to make a new array with the same dimesion as the (normalized ratings)...
-        but where the target ratings once were normalized to 0, new normalized predictions takes its place.
-        Then this array is scaled back into an array of ratings from (1-5)...
-        giving a real and more reasonable rating prediction of the target movie than the movies averge rating.
-
-
-    The predicted rating for the target movies for every user is found by acessing the
-    corresponding index location of the target movie for each user
-
-    These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation
+    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
 
 
 Note: There are alot more details to this left out for a simpler overview.
@@ -202,32 +137,34 @@ For more details see the notebook (complete_11_03_2023.ipynb) and follow the com
 
 
 
-Regarding cell 8 of the notebook where features are combined into the final model:
-    After features (1, 2, and 3) for the test and train users are collected in cell 7, then they are used to build a model.
-
-    It is important to note that each feature can function as a predictor to the target movies rating on their own.
-    The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
-
-    Using more than one predictor can fill in the short comings of a single model.
-
-    From testing it was shown that the best combination of features are feature_1 and feature_3.
-    Question: Isn't it optimal to use all three features??
-    Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm.
-    This conclusion was gathered when acknowledging the decrease in performance when tested.
-
-    This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
-
-    This is also the best combiabtion of features since Feature_1 is more predicting than feature_2 and the combination of them...
-    produce worse results.
-
-    Feature_1 being a stronger feature than feature 2 is a suprising hearistic.
+### Final Model/Cell 8
 
 
-    This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly...
-    and perhaps the opposite behavior is more common.
+After features (1, 2, and 3) for the test and train users are collected in cell 7, then they are used to build a model.
 
-    There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2...
-    and make up the shortcomings of the predictor.
+It is important to note that each feature can function as a predictor to the target movies rating on their own.
+The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
+
+Using more than one predictor can fill in the short comings of a single model.
+
+From testing it was shown that the best combination of features are feature_1 and feature_3.
+Question: Isn't it optimal to use all three features??
+Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm.
+This conclusion was gathered when acknowledging the decrease in performance when tested.
+
+This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
+
+This is also the best combiabtion of features since Feature_1 is more predicting than feature_2 and the combination of them...
+produce worse results.
+
+Feature_1 being a stronger feature than feature 2 is a suprising hearistic.
+
+
+This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly...
+and perhaps the opposite behavior is more common.
+
+There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2...
+and make up the shortcomings of the predictor.
 
 
 
