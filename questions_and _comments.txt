@@ -30,3 +30,9 @@ How is this data used to define the notion of similair movies and how can it be 
 
 
 should sufficient memory be removed as a requirment???
+
+
+found in feature 2 section:
+
+
+Also, for the current user, a random movie is chosen to be the target movie. If the user is a train user, this movies rating is used as the actual to train the model. If the user is a test user, this movies rating is used as the actual to evaluate the model. If this is real world application of the model, then the rating is unknown.

@@ -1,7 +1,6 @@
 # Goal:
 
-The goal of the program is to build a model to predict what a new user would rate a particular movie...
-based on their ratings to other movies and the relationship between other users rated movies and their own raetd movie.
+The goal of the program is to build a model to predict what a new user would rate a particular movie, based on their ratings to other movies and the relationship between other users rated movies and their own rated movies.
 
 In other words, the model attempts to predict what the user would score a movie they have not yet given a rating for.
 
@@ -18,10 +17,9 @@ It does not use the text data in "the-movies-dataset" as direct features for the
 
 It only uses them to calculate similairty between movies which is part of a function that makes a movie prediction.
 
-It is based on user preference and realtionship between users rather than a prediction based on pure signs of production value...
-that can be applied to predict good movies.
+The model is based on user preference and realtionship between users rather than a prediction based on pure signs of production value that can be applied to predict how good a movie is.
 
-The data used is based off random users and the movie rating predictions are for random users
+The data used is based off random users and the movie rating predictions are for random users.
 
 
 
@@ -64,34 +62,14 @@ The data used is based off random users and the movie rating predictions are for
 
 ### Feature_1:
 
-The first feature, feature_1, is a non-weighted average of all the ratings for a user besides the target movie. This is an effective feature because it reveals how high a user rates movies on average. This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
+The first feature, feature_1, is a non-weighted average of all the ratings for a user besides the target movie. This is an effective feature because it reveals how high a user rates movies on average.
+This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
 
 ### Feature_2:
 
-Feature_2 is another content base predictor.
+Feature_2 is another content based predictor. The constructed_data.csv is built from the source data. Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns for the correponding movie from every csv in the entire movie data set that might produce helpful text data. (In the current program, genres is the only column used. See the notebook (cell 7) for changing the current corpus from genres to all columns. This will increase runtime.). For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined to create an ordered set of words.  After the ordered set of words is created for a user, the words found in the corpus of the relevent columns for that movie are count vectorized in the order of the ordered set of words. The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus. Once a word count vector is created for each movie the user watched (including the target movie), the rating of the target movie can be predicted using a function of the non target movie ratings and the  cossine similarity between the transformed word count vectors of the target movie and the other movies the user watched. (See notebook for more details) The output of this function creates a single entry of feature_2.
 
-The constructed_data.csv is built from the source data.
-
-Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns for the correponding movie, from every csv in the entire movie data set that might produce helpful text data.
-
- (In the current program, genres is the only column used. See the notebook (cell 7) for changing the current corpus from genres to all columns. This will increase runtime)
-
-
-For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined to create an ordered set of words.
-
-Also, for the current user, a random movie is chosen to be the target movie.
-
-If the user is a train user, this movies rating is used as the actual to train the model. If the user is a test user, this movies rating is used as the actual to evaluate the model. If this is real world application of the model, then the rating is unknown.
-
-
-After the ordered set of words is created for a user, the words found in the corpus of the relevent columns for that movie are count vectorized in the order of the ordered set of words. The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus.
-
-Once a word count vector is created for each movie the user watched (including the target movie),
-the rating of the target movie can be predicted using a function of the non target movie ratings and the  cossine similarity between the transformed word count vectors of the target movie and the other movies the user watched. (See notebook for more details)
-
-The output of this function creates a single entry of feature_2.
-
-What are the transformed word count vectors?:
+#### What are the transformed word count vectors?:
 
     The transformed word count vectors are normalized tf-idf vectors.
     This places value on terms that are un-common in alot of documents,while still placing value on how common they are in the document at hand. This leads to a more powerful quantifier for cossine similairity between documents.
@@ -107,27 +85,39 @@ What are the transformed word count vectors?:
 
 * The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train user.
     
-* Movies that are not rated by a user are given an average rating for that movie equal to [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking)
+* Movies that are not rated by a user (or only have target ratings) are given an average rating for that movie equal to [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking).
 
-* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking)
+* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking).
 
-svd_full:
+#### svd_full:
 
-    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are founds by acessing the row for the train user in question  and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
+    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are found by acessing the row for the train user in question and the column corresponding to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
 
 
 ### Test Operation (similair to Train Operation):
+* use later: The users that are included are train_users and test users (note: the test users come after the train users in the list)
+
+* This is for train....
 * Data is organized into a ((user) x (movies ratings of corresponding user)) list
 
-* The users that are included are train_users and test users (note: the test users come after the train users in the list)
+* The users that are included are train_users
+
+* (movies ratings of corresponding user) is a list of ratings that follow the order of train_users.movies_in_order.
+
+* For each movie id in the order of train_users.movies_in_order, if the user has a rating that is not the target for that movie, than fill the corresponding index of movies ratings of corresponding user with that rating otherwise fill it in with the movies average rating for all train users.
+
+
+* LOOK: left off here
 
 * The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train or test user
 
-* Movies that are not rated by the user are given an average rating for that movie equal to [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking). 
+* For each user the 
+
+* Movies that are not rated by the user (or only have target ratings) are given an average rating for that movie equal to [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking). 
 
 * Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
 
-svd_full:
+#### svd_full:
 
     The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
 
@@ -149,11 +139,11 @@ For more details see the notebook (complete_11_03_2023.ipynb) and follow the com
 
 * From testing it was shown that the best combination of features are feature_1 and feature_3.
 
-Question:
+#### Question:
 
     Isn't it optimal to use all three features??
 
-Answer: 
+#### Answer: 
     
     NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm. This conclusion was gathered when acknowledging the decrease in performance when tested.
 
@@ -236,7 +226,6 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 
 * This medium layer combination was the highest performing parameters for feature 2 and feature 3.
 
-LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
 
 # How to install/run:
 
@@ -245,92 +234,89 @@ LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2
 * Requirements:
     * Git
     * Docker Desktop
-
     * kaggle account and API token
 
 1. Clone the repository with git.
 
 2. Navigate to the main project directory.
-3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image ."
-4. Using the same cli, create a contianer from the image...
-5. while binding the port of the listening jupyter server to port 8888 of the host machine: * * docker run -p 8888:8888 movie_rec_image"
 
-    5. Choose one of the following methods to use the kernel of the jupyter server (there are other methods online):
+3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image .".
 
-        Browser ethod: 
-            Follow the url that is found in the console ouput where you created the container.
+4. Using the same cli, create a contianer from the image while binding the port of the listening jupyter server to port 8888 of the host machine: * * docker run -p 8888:8888 movie_rec_image".
+
+5. Choose one of the following methods to use the python kernel of the jupyter server (there are other methods online).
+
+    Browser method: 
+
+        Follow the url that is found in the console ouput where you created the container. It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888". This should open a page with the current working directory set in the dockerfile. Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
+
+    Vscode method: 
+
+        Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
+        Follow these step to connect to the servers python kernel:
+            1. Select kernel in top right
+            2. Select another kernel 
+            3. Select existing jupyter server
+            4. Copy and paste the jupyter server access token that is found in the console. 
             It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
-            This should open a page with the current working directory set in the dockerfile.
-            Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
+            5. Create a server display name
+            6. Select the Python 3 (ipykernel) 
+        Then run all the cells in the notebook.
 
-        Vscode method: 
-            Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
-            Follow these step to connect to the servers python kernel:
-                1. Select kernel in top right
-                2. Select another kernel 
-                3. Select existing jupyter server
-                4. Copy and paste the jupyter server access token that is found in the console. 
-                It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
-                5. Create a server display name
-                6. Select the Python 3 (ipykernel) 
-            Then run all the cells in the notebook.
+6. Kaggle Requirments:
 
-    7. kaggle requirments:
-        Upon running the first cell for the first time in the containers lifetime,...
-        the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+        Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
         Instructions to get api token to authenticate the data request (Note: kaggle account required):
-        1. Sign into kaggle.
-        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
-        3. This will trigger the download of kaggle.json, a file containing your API credentials.
+            1. Sign into kaggle.
+            2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+            3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-        If the folder has been created in the containers lifetime and the files are already in that folder,...
-        than this cell does nothing and requires no credentials.
+        If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
 
 
-    8. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
-
+7. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
 
-** Manual Way (no docker):
+## Manual Way (no docker):
 
-    requirements:
-        -Git
-        -python3 and pip (my working python version: 3.10.7)
-        -Sufficent memory
-        -kaggle account and API token
+* Requirements:
+    * Git
+    * python3 and pip (my working python version: 3.10.7)
+    * kaggle account and API token
 
-    1. Clone the repository with git.
+1. Clone the repository with git.
 
-    2. With python and pip:
-        1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
-        2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
-        5. Activate the virtual environment
+2. With python3 and pip:
+    1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
+    2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
+    5. Activate the virtual environment
 
-    3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the above python virtual environment
+3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the above python virtual environment
 
-    4. Run the complete_11_03_2023.ipynb notebook
+4. Run the complete_11_03_2023.ipynb notebook
 
-    kaggle requirments (same as above):
-        Upon running the first cell for the first time in the containers lifetime,...
-        the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+5. Kaggle Requirments (same as above):
+
+        Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
         Instructions to get api token to authenticate the data request (Note: kaggle account required):
-        1. Sign into kaggle.
-        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
-        3. This will trigger the download of kaggle.json, a file containing your API credentials.
+            1. Sign into kaggle.
+            2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+            3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-        If the folder has been created in the containers lifetime and the files are already in that folder,...
-        than this cell does nothing and requires no credentials.
+        If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
 
-    5. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
+6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
+---
+
+LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
 
 #LOOK: How should teh requirement sufficent memory be explained????
 LOOK: need to make sure that it is known that the version of python is 3.10.7
-
 
 
 Notes about the notebook:
