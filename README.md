@@ -91,6 +91,7 @@ Feature_2 is another content based predictor. The constructed_data.csv is built 
  
 * Each movie rating in every user row is normalized by subtracting the movies average rating for all train users.
 
+* Then use this as one of the inputs to svd_full function below
 
 #### svd_full:
 
@@ -110,13 +111,14 @@ Feature_2 is another content based predictor. The constructed_data.csv is built 
  
 * Each movie rating in every user row is normalized by subtracting the movies average rating for all train and test users users.
 
+* Then use this as one of the inputs to svd_full function below
+
 #### svd_full:
 
     The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
 
 
-Note: There are alot more details to this left out for a simpler overview.
-For more details see the notebook (complete_11_03_2023.ipynb) and follow the comments.
+* For more details about the process, see the notebook (complete_11_03_2023.ipynb) and follow the comments.
 
 
 
@@ -157,8 +159,8 @@ LOOK: a hierachy of shared variables can be established
 * The variables that stay the same for every test are:
 
     1. Number of train users: 5000, Number of test users: 1000
-    2. Test user bounds: 5-10 
-    3. 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
+    2. Test user rating bounds: 5-10 
+    3. 100 models tested with the same input. The accuracy scores are an average for each test to reduce random error.
 
 
 ## Feature 1 and Feature 3:
@@ -176,18 +178,17 @@ LOOK: a hierachy of shared variables can be established
 
 * Standard sklearn mlp models were also tested on feature 1 and feature 3 with the only extra parameter being layers.
 
-* The approximate best mlp models for the corresponding train rating bounds were found by using the best combination of n values for the best linear rergession model with matching rating bounds.
+* The approximate best mlp models for the corresponding train rating bounds were found by using the best combination of n values for the best linear regression model with matching rating bounds.
 
 * For each of the three (rating bounds and corresponding best n values) three mlp models are tested to show the aproximate best mlp layer parameters.
 
-* This is the number of layer combinations that is neither too small or too large.
+* This is the number of layer combinations that is neither too small nor too large.
 
 * For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered) mlp model and for 11-31 train user bounds the best performing model was linear regression. (See results.txt)
 
 
-* When comparing the linear regression model and the three other mlp models for each 
-(rating bounds and corresposning best n values) the observations show that the accuracy results are similair,
-often only differening in the thousandths place
+* When comparing the linear regression model and the three other mlp models for each (rating bounds and corresposning best n values) the observations show that the accuracy results are very similair,
+often only differening in the thousandths place.
 
 
 * However, there is more noticable differences in performance when comparing tests with different (rating bounds and corresponding best n values). These differences are often in the hundredths place. 
@@ -215,7 +216,7 @@ often only differening in the thousandths place
 * From this test, it was clear that utilizing all the columns was superior to only using genres.
 
 * The full corpus parameter was also tested with mlp models using the same technique in the
-feature 1 and feature 3 section. Essentially, sandwitching the model with the close to best number of layers for performance between a worse model with a lower number of model combinations and a wrose model with a higher number of layer combinations 
+feature 1 and feature 3 section. Essentially, sandwitching the model with the close to best number of layers for performance, between a worse model with a lower number of model combinations and a worse model with a higher number of layer combinations 
 
 * This medium layer combination was the highest performing parameters for feature 2 and feature 3.
 
