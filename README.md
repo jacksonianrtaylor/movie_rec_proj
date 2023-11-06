@@ -1,36 +1,50 @@
 Goal:
 
-The goal of the program is building a model to predict what a new user would rate a particular movie based on their rating to other movies and the movie ratings of similiar users.
+The goal of the program is to build a model to predict what a new user would rate a particular movie...
+based on their ratings to other movies and the relationship between other users rated movies and their own raetd movie.
 
-In other words, the model attempts to predict what the target user would score movies as though they had already been watched.
+In other words, the model attempts to predict what the user would score a movie they have not yet given a rating for.
 
-In practice this is valuable because it gives a precise value to unwatched movies so the user has a reasonable idea about how satisfied they will be with the movie.
+This is valuable goal, because the model can give users an idea about how satisfied they will be with any movie.
 
-
-
-
-There are alot of challenges with this task, including:
-- Many times the users ratings are not accuracte to their preference (there is weird unexplained error).
-- What is the definition of similair movies? (what concrete data can we use to test simlairity).
-- Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but...
-
-- It is best to train and test a model where test users have a small number of ratings because it is more feasible...
-  in a front-end implementation of this model. 
-  (Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn;t watch) (they wouldn't want to feel like they are watsing time entering an excessive number of movie ratings)
-
-- predictions to a movies rating can be worse when there are a small number of users who rated that same movie
+This is why it is a more challenging task than only recommending movies the users would like.
 
 
-clarifications:
 
-The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website
-It is based on user preference rather than a prediction based on pure production value that is generally applied to make good movies
-The data used is based off random users and the movie rating predictions are for random users (not necessarily critics)
+Clarification:
 
-Additionally, The process should not be confused with simply picking movies that are good fit compared to the users movie preference. Instead, it seeks to produce useful rating predictions for every user-movie combination even movies that the user would hate.
+The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website.
+
+It does not use the text data in "the-movies-dataset" as direct features for the model.
+
+It only uses them to calculate similairty between movies which is part of a function that makes a movie prediction.
+
+It is based on user preference and realtionship between users rather than a prediction based on pure signs of production value...
+that can be applied to predict good movies.
+
+The data used is based off random users and the movie rating predictions are for random users
 
 
-functionality notes:
+
+Challenges:
+
+    1. Many times the users ratings are not accuracte to their preference (there is wierd unexplained error).
+
+    2. How can you measure how similair movies are? (Similarity score can be used in a method described in the content based filering section below.
+    What data can we use to test simlairity?).
+
+    3. How can the similairties between users help predict rating? (This is the point of svd function below in collaborative filtering)
+
+    4. Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but...
+    It is best to train and test a model where test users have a small number of ratings because it is more feasible...
+    in a front-end implementation of this model.(Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn't watch. They wouldn't want to feel like they are wasting time entering an excessive number of movie ratings)
+    
+    5. predictions to a movies rating can be worse when there are a small number of users who rated that same movie
+
+
+
+Functionality notes:
+
 - this program has the ability to choose users with a specific number of ratings for test and train users
 - the default program focuses on test users with 5-10 ratings and train users with 30-50 ratings
 - the point with keeping the number of test users low is to test how accurate predictions can be made...
