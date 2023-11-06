@@ -83,11 +83,14 @@ Feature_2 is another content based predictor. The constructed_data.csv is built 
 
 * The users that are included are train_users.
 
-* The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train user.
-    
-* Movies that are not rated by a user (or only have target ratings) are given an average rating for that movie equal to [mean rating for the correspnding movie for every other user who rated it in the train data] (loosely speaking).
+* train_users.movies_in_order is an ordered list of movie ids ordered by there first occurance in the list of train users.
 
-* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the correspnding movie for other every user who rated it in the train data] (loosely speaking).
+* (movies ratings of corresponding user) is a list of ratings for a user that follow the order of train_users.movies_in_order.
+
+* For each movie id in the order of train_users.movies_in_order, if the user has a rating for that movie id and that movie id is not the target movie id for that user, than set the value at the corresponding index of (movies ratings of corresponding user) with the users rating, otherwise fill it in with the movies average rating for all train users. (loosely speaking)
+ 
+* Each movie rating in every user row is normalized by subtracting the movies average rating for all train users.
+
 
 #### svd_full:
 
@@ -95,27 +98,17 @@ Feature_2 is another content based predictor. The constructed_data.csv is built 
 
 
 ### Test Operation (similair to Train Operation):
-* use later: The users that are included are train_users and test users (note: the test users come after the train users in the list)
-
-* This is for train....
 * Data is organized into a ((user) x (movies ratings of corresponding user)) list
 
-* The users that are included are train_users
+* The users that are included are train_users and test users (in that order).
 
-* (movies ratings of corresponding user) is a list of ratings that follow the order of train_users.movies_in_order.
+* all_movies_in_order is an ordered list of movie ids ordered by there first occurance in the combined list of train and test users (in that order). 
 
-* For each movie id in the order of train_users.movies_in_order, if the user has a rating that is not the target for that movie, than fill the corresponding index of movies ratings of corresponding user with that rating otherwise fill it in with the movies average rating for all train users.
+* (movies ratings of corresponding user) is a list of ratings for a user that follow the order of all_movies_in_order.
 
-
-* LOOK: left off here
-
-* The movies ratings that are part of (movies ratings of corresponding user) are all movies that are rated by at least one train or test user
-
-* For each user the 
-
-* Movies that are not rated by the user (or only have target ratings) are given an average rating for that movie equal to [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking). 
-
-* Then the data is normalized by subtracting the mean for each entry which is again [mean rating for the corresponding movie for every other user who rated it in the train data and test data] (loosely speaking)
+* For each movie id in the order of all_movies_in_order, if the user has a rating for that movie id and that movie id is not the target movie id for that user, than set the value at the corresponding index of (movies ratings of corresponding user) with the users rating, otherwise fill it in with the movies average rating for all train and test users (loosely speaking)
+ 
+* Each movie rating in every user row is normalized by subtracting the movies average rating for all train and test users users.
 
 #### svd_full:
 
