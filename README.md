@@ -1,4 +1,4 @@
-Goal:
+### Goal:
 
 The goal of the program is to build a model to predict what a new user would rate a particular movie...
 based on their ratings to other movies and the relationship between other users rated movies and their own raetd movie.
@@ -10,8 +10,7 @@ This is valuable goal, because the model can give users an idea about how satisf
 This is why it is a more challenging task than only recommending movies the users would like.
 
 
-
-Clarification:
+### Clarification:
 
 The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website.
 
@@ -26,11 +25,11 @@ The data used is based off random users and the movie rating predictions are for
 
 
 
-Challenges:
+### Challenges:
 
-    1. Many times the users ratings are not accuracte to their preference (there is wierd unexplained error).
+* Many times the users ratings are not accuracte to their preference (there is wierd unexplained error).
 
-    2. How can you measure how similair movies are? (Similarity score can be used in a method described in the content based filering section below.
+* How can you measure how similair movies are? (Similarity score can be used in a method described in the content based filering section below.
     What data can we use to test simlairity?).
 
     3. How can the similairties between users help predict rating? (This is the point of svd function below in collaborative filtering)
