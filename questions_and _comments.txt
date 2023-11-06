@@ -24,3 +24,9 @@ In this notebook the answer to the question, how are movies similair? is answere
 This is the process behind feature_2, another content based predictor. 
 
 How is this data used to define the notion of similair movies and how can it be a potential asset?:
+
+
+* Three layer combinations are used to show that the approximate best layer combiantion is in the middle grounds for number of layer combination betwen the 2 other models. 
+
+
+should sufficient memory be removed as a requirment???

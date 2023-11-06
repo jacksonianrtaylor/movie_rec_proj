@@ -137,137 +137,123 @@ For more details see the notebook (complete_11_03_2023.ipynb) and follow the com
 
 
 
-### Final Model/Cell 8
+## Final Model/Cell 8:
+
+* After features (1, 2, and 3) for the test and train users are collected in (cell 7), then they are used to build a model.
+
+* It is important to note that each feature can function as a predictor to the target movies rating on their own.
+
+* The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
+
+* Using more than one predictor can fill in the short comings of a single model.
+
+* From testing it was shown that the best combination of features are feature_1 and feature_3.
+
+Question:
+
+    Isn't it optimal to use all three features??
+
+Answer: 
+    
+    NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm. This conclusion was gathered when acknowledging the decrease in performance when tested.
+
+* This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
+
+* The fact that feature_1 was found to be more predicting than feature_2, was a suprising hearistic.
+
+* This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly and perhaps the opposite behavior is more common.
+
+* There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2 and make up the shortcomings of the predictor.
 
 
-After features (1, 2, and 3) for the test and train users are collected in cell 7, then they are used to build a model.
+# Results:
 
-It is important to note that each feature can function as a predictor to the target movies rating on their own.
-The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
+* All the relevant tests can be observed in the results.txt file.
+LOOK: a hierachy of shared variables can be established
 
-Using more than one predictor can fill in the short comings of a single model.
+* The variables that stay the same for every test are:
 
-From testing it was shown that the best combination of features are feature_1 and feature_3.
-Question: Isn't it optimal to use all three features??
-Answer: NO. Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm.
-This conclusion was gathered when acknowledging the decrease in performance when tested.
-
-This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
-
-This is also the best combiabtion of features since Feature_1 is more predicting than feature_2 and the combination of them...
-produce worse results.
-
-Feature_1 being a stronger feature than feature 2 is a suprising hearistic.
+    1. Number of train users: 5000, Number of test users: 1000
+    2. Test user bounds: 5-10 
+    3. 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
 
 
-This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly...
-and perhaps the opposite behavior is more common.
+## Feature 1 and Feature 3:
 
-There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2...
-and make up the shortcomings of the predictor.
+* The best feature combination (feature 1 and feature 3) are tested with different train user bounds.
 
-
-
-Results:
-All the relevant tests can be observed in the results.txt file.
-
-The variables that stay the same for every test are:
-- (number of train users): 5000, (number of test users): 1000
-- test user bounds: 5-10 
-- 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
-
-LOOK: state th ever bound is -1...
-
-
-The best feature combination (feature 1 and feature 3) are tested with different train user bounds.
-
-There are three train rating bounds for the train users that are tested:
+* There are three train rating bounds for the train users that are tested:
 11-31, 30-50, and 50-70.
 
-For each of these rating bounds, different combinations of n used with the svd_full functions were tested with linear regression.
+* For each of these rating bounds, different combinations of n used with the svd_full functions were tested with linear regression.
 
-Once the n values leading to the aproximate best accuracy for linear rergession were found for each of the train bounds,
-the results were recorded. 
+* Once the n values leading to the aproximate best accuracy for linear rergession were found for each of the train bounds, the results were recorded. 
 
-Linear regression was not the only model tested.
+---
 
-Standard sklearn mlp models were also tested with the only extra parameter being layers.
+* Standard sklearn mlp models were also tested on feature 1 and feature 3 with the only extra parameter being layers.
 
-The approximate best mlp models for the corresponding train rating bounds were...
-found by using the best combination of n values for the best linear rergession model...
-with matching rating bounds.
+* The approximate best mlp models for the corresponding train rating bounds were found by using the best combination of n values for the best linear rergession model with matching rating bounds.
 
-For each of the three (rating bounds and corresponding best n values) three mlp models are tested to show the aproximate best mlp model parameters.
+* For each of the three (rating bounds and corresponding best n values) three mlp models are tested to show the aproximate best mlp layer parameters.
 
-This is the number of layer combinations that is neither two small or too large.
+* This is the number of layer combinations that is neither too small or too large.
 
-
-Three layer combinations are used to show that the approximate best layer combiantion is in the middle grounds for number of layer combination betwen the 2 other models. 
-
-For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered)...
-mlp model and for 11-31 train user bounds the best performing model was linear regression.
+* For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered) mlp model and for 11-31 train user bounds the best performing model was linear regression. (See results.txt)
 
 
-When comparing the linear regression model and the three other mlp models for each 
+* When comparing the linear regression model and the three other mlp models for each 
 (rating bounds and corresposning best n values) the observations show that the accuracy results are similair,
-often a difference in the thousandths place
+often only differening in the thousandths place
 
 
-However, there is more noticable differences in performance when comparing tests with different (rating bounds and corresponding best n values). These differences are often in the hundredths place. 
+* However, there is more noticable differences in performance when comparing tests with different (rating bounds and corresponding best n values). These differences are often in the hundredths place. 
 
-The test above account for 12 tests shown in results. 
-There are 4 unique models for each of 3 (rating bounds and corresposning best n values).
+* The tests above account for 12 tests shown in results. 
 
-There is a slight shortcut used here to reduce the testing for mlp models for different values of n.
+* There are 4 unique models for each of 3 (rating bounds and corresposning best n values).
 
-One could potentially state that the optimal n values for linear regression are not the optimal values...
-for mlp modles with the same (rating bounds and corresposning best n values).
+* There is a slight shortcut used here to reduce the testing for mlp models for different values of n.
 
+* One could potentially state that the optimal n values for linear regression are not the optimal values for mlp models with the same (rating bounds and corresposning best n values).
 
-However, judging the small difference between models with the same...
-(rating bounds and corresposning best n values), if there were mlp models with different optmal values of n...
-than the linear regression model with the same (rating bounds and corresposning best n values)...
-it would be counterintutive and likely lead to very little perfromance gain.
+* However, judging the small difference between models with the same (rating bounds and corresposning best n values), if there were mlp models with different optimal values of n than the linear regression model with the same (rating bounds and corresposning best n values) it would likely lead to very little perfromance gain.
 
 
-#The other combination of featues worth exploring in results were feature 2 and feature 3.
+## Feature 2 and Feature 3:
 
-#Since it was clear that the performance of (feature 2 and feature 3) was worse than (feature 1 and feature 3)...
-after a few tests, only the best perfroming (rating bounds and corresposning best n values) for feature 1 and feature 3 were used knowing that even the most optimaize tweaks to the paramters would not lead to feature 2 and feature 3 outperforming feature 1 and feature 3. 
-
-
-The reason feature 2 and feature 3 are part of the results is to show the difference betwen using
-only the genre column and all the relevant columns.
-
-Linear regression was tested with the variables forced above for (feature 2 and feature 3), for only the genres column and then again for all the columns saved in the constructed_data.csv.
-
-From this test, it was clear that utilizing all the columns was superior to only using genres.
-
-The full corpus was also tested with mlp models using the same technique when testing for
-feature 1 and feature 3. 
-
-The number of layer combinations that is neither two small nor too large is shown to have higher performance compared to two other sets of mlp layers.
-
-This medium layer combiantion was the highest perfrkoing parameters for feature 2 and feature 3.
+* Since it was clear that the performance of (feature 2 and feature 3) was worse than (feature 1 and feature 3) after a few tests, only the best performing (rating bounds and corresposning best n values) for feature 1 and feature 3 were used to test feature 2 and feature 3 knowing that even the most optimaize tweaks to the paramters would not lead to feature 2 and feature 3 outperforming feature 1 and feature 3. 
 
 
+* The reason feature 2 and feature 3 are part of the results is to show the difference between using only the genre column vs all the relevant columns.
 
+* Linear regression was tested with the variables forced above for (feature 2 and feature 3), for only the genres column and then again for all the columns saved in the constructed_data.csv.
 
-How to install/run:
+* From this test, it was clear that utilizing all the columns was superior to only using genres.
 
-Automated Way (with docker):
+* The full corpus parameter was also tested with mlp models using the same technique in the
+feature 1 and feature 3 section. Essentially, sandwitching the model with the close to best number of layers for performance between a worse model with a lower number of model combinations and a wrose model with a higher number of layer combinations 
 
-    requirements:
-        -Git
-        -Dockerdesktop
-        -Sufficent memory
-        -kaggle account and API token
+* This medium layer combination was the highest performing parameters for feature 2 and feature 3.
 
-    1. Clone the repository with git.
-    2. Navigate to the main project directory.
-    3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image ."
-    4. Using the same cli, create a contianer from the image...
-       while binding the port of the listening jupyter server to port 8888 of the host machine: "docker run -p 8888:8888 movie_rec_image"
+LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
+
+# How to install/run:
+
+## Automated Way (with docker):
+
+* Requirements:
+    * Git
+    * Docker Desktop
+
+    * kaggle account and API token
+
+1. Clone the repository with git.
+
+2. Navigate to the main project directory.
+3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image ."
+4. Using the same cli, create a contianer from the image...
+5. while binding the port of the listening jupyter server to port 8888 of the host machine: * * docker run -p 8888:8888 movie_rec_image"
 
     5. Choose one of the following methods to use the kernel of the jupyter server (there are other methods online):
 
@@ -307,7 +293,7 @@ Automated Way (with docker):
 
 
 
-Manual Way (no docker):
+** Manual Way (no docker):
 
     requirements:
         -Git
