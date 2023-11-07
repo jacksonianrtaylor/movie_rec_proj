@@ -5,11 +5,10 @@ Same parameters for all tests:
 - 100 models tested with the same input. The accuracy scores are an average for each test to reduce random error.
 
 
+Models with features: feature 1 and feature 3
 
-Features: feature 1 and feature 3
 
-
-    Train user rating bounds: 50-70
+    Models with train user rating bounds: 50-70
         n = 20, 10 for svd train and full
         Model type: linear regression
         Average r2_score without rounding: 0.25497742034431536
@@ -31,7 +30,7 @@ Features: feature 1 and feature 3
         Average r2_score with rounded prediction to nearest .5: 0.23053965092422135
 
 
-    Train user rating bounds: 30-50
+    Models with train user rating bounds: 30-50
         n = 10, 15 for svd train and full
         Model type: linear regression
         Average r2_score without rounding: 0.27338731662383964
@@ -53,7 +52,7 @@ Features: feature 1 and feature 3
         Average r2_score with rounded prediction to nearest .5: 0.2546462267406327
 
 
-    Train user rating bounds: 11-31
+    Models with train user rating bounds: 11-31
         n = 10, 15 for svd train and full
         Model type: linear regression
         Average r2_score without rounding: 0.2689016213463154
@@ -77,9 +76,10 @@ Features: feature 1 and feature 3
 
 
 
-Features: feature 2 and feature 3
+Models with features: feature 2 and feature 3
 
-    Train user rating bounds: 30-50
+
+    Models with train user rating bounds: 30-50
         n = 10, 15 for svd train and full
         Model type: linear regression
         corpus: genres

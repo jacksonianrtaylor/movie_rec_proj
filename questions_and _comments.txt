@@ -36,3 +36,16 @@ found in feature 2 section:
 
 
 Also, for the current user, a random movie is chosen to be the target movie. If the user is a train user, this movies rating is used as the actual to train the model. If the user is a test user, this movies rating is used as the actual to evaluate the model. If this is real world application of the model, then the rating is unknown.
+
+
+from readme:
+
+* Effectively, the only parameter set in (cell 1 - cell 4) is the bounds for the number of ratings for a user to be a train user. (the otehr variables stayed)
+
+* This is an important paramter to be set in the early cells (cell 1 - cell 4) becasue it drastically reduces processing time and reduces the size of "constructed_data.csv"
+
+
+* This is especially critical if even more train and test data was tested with this program, since cell 3 is a relatively expensive cell and can be ignored after running once when testing parameters in (cell 5 - cell 8).
+
+
+LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown

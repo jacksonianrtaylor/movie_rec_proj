@@ -190,11 +190,18 @@ often only differening in the thousandths place.
 
 * There are 4 unique models for each of 3 (rating bounds and corresposning best n values).
 
+* The absolute best r2 performance which can be observed in results.txt is 0.27639324087457673 with the following parameters: 
+    * feature 1 and feature 3
+    * train user rating bounds: 30-50
+    * n = 10, 15 for svd train and full
+    * Model type: mlp, layers = (10,10,5)
+    * no rounding
+
 * There is a slight shortcut used here to reduce the testing for mlp models for different values of n.
 
 * One could potentially state that the optimal n values for linear regression are not the optimal values for mlp models with the same (rating bounds and corresposning best n values).
 
-* However, judging the small difference between models with the same (rating bounds and corresposning best n values), if there were mlp models with different optimal values of n than the linear regression model with the same (rating bounds and corresposning best n values) it would likely lead to very little perfromance gain.
+* However, judging the small difference between models with the same (rating bounds and corresposning best n values), if there were mlp models with different optimal values of n than the linear regression model with the same (rating bounds and corresponding best n values) it would likely lead to very little perfromance gain.
 
 
 ## Feature 2 and Feature 3:
@@ -259,7 +266,7 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
         It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
         5. Create a server display name.
         6. Select the Python 3 (ipykernel).
-        
+
     3. Then run all the cells in the notebook.
 
 6. Kaggle Requirments:
@@ -309,31 +316,36 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
----
+# Notes for the notebook:
 
-LOOK: anchor tags for navigation hierarchy https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
+* For tweaking and testing, it is important to note that there are two major sections of the notebook.
 
-#LOOK: How should teh requirement sufficent memory be explained????
-LOOK: need to make sure that it is known that the version of python is 3.10.7
+* (cell 1 - cell 4) is mainly for formatting and cleaning data before building the model. It saves the data in the form of a csv file called "constructed_data.csv".
 
-
-Notes about the notebook:
-
-For testing it is important to note that there are two major sections of the notebook.
-
-(cell 1 - cell 4) is for formatting and cleaning data before building the model.
-It saves the data in the form of a csv file called "constructed_data.csv".
-
-(cell 5 - cell 8) is for transforming the data in "constructed_data.csv" to build a model.
-If the kernel were restarted than the data in the form of "constructed_data.csv" persisits so that only (cell 5 - cell 8) 
+* (cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
+If the pykernel were restarted than the data in the form of "constructed_data.csv" persists so that only (cell 5 - cell 8) 
 needs to be rerun. 
 
-This is especially critical if even more train and test data was tested with this program, since cell 3 is a relatively expensive cell and can be ignored
-after running once when testing parameters in (cell 5 - cell 8).
+* Imagine running the (cell 1 - cell 4) on a excessive amount of data. 
 
-#important note:
-#Effectively, the only parameter set in (cell 1 - cell 4) is the bounds for the number of ratings for a user to be a train user or test user
-#this is an important paramter to be set in the early cells (cell 1 - cell 4) becasue it reduces processing time and reduces the size of "constructed_data.csv"
+* This will take along time.
+However, once this is run it will take no time to select a smaller subset of that data to build the model. This is part of the functionality of cell 6.
+
+* Then after creating the model, the users decide they need more data.
+
+* All the user needs to do is make some tweaks to cell 6 where a subset of the larger set is selected instead or wasting time runing (cell 1 - cell 4)
+again. 
+
+* There are still parameters set in (cell 1 - cell 4), so those variables take extra time to tweak and test compared to varables in (cell 5 - cell 8).
+
+
+Look: https://choosealicense.com/
+https://choosealicense.com/no-permission/
+
+
+
+
+
 
 
 

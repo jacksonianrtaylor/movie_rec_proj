@@ -9,6 +9,7 @@ Same for all tests:
 Features: feature 1 and feature 3
 
     Train user rating bounds: 50-70 
+
         n = 20, 10 for svd train and full
         Model type: linear regression
         Average r2_score without rounding: 0.25497742034431536
