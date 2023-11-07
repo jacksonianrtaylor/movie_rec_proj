@@ -156,7 +156,7 @@ Feature_2 is another content based predictor. The constructed_data.csv is built 
 * All the relevant tests can be observed in the results.txt file.
 LOOK: a hierachy of shared variables can be established
 
-* The variables that stay the same for every test are:
+* The parameters that stay the same for every test are:
 
     1. Number of train users: 5000, Number of test users: 1000
     2. Test user rating bounds: 5-10 
