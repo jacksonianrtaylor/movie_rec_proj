@@ -36,7 +36,10 @@ The data used is based off random users and the movie rating predictions are for
     
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
+## Data source
 
+* The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
+* It is too large to fit in the repository and reqires user credentials to download. (see the How to Install/Run section).
 
 ## Functionality notes:
 
