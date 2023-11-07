@@ -93,9 +93,9 @@ This places value on terms that are un-common in alot of documents,while still p
 
 * Then use this as one of the inputs to svd_full function below
 
-* #### svd_full:
+#### svd_full:
 
-    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are found by acessing the row for the train user in question and the column corresponding to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
+The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are found by acessing the row for the train user in question and the column corresponding to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
 
 
 ### Test Operation (similair to Train Operation):
@@ -111,10 +111,12 @@ This places value on terms that are un-common in alot of documents,while still p
  
 * Each movie rating in every user row is normalized by subtracting the movies average rating for all train and test users users.
 
-* Then use this as one of the inputs to svd_full function below.
+* Then use this as one of the inputs to svd_full function below
 
-* #### svd_full:
-    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
+#### svd_full:
+
+*The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
+
 
 * For more details about the process, see the notebook (complete_11_03_2023.ipynb) and follow the comments.
 
@@ -132,8 +134,11 @@ This places value on terms that are un-common in alot of documents,while still p
 
 * From testing it was shown that the best combination of features are feature_1 and feature_3.
 
-* #### Question: Isn't it optimal to use all three features?  Answer: No!
-    Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm. This conclusion was gathered when acknowledging the decrease in performance when tested.
+#### Question: Isn't it optimal to use all three features?
+
+#### Answer: No
+    
+Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm. This conclusion was gathered when acknowledging the decrease in performance when tested.
 
 * This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
 
@@ -220,58 +225,46 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 
 * Requirements:
     * Git
-    * Docker
+    * Docker Desktop
     * kaggle account and API token
 
 1. Clone the repository with git.
 
 2. Navigate to the main project directory.
 
-3. Build docker image using the provided Dockerfile using this shell command:
+3. Build docker image using the provided Dockerfile using this cli command: "docker build -t movie_rec_image .".
 
-    ```shell
-    docker build -t movie_rec_image .
-    ```
+4. Using the same cli, create a contianer from the image while binding the port of the listening jupyter server to port 8888 of the host machine: * * docker run -p 8888:8888 movie_rec_image".
 
-4. Using the same shell, create a contianer from the image while binding the port of the listening jupyter server to port 8888 of the host machine: 
-
-    ```shell
-    docker run -p 8888:8888 movie_rec_image .
-    ```
-
-5. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods online).
+5. Choose one of the following methods to use the python kernel of the jupyter server (there are other methods online).
 
     Browser method: 
 
-    1. Follow the url that is found in the shells console ouput where you created the container. It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888". This should open a webpage with the current working directory set in the dockerfile with the complete_11_03_2023.ipynb file.
-    
-    2. Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
+    Follow the url that is found in the console ouput where you created the container. It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888". This should open a page with the current working directory set in the dockerfile. Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
 
     Vscode method: 
 
-    1. Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
-
-    2. Follow these step to connect to the servers python kernel:
-        1. Select kernel in top right.
-        2. Select another kernel.
-        3. Select existing jupyter server.
+    Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
+    Follow these step to connect to the servers python kernel:
+        1. Select kernel in top right
+        2. Select another kernel 
+        3. Select existing jupyter server
         4. Copy and paste the jupyter server access token that is found in the console. 
         It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
-        5. Create a server display name.
-        6. Select the Python 3 (ipykernel).
-        
-    3. Then run all the cells in the notebook.
+        5. Create a server display name
+        6. Select the Python 3 (ipykernel) 
+    Then run all the cells in the notebook.
 
 6. Kaggle Requirments:
 
-    * Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+        Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
-    * Instructions to get api token to authenticate the data request(Note: kaggle account required):
-        1. Sign into kaggle.
-        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
-        3. This will trigger the download of kaggle.json, a file containing your API credentials.
+        Instructions to get api token to authenticate the data request (Note: kaggle account required):
+            1. Sign into kaggle.
+            2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+            3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    * If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
+        If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
 
 
 7. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
@@ -286,25 +279,26 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
     * kaggle account and API token
 
 1. Clone the repository with git.
+
 2. With python3 and pip:
     1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
     2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
     5. Activate the virtual environment
 
-3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the python virtual environmenty you created.
+3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the above python virtual environment
 
 4. Run the complete_11_03_2023.ipynb notebook
 
 5. Kaggle Requirments (same as above):
 
-    * Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+        Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
-    * Instructions to get api token to authenticate the data request(Note: kaggle account required):
-        1. Sign into kaggle.
-        2. Go to the 'Account' tab of your user profile and select 'Create New Token'.
-        3. This will trigger the download of kaggle.json, a file containing your API credentials.
+        Instructions to get api token to authenticate the data request (Note: kaggle account required):
+            1. Sign into kaggle.
+            2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
+            3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    * If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
+        If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
 
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
