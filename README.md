@@ -8,6 +8,7 @@ This is valuable goal, because the model can give users an idea about how satisf
 
 This is why it is a more challenging task than only recommending movies the users would like.
 
+[Click here to view the Jupyter Notebook](complete_11_03_2023.ipynb)
 
 ## Clarification:
 
