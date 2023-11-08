@@ -246,7 +246,7 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 4. Using the same shell, create a contianer from the image while binding the port of the listening jupyter server to port 8888 of the host machine: 
 
     ```shell
-    docker run -p 8888:8888 movie_rec_image .
+    docker run -p 8888:8888 movie_rec_image 
     ```
 
 5. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods online).
