@@ -347,10 +347,12 @@ again.
 Look: https://choosealicense.com/
 https://choosealicense.com/no-permission/
 
+LOOK: NO more than two code cells per markdown cell???
+https://www.dataquest.io/blog/how-to-share-data-science-portfolio/
 
-
-
-
+LOOK:
+How to write good notebooks:
+https://www.youtube.com/watch?v=tVhh46f6_Dk
 
 
 
