@@ -1,6 +1,6 @@
 # Goal:
 
-The goal of the program is to build a model to predict what a new user would rate a particular movie, based on their ratings to other movies and the relationship between other users rated movies and their own rated movies.
+The goal of the notebook is to build a model to predict what a new user would rate a particular movie, based on their ratings to other movies and the relationship between other users rated movies and their own rated movies.
 
 In other words, the model attempts to predict what the user would score a movie they have not yet given a rating for.
 
