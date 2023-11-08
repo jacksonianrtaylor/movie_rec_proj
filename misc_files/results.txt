@@ -1,0 +1,209 @@
+
+common for all tests: 
+- (number of train users): 5000, (number of test users): 1000
+- test user bounds: 5-10 or 4-9 (see below)
+- 100 models tested with the same input. The acuraccy scores are an average for each test (this is to reduce error)
+
+
+idea: test user bounds need to stay low since it is the number of movies the users gives 
+that they have rating for (-1 because one movie is target for each user in training and testing,
+so the model is really being optimized for 4-9 ratings given by the user and one movie with an id given without a rating,
+which is the movie to be given a rating as though it were the users own rating).
+
+#Note: this model is not limited to making predictions one at a time per user
+
+
+The largest it is, the more time the users spends entering movies.
+that being said, a model would definantly benefit from more user ratings
+it is just a matter of feasibility...
+if the model is to be used in an app it is importance to have a user friendly frontend where the user can get quick and accuracte results
+
+
+idea: many values of n have been tested with (feature 1, feature 3),...
+50-70, linear regression. The parameter below is close to the best.
+
+
+features: feature 1 and feature 3
+train user threshold: 50-70
+n = 20, 10 for svd train and full
+model type: linear regression
+Average r2_score without rounding: 0.25497742034431536
+Average r2_score with rounded prediction to nearest .5: 0.22800211045289098
+
+
+
+idea: since n = 20, 10  are close to the best svd inputs for the linear regression model above...
+they should be close to the best inputs for the mlp models below
+ 
+
+features: feature 1 and feature 3
+train user threshold: 50-70
+n = 20, 10 for svd train and full
+model type: mlp 10,10,10
+Average r2_score without rounding: 0.25719055444369615
+Average r2_score with rounded prediction to nearest .5: 0.23893305402169931
+
+
+features: feature 1 and feature 3
+train user threshold: 50-70
+n = 20, 10 for svd train and full
+model type: mlp 10,10,5
+Average r2_score without rounding: 0.25769840583281306
+Average r2_score with rounded prediction to nearest .5: 0.2338579730790375
+
+
+
+features: feature 1 and feature 3
+train user threshold: 50-70
+n = 20, 10 for svd train and full
+model type: mlp 10,5,5
+Average r2_score without rounding: 0.2566793068613578
+Average r2_score with rounded prediction to nearest .5: 0.23053965092422135
+
+
+
+idea: many values of n have been tested with (feature 1, feature 3),...
+30-50, linear regression. The parameter below is close to the best.
+
+features: feature 1 and feature 3
+train user threshold: 30-50
+n = (10, 15) for svd train and full
+model type: linear regression
+Average r2_score without rounding: 0.27338731662383964
+Average r2_score with rounded prediction to nearest .5: 0.25213661807645976
+
+
+idea: since n = 10, 15 are close to the best svd inputs for the linear regression model above...
+they should be close to the best inputs for the mlp models below
+
+features: feature 1 and feature 3
+train user threshold: 30-50
+n = (10, 15) for svd train and full
+model type: mlp layers = (10,10,10)
+Average r2_score without rounding: 0.2753146424711614
+Average r2_score with rounded prediction to nearest .5: 0.2546462267406327
+
+features: feature 1 and feature 3
+train user threshold: 30-50
+n = (10, 15) for svd train and full
+model type: mlp layers = (10,10,5)
+Average r2_score without rounding: 0.27639324087457673 
+Average r2_score with rounded prediction to nearest .5: 0.25894841302207205
+
+
+features: feature 1 and feature 3
+train user threshold: 30-50
+n = (10, 15) for svd train and full
+model type: mlp layers = (10,5,5)
+Average r2_score without rounding: 0.272801130005713
+Average r2_score with rounded prediction to nearest .5: 0.2546462267406327
+
+
+
+idea: to test the feature_2 and feature_3 combination,...
+it makes sense to use the best performing parameters for feature_1 and feature_3
+(30-50) and (n = (10, 15)) are tried on a linear regression and some other mlp models below
+
+
+
+features: feature 2 and feature 3
+train user threshold: 30-50
+n = 10, 15 for svd train and full
+model type: linear regression
+corpus: genres
+Average r2_score without rounding: 0.22779569071224418
+Average r2_score with rounded prediction to nearest .5: 0.2177191278249457
+
+idea: directly below shows that the longer corpus is more effective when using feature 2
+
+
+features: feature 2 and feature 3
+train user threshold: 30-50
+n = 10, 15, for svd train and full
+model type: linear regression
+corpus: "title", "genres","production_companies","keywords", "cast", "tagline", "overview"
+Average r2_score without rounding: 0.24918752474093955
+Average r2_score with rounded prediction to nearest .5: 0.2152095191607727
+
+idea: The full corpus is clearly more effective then the single column genre 
+so further testing is done with the full corpus
+
+
+
+idea: Tests are below to be sure that a strong mlp model does not make feature_2 stronger than feature_1
+
+features: feature 2 and feature 3
+train user threshold: 30-50
+n = 10, 15, for svd train and full
+model type: mlp (10,10,5)
+corpus: "title", "genres","production_companies","keywords", "cast", "tagline", "overview"
+Average r2_score without rounding: 0.24976592718907065
+Average r2_score with rounded prediction to nearest .5: 0.22112502529775188
+
+
+features: feature 2 and feature 3
+train user threshold: 30-50
+n = 10, 15, for svd train and full
+model type: mlp (10,5,5)
+corpus: "title", "genres","production_companies","keywords", "cast", "tagline", "overview"
+Average r2_score without rounding: 0.2525056422155743
+Average r2_score with rounded prediction to nearest .5: 0.22793682024336415
+
+
+features: feature 2 and feature 3
+train user threshold: 30-50
+n = 10, 15, for svd train and full
+model type: mlp (5,5,5)
+corpus: "title", "genres","production_companies","keywords", "cast", "tagline", "overview"
+Average r2_score without rounding: 0.2482534294087106
+Average r2_score with rounded prediction to nearest .5: 0.23385232638034348
+
+
+
+idea: many values of n have been tested with (feature 1, feature 3),...
+11-31, linear regression. The parameter below is close to the best.
+
+features: feature 1 and feature 3
+train user threshold: 11-31
+n = 10, 15, for svd train and full
+model type: linear regression
+Average r2_score without rounding: 0.2689016213463154
+Average r2_score with rounded prediction to nearest .5: 0.26520328312495806
+
+idea: since n = 10, 15 are close to the best svd inputs for the linear regression model above...
+they should be close to the best inputs for the mlp models below:
+
+
+features: feature 1 and feature 3
+train user threshold: 11-31
+n = 10, 15, for svd train and full
+model type: mlp (10,10,10)
+Average r2_score without rounding: 0.26307245414211416
+Average r2_score with rounded prediction to nearest .5: 0.2604638351867914
+
+features: feature 1 and feature 3
+train user threshold: 11-31
+n = 10, 15, for svd train and full
+model type: mlp (10,10,5)
+Average r2_score without rounding: 0.2661636459946842
+Average r2_score with rounded prediction to nearest .5: 0.2595524028909901
+
+features: feature 1 and feature 3
+train user threshold: 11-31
+n = 10, 15, for svd train and full
+model type: mlp (10,5,5)
+Average r2_score without rounding: 0.26070299990120643
+Average r2_score with rounded prediction to nearest .5: 0.24496948615816902
+
+
+
+Idea: These low training bounds are used to show that there is a sweet spot for the train users bounds.
+if the min and max of the train bounds are too low or two high the model will perform worse
+this is understood to be the conclusion from 30-50 being the best tested train bounds out of the bounds used
+where 11-31 and 50-70 perform worse
+
+
+idea: not every combination of parametrs are tested here,
+only the ones that I found may have potential to make the best model or come close to it
+
+idea: these reults
