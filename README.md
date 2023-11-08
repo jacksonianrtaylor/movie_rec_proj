@@ -231,29 +231,31 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 * Requirements:
     * Git
     * Docker
-    * kaggle account and API token
+    * Kaggle account and API token
 
 1. Clone the repository with git.
 
 2. Navigate to the main project directory.
 
-3. Build docker image using the provided Dockerfile using this shell command:
+3. Start the docker daemon.
+
+4. Build docker image using the provided Dockerfile using this shell command:
 
     ```shell
     docker build -t movie_rec_image .
     ```
 
-4. Using the same shell, create a contianer from the image while binding the port of the listening jupyter server to port 8888 of the host machine: 
+5. Using the same shell, create a contianer from the image while binding the port of the listening jupyter server (8888) to port 8888 of the host machine: 
 
     ```shell
     docker run -p 8888:8888 movie_rec_image 
     ```
 
-5. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods online).
+6. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods online).
 
     Browser method: 
 
-    1. Follow the url that is found in the shells console ouput where you created the container. It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888". This should open a webpage with the current working directory set in the dockerfile with the complete_11_03_2023.ipynb file.
+    1. Follow the url that is found in the shells console ouput where you created the container. It is the second url after "Jupyter Server \*.\*.\* is running at:" and starts with "http://127.0.0.1:8888". This should open a webpage with the current working directory set in the dockerfile with the complete_11_03_2023.ipynb file.
     
     2. Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
 
@@ -261,18 +263,18 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 
     1. Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
 
-    2. Follow these step to connect to the servers python kernel:
+    2. Follow these step to connect to the jupyter servers python kernel:
         1. Select kernel in top right.
         2. Select another kernel.
         3. Select existing jupyter server.
         4. Copy and paste the jupyter server access token that is found in the console. 
-        It is the second url after "Jupyter Server *.*.* is running at:" and starts with "http://127.0.0.1:8888".
+        It is the second url after "Jupyter Server \*.\*.\* is running at:" and starts with "http://127.0.0.1:8888".
         5. Create a server display name.
         6. Select the Python 3 (ipykernel).
 
     3. Then run all the cells in the notebook.
 
-6. Kaggle Requirments:
+7. Kaggle Requirments:
 
     * Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
@@ -281,10 +283,10 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
         2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
         3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    * If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
+    * If the files have already been downloaded and stored in the "the-movies-dataset" folder, than this cell does nothing and requires no credentials.
 
 
-7. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
+8. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
 
@@ -301,9 +303,9 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
     2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
     5. Activate the virtual environment
 
-3. Open the complete_11_03_2023.ipynb file and connect to the kernel of the python virtual environmenty you created.
+3. Open the complete_11_03_2023.ipynb file in the main project directory and connect to the kernel of the python virtual environmenty you created.
 
-4. Run the complete_11_03_2023.ipynb notebook
+4. Run the complete_11_03_2023.ipynb notebook.
 
 5. Kaggle Requirments (same as above):
 
@@ -314,7 +316,7 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
         2. Go to the 'Account' tab of your user profile and select 'Create New Token'.
         3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    * If the folder has been created in the containers lifetime and the files are already in that folder, than this cell does nothing and requires no credentials.
+    * If the files have already been downloaded and stored in the "the-movies-dataset" folder, than this cell does nothing and requires no credentials.
 
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
