@@ -54,7 +54,7 @@ The data used is based off random users and the movie rating predictions are for
 
 - The best perfoming number of train user that was chosen to be tested was the current value in the program (30-50). This performed better than 11-31 and 50-70 users.
 
-- The accuracy scores of the current configuration are likely not the highest that this system can perform because not all train bound have been tested with a simialir range to (30-50).
+- The average r2 scores of the current configuration are likely not the highest that this system can perform because not all train bound have been tested with a simialir range to (30-50).
 
 - When training and testing bounds are specified in the context of training and evaluating the model in this notebook, the real bounds for the number of ratings are shifted down to omit the target rating that is chosen randomly amoung the users ratings. For example, if the ratings bounds are stated to be 30-50 for train users, than the real bounds for the number of ratings they need to provide is 29-49. As for the testing bounds which are stated 5-10, the model is really being optimized to predict a rating for 4-9 ratings given by the user. In the training phase of this model, if a user has 7 ratings, one of which is a traget rating of the model than he really is only providing 6 ratings. However, if a user provides 7 ratings of this model in production phase then they are actually providing 7 ratings.
  
@@ -157,7 +157,7 @@ LOOK: a hierachy of shared variables can be established
 
     1. Number of train users: 5000, Number of test users: 1000
     2. Test user rating bounds: 5-10 
-    3. 100 models tested with the same input. The accuracy scores are an average for each test to reduce random error.
+    3. 100 models tested with the same input. The output is the average r2 score for all tests to reduce random model error.
 
 
 ## Feature 1 and Feature 3:
@@ -169,7 +169,7 @@ LOOK: a hierachy of shared variables can be established
 
 * For each of these rating bounds, different combinations of n used with the svd_full functions were tested with linear regression.
 
-* Once the n values leading to the aproximate best accuracy for linear rergession were found for each of the train bounds, the results were recorded. 
+* Once the n values leading to the aproximate best average r2 score for linear rergession were found for each of the train bounds, the results were recorded. 
 
 ---
 
@@ -184,7 +184,7 @@ LOOK: a hierachy of shared variables can be established
 * For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered) mlp model and for 11-31 train user bounds the best performing model was linear regression. (See results.txt)
 
 
-* When comparing the linear regression model and the three other mlp models for each (rating bounds and corresposning best n values) the observations show that the accuracy results are very similair,
+* When comparing the linear regression model and the three other mlp models for each (rating bounds and corresposning best n values) the observations show that the average r2 scores results are very similair,
 often only differening in the thousandths place.
 
 

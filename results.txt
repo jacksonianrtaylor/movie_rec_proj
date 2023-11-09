@@ -2,7 +2,7 @@
 Same parameters for all tests: 
 - Number of train users : 5000, Number of test users: 1000
 - Test user rating bounds: 5-10 
-- 100 models tested with the same input. The accuracy scores are an average for each test to reduce random error.
+- 100 models tested with the same input. The output is the average r2 score for all tests to reduce random model error.
 
 
 Models with features: feature 1 and feature 3
