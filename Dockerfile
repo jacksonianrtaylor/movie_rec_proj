@@ -8,22 +8,39 @@ RUN apt-get update && apt-get install -y python3.10 \
 
 
 
+
+# numpy==1.23.5, opendatasets, pandas, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter, numba, dask, scikit-optimize, scikit-surprise
+# not sure if dask or "dask[complete]"
+# LOOK: not all the packages are used in full_model.ipynb
+
+# LOOK: Be sure to update the readme with the new packages
+
+# LOOK: Might need to use force reinstall for numpy version if a new verison is installed as a part of one of the other packages
+
+
 # Install all packages:
+RUN pip3 install numpy==1.23.5
 RUN pip3 install opendatasets
 RUN pip3 install pandas
-RUN pip3 install numpy
 RUN pip3 install scikit-learn
 RUN pip3 install scipy
 RUN pip3 install ordered-set
 RUN pip3 install gensim
 RUN pip3 install nltk
 RUN pip3 install jupyter
+RUN pip3 install kaggle
+# LOOk: try removing these
+# RUN pip3 install numba
+# RUN pip3 install dask
 
+# Also try changing python version
+RUN pip3 install scikit-optimize
+RUN pip3 install scikit-surprise
 
 WORKDIR /home/jupyter
 
 # Copy the notebook file into the container:
-COPY complete_11_03_2023.ipynb .
+COPY full_model.ipynb .
 
 
 EXPOSE 8888

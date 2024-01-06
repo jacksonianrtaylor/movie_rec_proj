@@ -252,7 +252,7 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
     docker run -p 8888:8888 movie_rec_image 
     ```
 
-6. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods online).
+6. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods that can be found online).
 
     Browser method: 
 
