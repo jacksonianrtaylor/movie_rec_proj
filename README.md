@@ -28,6 +28,9 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
+* The iterative_svd function discussed later has hyperparameters that need to be optimized. This is the pupose of the bayesian_optimization.ipynb notebook. 
+With larger bounds comes better performance but higher computation time. This is why dask and numba are used to speed up computations.
+
 ## Data source
 
 * The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
@@ -39,10 +42,12 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 ## Overview
 
-There are three input features to he model
-Each of these features standon their own as predicitons the target movies rating...
+There are three input features to the final model (features 1 2 and 3)
 
-The model takes features_1 2 and 3 as inputs the model for traning and testing...
+Each of these features stand on their own as predicitons the target movies rating but they each have a different method of doing so.
+
+This is why there combination in a linear model is effecttive even if the benefits are marginal comapared to the most effective feature (feature_3).
+
 
 ## Content Based Filtering:
 
@@ -57,200 +62,72 @@ Feature_2 is a weighted average of the all the users ratings besides the target 
 
 ## Collaborative filtering:
 
-### Train Operation:
-* #### svd_full:
 
-    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are found by acessing the row for the train user in question and the column corresponding to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
+### Feature_3:
 
+Feature_3 is the prediction from the terms of the trained SVD for a (user, movie) combination:
+(overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))
+where u represnt the users index and i represents the movies index to be rated.
 
-### Test Operation (similair to Train Operation):
-* Data is organized into a ((user) x (movies ratings of corresponding user)) list
+Before this prediction is made the svd_iterative function undergoes a process where it trains the SVD to make...
+predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to changes the variables b1[u], b2[i], q[i], p[u] in the direction that minimizes
+the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
 
-* The users that are included are train_users and test users (in that order).
+Initial Conditions:
 
-* all_movies_in_order is an ordered list of movie ids ordered by there first occurance in the combined list of train and test users (in that order). 
+nof movie x nof latent features:
+q = gen_input.normal(0, .1, (nof_movies, n))
 
-* (movies ratings of corresponding user) is a list of ratings for a user that follow the order of all_movies_in_order.
+nof users x nof latent features:
+p = gen_input.normal(0, .1, (nof_users, n))
 
-* For each movie id in the order of all_movies_in_order, if the user has a rating for that movie id and that movie id is not the target movie id for that user, than set the value at the corresponding index of (movies ratings of corresponding user) with the users rating, otherwise fill it in with the movies average rating for all train and test users (loosely speaking)
- 
-* Each movie rating in every user row is normalized by subtracting the movies average rating for all train and test users users.
-
-* Then use this as one of the inputs to svd_full function below.
-
-* #### svd_full:
-    The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 15) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the second call of the svd_full function "svd_out_full". The predicted rating for the test users target movies are founds by acessing the row for the test user in question (test users are at the end of the svd_out_full list) and the column correspong to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to validate the model that was trained in the train operation. 
-
-* For more details about the process, see the notebook (complete_11_03_2023.ipynb) and follow the comments.
+Biases:
+b1 = np.zeros(nof_users)
+b2 = np.zeros(nof_movies)
 
 
+#### Bayesian Optimization
 
-## Final Model/Cell 8:
+The baysian optmization process is critical to the effectiveness of the feature 3 in the final model.
+This means that tuning the hyperparameters to the iterative svd funciton goes a long way.
 
-* After features (1, 2, and 3) for the test and train users are collected in (cell 7), then they are used to build a model.
+This is what sparked the creation of the other notebook: bayesian_optimization.ipynb
+
+The entire point of this notebook is to find the highest perfroming parameters for:
+nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
+
+
+What do these all mean?:
+
+nof_svd_users is the number of users that that help train the iterative svd function but dont have a rating to be predicted by the trained svd.
+The users themselves are not parameters becasue they should always be chosen randomly 
+
+nof_train_users is the number of users that both help train the model but also require prediction for exactly one of their movies.
+(These emulate the users that the model is designed for)
+again the users themselves are not parameters becasue they should always be chosen randomly 
+
+nof_train users is a number that is used for both the number of train and test users in the full_model.ipynb notebook
+
+
+Question: do i need to explain all the variables???
+
+
+
+## Final Model:
+
 
 * It is important to note that each feature can function as a predictor to the target movies rating on their own.
 
 * The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
 
-* Using more than one predictor can fill in the short comings of a single model.
+* The idea was that more than one predictor can fill in the short comings of a single model.
 
-* From testing it was shown that the best combination of features are feature_1 and feature_3.
+* After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used to build a simple linear model.
 
-* #### Question: Isn't it optimal to use all three features?  Answer: No!
-    Since feature 1 and feature 2 are so similair in nature, using both, only seems to complicate the optimization algorithm. This conclusion was gathered when acknowledging the decrease in performance when tested.
-
-* This logic doesn't follow for the combination of feature_1 and feature_3, since they are completley different angles of prediciton.
-
-* The fact that feature_1 was found to be more predicting than feature_2, was a suprising hearistic.
-
-* This could mean that movies that have similair word counts in the metadata don't necessarily mean that the user will rate them similairly and perhaps the opposite behavior is more common.
-
-* There could be other combinations of text sources or more explicit categories and datatypes besides text that could replace feature_2 and make up the shortcomings of the predictor.
-
-
-# Results:
-
-* All the relevant tests can be observed in the results.txt file.
-LOOK: a hierachy of shared variables can be established
-
-* The parameters that stay the same for every test are:
-
-    1. Number of train users: 5000, Number of test users: 1000
-    2. Test user rating bounds: 5-10 
-    3. 100 models tested with the same input. The output is the average r2 score for all tests to reduce random model error.
-
-
-## Feature 1 and Feature 3:
-
-* The best feature combination (feature 1 and feature 3) are tested with different train user bounds.
-
-* There are three train rating bounds for the train users that are tested:
-11-31, 30-50, and 50-70.
-
-* For each of these rating bounds, different combinations of n used with the svd_full functions were tested with linear regression.
-
-* Once the n values leading to the aproximate best average r2 score for linear rergession were found for each of the train bounds, the results were recorded. 
-
----
-
-* Standard sklearn mlp models were also tested on feature 1 and feature 3 with the only extra parameter being layers.
-
-* The approximate best mlp models for the corresponding train rating bounds were found by using the best combination of n values for the best linear regression model with matching rating bounds.
-
-* For each of the three (rating bounds and corresponding best n values) three mlp models are tested to show the aproximate best mlp layer parameters.
-
-* This is the number of layer combinations that is neither too small nor too large.
-
-* For 30-50, and 50-70 train user bounds, the best performing model happened to be the best (middle range layered) mlp model and for 11-31 train user bounds the best performing model was linear regression. (See results.txt)
-
-
-* When comparing the linear regression model and the three other mlp models for each (rating bounds and corresposning best n values) the observations show that the average r2 scores results are very similair,
-often only differening in the thousandths place.
-
-
-* However, there is more noticable differences in performance when comparing tests with different (rating bounds and corresponding best n values). These differences are often in the hundredths place. 
-
-* The tests above account for 12 tests shown in results. 
-
-* There are 4 unique models for each of 3 (rating bounds and corresposning best n values).
-
-* The absolute best r2 performance which can be observed in results.txt is 0.27639324087457673 with the following parameters: 
-    * feature 1 and feature 3
-    * train user rating bounds: 30-50
-    * n = 10, 15 for svd train and full
-    * Model type: mlp, layers = (10,10,5)
-    * no rounding
-
-* There is a slight shortcut used here to reduce the testing for mlp models for different values of n.
-
-* One could potentially state that the optimal n values for linear regression are not the optimal values for mlp models with the same (rating bounds and corresposning best n values).
-
-* However, judging the small difference between models with the same (rating bounds and corresposning best n values), if there were mlp models with different optimal values of n than the linear regression model with the same (rating bounds and corresponding best n values) it would likely lead to very little perfromance gain.
-
-
-## Feature 2 and Feature 3:
-
-* Since it was clear that the performance of (feature 2 and feature 3) was worse than (feature 1 and feature 3) after a few tests, only the best performing (rating bounds and corresposning best n values) for feature 1 and feature 3 were used to test feature 2 and feature 3 knowing that even the most optimaize tweaks to the paramters would not lead to feature 2 and feature 3 outperforming feature 1 and feature 3. 
-
-
-* The reason feature 2 and feature 3 are part of the results is to show the difference between using only the genre column vs all the relevant columns.
-
-* Linear regression was tested with the variables forced above for (feature 2 and feature 3), for only the genres column and then again for all the columns saved in the constructed_data.csv.
-
-* From this test, it was clear that utilizing all the columns was superior to only using genres.
-
-* The full corpus parameter was also tested with mlp models using the same technique in the
-feature 1 and feature 3 section. Essentially, sandwitching the model with the close to best number of layers for performance, between a worse model with a lower number of model combinations and a worse model with a higher number of layer combinations 
-
-* This medium layer combination was the highest performing parameters for feature 2 and feature 3.
+* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features. Feature 1 and feature 2 were shown have a positive impact on the linear regression model.
 
 
 # How to install/run:
-
-## Automated Way (with docker):
-
-* Requirements:
-    * Git
-    * Docker
-    * Kaggle account and API token
-
-1. Clone the repository with git.
-
-2. Navigate to the main project directory.
-
-3. Start the docker daemon.
-
-4. Build docker image using the provided Dockerfile using this shell command:
-
-    ```shell
-    docker build -t movie_rec_image .
-    ```
-
-5. Using the same shell, create a contianer from the image while binding the port of the listening jupyter server (8888) to port 8888 of the host machine: 
-
-    ```shell
-    docker run -p 8888:8888 movie_rec_image 
-    ```
-
-6. Choose one of the following methods to utilize the python kernel of the jupyter server (there are other methods that can be found online).
-
-    Browser method: 
-
-    1. Follow the url that is found in the shells console ouput where you created the container. It is the second url after "Jupyter Server \*.\*.\* is running at:" and starts with "http://127.0.0.1:8888". This should open a webpage with the current working directory set in the dockerfile with the complete_11_03_2023.ipynb file.
-    
-    2. Open the complete_11_03_2023.ipynb file in the browser notebook and run all the cells.
-
-    Vscode method: 
-
-    1. Open the complete_11_03_2023.ipynb file in the main project directory in vscode.
-
-    2. Follow these step to connect to the jupyter servers python kernel:
-        1. Select kernel in top right.
-        2. Select another kernel.
-        3. Select existing jupyter server.
-        4. Copy and paste the jupyter server access token that is found in the console. 
-        It is the second url after "Jupyter Server \*.\*.\* is running at:" and starts with "http://127.0.0.1:8888".
-        5. Create a server display name.
-        6. Select the Python 3 (ipykernel).
-
-    3. Then run all the cells in the notebook.
-
-7. Kaggle Requirments:
-
-    * Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
-
-    * Instructions to get api token to authenticate the data request(Note: kaggle account required):
-        1. Sign into kaggle.
-        2. Go to the 'Account' tab of your user profile and select 'Create New Token'. 
-        3. This will trigger the download of kaggle.json, a file containing your API credentials.
-
-    * If the files have already been downloaded and stored in the "the-movies-dataset" folder, than this cell does nothing and requires no credentials.
-
-
-8. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
-
-
 
 ## Manual Way (no docker):
 
@@ -283,7 +160,7 @@ feature 1 and feature 3 section. Essentially, sandwitching the model with the cl
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
-# Notes for the notebook:
+# Notes for the notebooks:
 
 * For tweaking and testing, it is important to note that there are two major sections of the notebook.
 
@@ -304,6 +181,10 @@ However, once this is run it will take no time to select a smaller subset of tha
 again. 
 
 * There are still parameters set in (cell 1 - cell 4), so those variables take extra time to tweak and test compared to varables in (cell 5 - cell 8).
+
+* Don't run the bayesian_optimization.ipynb unless you have ample time and memory space on your machine. It is only included for informative purposes and does not need to be run again.
+
+* For both notebooks need to change 
 
 
 Look: https://choosealicense.com/
