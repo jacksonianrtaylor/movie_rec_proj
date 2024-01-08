@@ -1,31 +1,40 @@
 # Goal:
 
-The full_model.ipynb notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
+The goal of the notebook is to build a model to predict what a new user would rate a particular movie, based on their ratings to other movies and the relationship between other users rated movies and their own rated movies.
 
-This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie rather then simply reccomending the best fit movies to the user. 
+In other words, the model attempts to predict what the user would score a movie they have not yet given a rating for.
 
-I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
+This is valuable goal, because the model can give users an idea about how satisfied they will be with any movie.
 
-In theory the prediction uses a combiantion of the users data along with potentially massive amounts of users rating data and movie data stored in a database.
+This is why it is a more challenging task than only recommending movies the users would like.
 
-
-[Click here to view the Jupyter Notebook](full_model.ipynb)
+[Click here to view the Jupyter Notebook](complete_11_03_2023.ipynb)
 
 ## Clarification:
 
-The process should not be confused with predicting a critics score or some metascore from a review website. It predicts user scores. 
+The process should not be confused with predicting something of the nature of a critics score or some metascore from a review website.
 
-The model could benfit if the metadata was someway integrated in a column by column basis. However, these details were not part of the focus of the model.
+It does not use the text data in "the-movies-dataset" as direct features for the model.
 
-The only way the movies metadata is used in the model, is with term frequencies from the combined corpus of relevant column attributes.
+It only uses them to calculate similairty between movies which is part of a function that makes a movie prediction.
+
+The model is based on user preference and realtionship between users rather than a prediction based on pure signs of production value that can be applied to predict how good a movie is.
+
+The data used is based off random users and the movie rating predictions are for random users.
+
 
 
 ## Challenges:
 
-* Many times, the users ratings are not accurate to their preference. This can introduce alot of noise. Garbage in garbage out.
+* Many times the users ratings are not accuracte to their preference (there is wierd unexplained error).
 
-* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and thereforre less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is easier for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
+* How can you measure how similair movies are? (Similarity score can be used in a method described in the content based filering section below.
+    What data can we use to test simlairity?).
 
+* How can the similairties between users help predict rating? (This is the point of svd function below in collaborative filtering)
+
+* Predictions to a movie rating for a user can be worse if the user only inputs a small number of rated movies but It is best to train and test a model where test users have a small number of ratings because it is more feasible in a front-end implementation of this model. (Think about being a user who is prompted to enter some ratings for movies they saw to predict how much they would like a movie they didn't watch. They wouldn't want to feel like they are wasting time entering an excessive number of movie ratings)
+    
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
 ## Data source
@@ -33,31 +42,61 @@ The only way the movies metadata is used in the model, is with term frequencies 
 * The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
 * It is too large to fit in the repository and reqires user credentials to download. (see the How to Install/Run section).
 
+## Functionality notes:
+
+- This program has the ability to choose users with a specific number of ratings for test and train users.
+
+- The default program focuses on test users with 5-10 ratings and train users with 30-50 ratings.
+
+- The point with keeping the number of test users low is explained above in challenges section. Demanding more ratings from a user to improve perfromance comes at a high cost to ease of use.
+
+- For the case of the number of train users, many tests of the notebook have shown that there is some happy medium for the number of train users, when the number of test users stays constant at 5-10 users.
+
+- The best perfoming number of train user that was chosen to be tested was the current value in the program (30-50). This performed better than 11-31 and 50-70 users.
+
+- The average r2 scores of the current configuration are likely not the highest that this system can perform because not all train bound have been tested with a simialir range to (30-50).
+
+- When training and testing bounds are specified in the context of training and evaluating the model in this notebook, the real bounds for the number of ratings are shifted down to omit the target rating that is chosen randomly amoung the users ratings. For example, if the ratings bounds are stated to be 30-50 for train users, than the real bounds for the number of ratings they need to provide is 29-49. As for the testing bounds which are stated 5-10, the model is really being optimized to predict a rating for 4-9 ratings given by the user. In the training phase of this model, if a user has 7 ratings, one of which is a traget rating of the model than he really is only providing 6 ratings. However, if a user provides 7 ratings of this model in production phase then they are actually providing 7 ratings.
+ 
+
 
 # Process: 
-
-
-## Overview
-
-There are three input features to he model
-Each of these features standon their own as predicitons the target movies rating...
-
-The model takes features_1 2 and 3 as inputs the model for traning and testing...
 
 ## Content Based Filtering:
 
 ### Feature_1:
 
-Feature_1 is a non-weighted average of all the ratings for a user besides the target movie. This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
+The first feature, feature_1, is a non-weighted average of all the ratings for a user besides the target movie. This is an effective feature because it reveals how high a user rates movies on average.
+This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
 
 ### Feature_2:
 
-Feature_2 is a weighted average of the all the users ratings besides the target movie. The weighting for each rated movie is based on how similair the target movie is to the rated movies. The similairty is determined by cossine simialirty of normalized tf-idf vectors for word counts of a rated movie and a target movie. 
+Feature_2 is another content based predictor. The constructed_data.csv is built from the source data. Every line in constructed_data.csv has a user, a movie id, a rating, as well as all the relevant movie data columns for the correponding movie from every csv in the entire movie data set that might produce helpful text data. (In the current program, genres is the only column used. See the notebook (cell 7) for changing the current corpus from genres to all columns. This will increase runtime.). For each movie the user rated, certain columns of text data (currently only genres) are selected from the movie and combined to create an ordered set of words.  After the ordered set of words is created for a user, the words found in the corpus of the relevent columns for that movie are count vectorized in the order of the ordered set of words. The value at the corresponding index of the count vector is equal to the number of times the words comes up in the particular movies corpus. Once a word count vector is created for each movie the user watched (including the target movie), the rating of the target movie can be predicted using a function of the non target movie ratings and the  cossine similarity between the transformed word count vectors of the target movie and the other movies the user watched. (See notebook for more details) The output of this function creates a single entry of feature_2.
+
+#### What are the transformed word count vectors?:
+
+The transformed word count vectors are normalized tf-idf vectors.
+This places value on terms that are un-common in alot of documents,while still placing value on how common they are in the document at hand. This leads to a more powerful quantifier for cossine similairity between documents.
+
 
 
 ## Collaborative filtering:
 
 ### Train Operation:
+* Data is organized into a ((user) x (movies ratings of corresponding user)) list.
+
+* The users that are included are train_users.
+
+* train_users.movies_in_order is an ordered list of movie ids ordered by there first occurance in the list of train users.
+
+* (movies ratings of corresponding user) is a list of ratings for a user that follow the order of train_users.movies_in_order.
+
+* For each movie id in the order of train_users.movies_in_order, if the user has a rating for that movie id and that movie id is not the target movie id for that user, than set the value at the corresponding index of (movies ratings of corresponding user) with the users rating, otherwise fill it in with the movies average rating for all train users. (loosely speaking)
+ 
+* Each movie rating in every user row is normalized by subtracting the movies average rating for all train users.
+
+* Then use this as one of the inputs to svd_full function below
+
 * #### svd_full:
 
     The matrix factorization is created with the svd function on the normalized ratings. Then each factor is truncated to n (currently 10) "components". Then the factors are multiplied together to make a new array with the same dimension as the (normalized ratings) but where the target ratings once were normalized to 0, new normalized predictions takes its place. Then this array is scaled back into an array of ratings from (1-5) giving a real and more reasonable rating prediction of the target movie than the movies average rating. These are the outputs of the first call of the svd_full function "svd_out_train". The predicted rating for the train users target movies are found by acessing the row for the train user in question and the column corresponding to the saved target movie index for the user. These predicted ratings fed into feature_3 are used to train the model.
