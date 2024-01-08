@@ -6,7 +6,7 @@ This is an invaluable goal, because the model can give users an idea about how s
 
 I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
-In theory the prediction uses a combiantion of the users data along with potentially massive amounts of users rating data and movie data stored in a database.
+In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database.
 
 
 [Click here to view the Jupyter Notebook](full_model.ipynb)
@@ -24,12 +24,16 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 * Many times, the users ratings are not accurate to their preference. This can introduce alot of noise. Garbage in garbage out.
 
-* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and thereforre less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is easier for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
+* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and thereforre less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
 
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
 
-* The iterative_svd function discussed later has hyperparameters that need to be optimized. This is the pupose of the bayesian_optimization.ipynb notebook. 
-With larger bounds comes better performance but higher computation time. This is why dask and numba are used to speed up computations.
+* The iterative_svd function discussed later has hyperparameters that can to be optimized. This is the purpose of the bayesian_optimization.ipynb notebook. 
+
+* Larger initial bounds for the optimization function likely gives better performing hyperparameter outputs but also leads to a higher computation time. 
+
+* ALso, increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a jit compiler for the by far most taxing function "epoch".
+
 
 ## Data source
 
@@ -38,7 +42,7 @@ With larger bounds comes better performance but higher computation time. This is
 
 
 # Process: 
-
+LOOK: should I go through a top to bottom rundown???
 
 ## Overview
 
@@ -88,7 +92,7 @@ b2 = np.zeros(nof_movies)
 
 #### Bayesian Optimization
 
-The baysian optmization process is critical to the effectiveness of the feature 3 in the final model.
+The baysian optmization process is critical to the effectiveness of feature_3 in the final model.
 This means that tuning the hyperparameters to the iterative svd funciton goes a long way.
 
 This is what sparked the creation of the other notebook: bayesian_optimization.ipynb
@@ -97,34 +101,82 @@ The entire point of this notebook is to find the highest perfroming parameters f
 nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
 
 
-What do these all mean?:
+What do these parameters mean?:
 
 nof_svd_users is the number of users that that help train the iterative svd function but dont have a rating to be predicted by the trained svd.
-The users themselves are not parameters becasue they should always be chosen randomly 
 
-nof_train_users is the number of users that both help train the model but also require prediction for exactly one of their movies.
-(These emulate the users that the model is designed for)
-again the users themselves are not parameters becasue they should always be chosen randomly 
+The users themselves are not parameters becasue they should always be chosen randomly from the pool of svd users.
 
-nof_train users is a number that is used for both the number of train and test users in the full_model.ipynb notebook
+In the full_model.ipynb notebook the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require prediction for exactly one of their movies.
+(These emulate the users that the final trained model is designed for)
 
+Again the users themselves are not parameters becasue they should always be chosen randomly.
 
-Question: do i need to explain all the variables???
+Users are randomly chosen from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
 
+ 
+nof_latent_features: number of factors in the iterative_svd function
+    q : is a (nof_movies x nof_factors) array
+    p : is a (nof_users x nof_factors) array
+Epochs: nof cycles of stochastic gradient descent on the entire train list.
+rt: regression term
+lr: learning rate
 
 
 ## Final Model:
 
-
 * It is important to note that each feature can function as a predictor to the target movies rating on their own.
 
-* The purpose of the model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
+* The purpose of the final model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
 
 * The idea was that more than one predictor can fill in the short comings of a single model.
 
-* After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used to build a simple linear model.
+* After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used to build a simple linear model(linear regression)
 
-* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features. Feature 1 and feature 2 were shown have a positive impact on the linear regression model.
+* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features. Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
+
+
+## Results:
+
+* Gathering accurate and consistent results was a challenging task and is somewhat incomplete.
+
+* The first challenge was finding the hyperparameters that produced the best results for the iterative_svd function. 
+
+* A set of hyperparamters can simply produce good rmse by chance, meaning that the random conditions
+in testing may contribute highly to its success.
+
+* In order to mitigate this, many tests were done for each iteration of the gp_minimize function.
+This means that the same parameter values were tested a large amount of times, each time diversifying the users involved by...
+randomly selecting them from the larger pool. 
+
+* Even with a large amount of tests (160 or 320) for each iteration, the optmization process seemed to inflate the RMSE results.
+
+* This was observed when testing the same parameters for (160 or 320) times in a seperate cell. It showed that with these tests the average RMSE was higher than what was found in the optmimization process. In other words it produced worse results when generalizing to new data.
+
+* Although increasing the number of tests in the bayesain optmiation process helped reduce the overestimation of the hyperparameters there was still slight issues with over estimation. 
+
+* Also, the more iterations of the bayesain optmiation process helps with outputing good parameters but it also increase the chance of over inflating them and likely required more tests per iteration to produce honest results.
+
+* After many tests of the bayesian optmiation process, I decided to settle on hyperaprametrs produced by a 3 hour long process on my machine with the input parameters found here (LOOK: link to inputs) and the output hyperparameters foudn here (LOOK: link to hyperparameter results)
+
+* The average RMSE results were the best so far and it genralizes relatively well, but there was still a descrepency between the perfromance in the optimization process and the generalization test. 
+
+* The other challenge was with feature completion in the second to last cell in full_model.iypynb. Even though the structure is relative similair to the last cell of bayesian_optimization.ipynb, it has the addtional task of populating the train and test version of (features 1 2 and 3 and target rating). 
+
+* I wanted this process to be accurate and consistent but not have a massive runtime since unlike the baysian optmiation process it should be practical to use and change as needed.
+
+There seemed to be good consistency in RSME when number of runs was = 160 regardless of the seed. When the number of runs is increased the less the input seed matters. However, that would take ~30 minute to run on my machine. 
+
+
+* I left the number of runs at 40 which would make 8 blocks of size 5. 
+
+
+* LOOK: What are the model results in the final cell from different seeds (10, 20, 30)
+
+
+
+
+
 
 
 # How to install/run:
@@ -162,32 +214,27 @@ Question: do i need to explain all the variables???
 
 # Notes for the notebooks:
 
-* For tweaking and testing, it is important to note that there are two major sections of the notebook.
 
-* (cell 1 - cell 4) is mainly for formatting and cleaning data before building the model. It saves the data in the form of a csv file called "constructed_data.csv".
+* Currenlty, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type).
+In (cell 1 - cell 4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
 
-* (cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
-If the pykernel were restarted than the data in the form of "constructed_data.csv" persists so that only (cell 5 - cell 8) 
-needs to be rerun. 
-
-* Imagine running the (cell 1 - cell 4) on a excessive amount of data. 
-
-* This will take along time.
-However, once this is run it will take no time to select a smaller subset of that data to build the model. This is part of the functionality of cell 6.
-
-* Then after creating the model, the users decide they need more data.
-
-* All the user needs to do is make some tweaks to cell 6 where a subset of the larger set is selected instead or wasting time runing (cell 1 - cell 4)
-again. 
-
-* There are still parameters set in (cell 1 - cell 4), so those variables take extra time to tweak and test compared to varables in (cell 5 - cell 8).
-
-* Don't run the bayesian_optimization.ipynb unless you have ample time and memory space on your machine. It is only included for informative purposes and does not need to be run again.
-
-* For both notebooks need to change 
+LOOK: (may need to move this) Then the next part of the notebook (cell 5 - cell 8) can randomly take subsets of this large amount of data.
+Since the initial slection of users is large, the random subsets of these lists have a good variety.
 
 
-Look: https://choosealicense.com/
+* When (cell 1 - cell 4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing.
+(cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
+
+
+* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and amble memory space on your machine. 
+It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more honest results.
+
+
+
+
+
+
+LOOK: https://choosealicense.com/
 https://choosealicense.com/no-permission/
 
 LOOK: NO more than two code cells per markdown cell???
