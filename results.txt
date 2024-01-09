@@ -40,7 +40,6 @@ Runs: 160
         Feature 3:
         RMSE with train users: 1.0411463
         RMSE with test users: 1.0426018
-        Minutes taken: 24.201359256108603
         Final Model:
         Average RMSE test score: 1.03712797164917
 
@@ -54,7 +53,6 @@ Runs: 160
         Feature 3:
         RMSE with train users: 1.0517306
         RMSE with test users: 1.0475341
-        Minutes taken: 23.741960096359254
         Final Model:
         Average RMSE test score: 1.0428186655044556
 
@@ -68,7 +66,6 @@ Runs: 160
         Feature 3:
         RMSE with train users: 1.0447968
         RMSE with test users: 1.0435472
-        Minutes taken: 22.011177094777427
         Final Model:
         Average RMSE test score: 1.038050889968872
 
@@ -86,7 +83,6 @@ Runs: 40
         Feature 3:
         RMSE with train users: 1.0397173
         RMSE with test users: 1.0418123
-        Minutes taken: 6.038246107101441
         Final Model: 
         Average RMSE test score: 1.0372942686080933
 
@@ -100,7 +96,6 @@ Runs: 40
         Feature 3:
         RMSE with train users: 1.0473968
         RMSE with test users: 1.051594
-        Minutes taken: 5.558163555463155
         Final Model:
         Average RMSE test score: 1.0480594635009766
 
@@ -114,6 +109,5 @@ Runs: 40
         Feature 3:
         RMSE with train users: 1.055824
         RMSE with test users: 1.0408412
-        Minutes taken: 5.561359918117523
         Final Model:
         Average RMSE test score: 1.0359361171722412
