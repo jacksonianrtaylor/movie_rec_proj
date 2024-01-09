@@ -1,0 +1,40 @@
+# LOOK: 
+# opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter, numba, dask, scikit-optimize, scikit-surprise
+# make sure (numpy==1.23.5)
+# not sure if dask or "dask[complete]"
+# numpy version downgraded to verison 1.23.5 to support usage of np.int in built in functions...
+# https://github.com/WongKinYiu/yolov7/issues/1280
+# avoids having ot use (np.int = int)
+
+
+LOOK: packages to install, remember to do a runtime check:
+numpy==1.23.5, jupyter, opendatasets, pandas, spacy, ordered-set,
+scikit-learn, numba, dask, scikit-optimize, dask\[distributed\]
+
+
+LOOK: Should go through this process by removng the env and then reinstalling it
+
+LOOK: Need to re-do the above steps in a fresh notebook
+
+LOOK: Does the fact that svd, train, and test user can be used more than once introduce problems???
+Not really when they are chosen randomly and there is a large selection.
+
+LOOK: Does the fact that the same set of svd users are used for testing and training introduce problems???
+
+Suppose you want to give a rating to a completely new user. 
+you find feature 1 and feature 2
+with feature 3 you use a sample of the same collection of svd users used in training from the database
+and a sample of the train/test users used in training from the database
+
+In the training of the model the same set of svd users are used for testing and training
+
+
+LOOK: https://choosealicense.com/
+https://choosealicense.com/no-permission/
+
+LOOK: NO more than two code cells per markdown cell???
+https://www.dataquest.io/blog/how-to-share-data-science-portfolio/
+
+LOOK:
+How to write good notebooks:
+https://www.youtube.com/watch?v=tVhh46f6_Dk

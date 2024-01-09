@@ -1,26 +1,27 @@
-LOOK: might want a table of contents here....
+# Table of Contents
+
+1. [Project Goal](#Project-Goal)
+2. [Process](#Process)
+3. [How to (Install/Run):](#How-to-(Install/Run):)
 
 
-# Goal:
+# Project Goal:
 
-The full_model.ipynb notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
+The [full_model.ipynb](full_model.ipynb) notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
 
 This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie. It is a step up from simply reccomending the best fit movies to the user. 
 
 I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
-In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database.
-
-
-[Click here to view the full_model Notebook](full_model.ipynb)
-
-## Clarification:
+In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database. The model is designed to harness this data in multiple ways to make predictions.
 
 The process should not be confused with predicting a critics score or some metascore from a review website. It predicts user scores. 
 
 The model could benfit if the metadata was someway integrated in a column by column basis. However, these details were not part of the focus of the model.
 
 The only way the movies metadata is used in the model, is with term frequencies from the combined corpus of relevant column attributes.
+
+[Link to the full_model Notebook](full_model.ipynb)
 
 
 ## Challenges:
@@ -42,9 +43,7 @@ The only way the movies metadata is used in the model, is with term frequencies 
 ## Data source
 
 * The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
-* It is too large to fit in the repository and reqires user credentials to download. (see the How to Install/Run section).
-
-* [link]()
+* It is too large to fit in the repository and reqires user credentials to download. [See How to (Install/Run).](#How-to-(Install/Run):)
 
 # Process: 
 
@@ -57,33 +56,13 @@ Using pandas, complete data rows are removed where there is a lack of data for c
 
 Then the data is combined into a dataframe with columns values like this: (user_id, movie_id, users_rating_for_movie, columns for movies metadata..)
 
-After list conversion, for each user, a loop removes movies that already have a rating for that user.
+After converting the dataframe into a list, for each user, a loop removes rows of the list that contain a movie which already has a previous rating by the user. The first movie rating for a movie is kept for each user.
+
 
 Then the process randomly chooses users that fall into the apropriate bounds for the number of ratings to be a svd user, train user, or test user (It chooses 10000 of each).
 
 
-LOOK: Put this in the optimization section:
-
-It is important to distinguish svd users, train user, and test users.
-
-SVD users are users that only contribute to the training. 
-Their ratings are used as inputs to the iterative_svd function.
-
-On the other hand, train and test users have ratings to pass to the iterative_svd function and have exactly one movie rating to be predicted by the svd.
-
-The test users are limited because of the problem statement in the goal section. 
-furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
-gives the most accurate prediction to the test ratings. It should not over or under inflate certain features by using more or less data to support them.
-
-svd users dont have these restrictions and therefore should have more ratings. intuitively, the more svd ratings per user, the more it can contributes to the test and train predictions.
-
-currently the svd users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
-To keep things simpler this was not part of the optmization process in bayesian_optimization.ipynb and the values are by no means optmial. 
-Also, due to the sheer combinations of the min and max of the bounds it is better to optmize them manually. 
-
-___
-
-Finally extract the data from those users, structure it into a list, and write it into a csv file in this order (bounds_svd_users, bounds_train_users, bounds_test_users)
+Finally, the data is extract from those users, structured into a list, and written into a csv file in this order (svd_users, train_users, test_users).
 
 Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test)
 
@@ -105,7 +84,7 @@ This is why there combination in a linear model is effective.
 
 ### Feature_1:
 
-Feature_1 is a non-weighted average of all the ratings for a user besides the target movie. This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because target movie rating is inevitably linked to how high a user rates movies on average.
+Feature_1 is a non-weighted average of all the ratings for a user besides the target movie. This feature alone will not be the most precise since it does not value anything about the movie in question and is independent of what other users think about the movie. This feature works because a target movie rating is inevitably linked to how high a user rates movies on average.
 
 ### Feature_2:
 
@@ -121,9 +100,9 @@ It is important to distinguish svd users, train user, and test users.
 SVD users are users that only contribute to the training. 
 Their ratings are used as inputs to the iterative_svd function.
 
-On the other hand, train and test users have ratings to pass to the iterative_svd function and have exactly one movie rating to be predicted by the svd.
+On the other hand, train and test users have ratings to pass to the iterative_svd function and they also have exactly one movie rating to be predicted by the svd.
 
-The test users are limited because of the problem statement in the goal section. 
+The number of test users are limited because of the problem statement in the goal section. 
 furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
 gives the most accurate prediction to the test ratings. It should not over or under inflate certain features by using more or less data to support them.
 
@@ -145,14 +124,16 @@ the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],
 
 Initial Conditions:
 
-nof movie x nof latent features:
-q = gen_input.normal(0, .1, (nof_movies, n))
-
-nof users x nof latent features:
+Users factors:
 p = gen_input.normal(0, .1, (nof_users, n))
 
-Biases:
+Item factors:
+q = gen_input.normal(0, .1, (nof_movies, n))
+
+User biases:
 b1 = np.zeros(nof_users)
+
+Movie biases:
 b2 = np.zeros(nof_movies)
 
 
@@ -161,7 +142,7 @@ b2 = np.zeros(nof_movies)
 The baysian optmization process is critical to the effectiveness of feature_3 in the final model.
 This means that tuning the hyperparameters to the iterative svd funciton goes a long way.
 
-This is what sparked the creation of the other notebook: bayesian_optimization.ipynb
+This is what sparked the creation of the other notebook: [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
 
 The entire point of this notebook is to find the highest perfroming parameters for:
 nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
@@ -169,23 +150,22 @@ nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
 
 What do these parameters mean?:
 
-nof_svd_users is the number of users that that help train the iterative svd function but dont have a rating to be predicted by the trained svd.
+nof_svd_users is the number of users that that help train the iterative svd function but don't have a rating to be predicted by the trained svd.
 
 The users themselves are not parameters becasue they should always be chosen randomly from the pool of svd users.
 
-In the full_model.ipynb notebook the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require prediction for exactly one of their movies.
-(These emulate the users that the final trained model is designed for)
+In the [full_model.ipynb](full_model.ipynb) notebook the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require prediction for exactly one of their movies. (These emulate the users that the final trained model is designed for)
 
-Again the users themselves are not parameters becasue they should always be chosen randomly.
+Again, the users themselves are not parameters because they should always be chosen randomly.
 
-Users are randomly chosen from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
+Users are randomly sampleed each rune from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
 
  
 nof_latent_features: nof_factors in the iterative_svd function
     q : is a (nof_movies x nof_factors) array
     p : is a (nof_users x nof_factors) array
 Epochs: nof cycles of stochastic gradient descent on the entire train list.
-rt: regression term
+rt: regularization term
 lr: learning rate
 
 
@@ -196,9 +176,9 @@ lr: learning rate
 
 * The idea was that more than one predictor can fill in the short comings of a single model.
 
-* After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used to build a simple linear model(linear regression)
+* After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used as input featurs to build a simple linear regression model.
 
-* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features, Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
+* Although feature 3 is overwelmingly the most critical feature to the model, in testing the prescence and abscence of features, Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
 
 
 ## Results:
@@ -220,40 +200,25 @@ randomly selecting them from the larger pool.
 
 * Although increasing the number of tests in the bayesain optmiation process helped reduce the overestimation of the hyperparameters, there was still slight issues with over estimation. 
 
-* Also, the more iterations of the bayesain optmiation process helps with outputing good parameters but it also increase the chance of over inflating them and likely required more tests per iteration to produce honest results.
+* Also, the more iterations of the bayesain optmiation process helps with outputing good parameters, but it also increases the chance of over inflating them and likely required more tests per iteration to produce honest results.
 
-* After many tests of the bayesian optmiation process, I decided to settle on hyperaprametrs produced by a 3 hour long process on my machine with the input parameters found here (LOOK: link to inputs) and the output hyperparameters foudn here (LOOK: link to hyperparameter results)
+* After many tests of the bayesian optmiation process, I decided to settle on hyperaprameters produced by a 3 hour long process on my machine with the input parameters found in the results file: [results.txt](results.txt)
 
-* The average RMSE results were the best so far and it genralizes relatively well, but there was still a descrepency between the perfromance in the optimization process and the generalization test. 
-
-* The other challenge was with feature completion in the second to last cell in full_model.iypynb. Even though the structure is relative similair to the last cell of bayesian_optimization.ipynb, it has the addtional task of populating the train and test version of (features 1 2 and 3 and target rating). 
-
-* I wanted this process to be accurate and consistent but not have a massive runtime since unlike the baysian optmiation process it should be practical to use and change as needed.
-
-There seemed to be good consistency in RSME when number of runs was = 160 regardless of the seed. When the number of runs is increased the less the input seed matters. However, that would take ~30 minute to run on my machine. 
-
-* I left the number of runs at 40 which would make 8 blocks of size 5. 
-
-* LOOK: What are the model results in the final cell from different seeds (10, 20, 30)
+* The average RMSE results were the best so far and it generalized relatively well, but there was still a descrepency between the perfromance in the optimization process and the generalization test. 
 
 
-...needs to somewhere else
-* Something That was not previously mentioned but still importaant to the model are the svd, train and test bounds
+* The most important results were the Final Model results (combination of all features 1, 2, and 3) using the best hyperparameters found in [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
 
-# Tips for the notebooks:
+* There seemed to be reasonable consistency in RSME when the number of runs was 160 after testing multiple seeds to the generator function (10,20,30). Intuitively, when the number of runs is increased the less the input seed matters. 
 
-* Currently, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type) to make random selection from these user types diverse. In cell(1-4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
+* I left the number of runs at 40 in the notebook for user friendly runtimes and again tested 3 different seeds to the generator function (10,20,30)
 
-* When cell(1-4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing to save time when testing new parameters. 
-
-* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
-It is only included for informative purposes and does not need to be run again. 
-However, it could be useful to try larger parameter bounds and some different input to get marginally more accurate and honest results. 
+* [Here is the summary of the error results for these tests ](results.txt)
 
 
 
 
-# How to install/run:
+# How to (Install/Run):
 
 * Requirements:
     * Git
@@ -263,9 +228,10 @@ However, it could be useful to try larger parameter bounds and some different in
 1. Clone the repository with git.
 2. With python3 and pip:
     1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
-    2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
-    3. Activate the virtual environment (LOOK: This has been changed)
-    LOOK: Should go through this process by removng the env and then reinstalling it 
+    2. Activate the virtual environment
+    3. Install the following packages to the virtual env using pip: numpy==1.23.5, jupyter, opendatasets, pandas, spacy, ordered-set,
+scikit-learn, numba, dask, scikit-optimize, dask\[distributed\]
+
 
 3. Open the full_model.ipynb file in the main project directory and connect to the kernel of the python virtual environment you created.
 
@@ -280,42 +246,23 @@ However, it could be useful to try larger parameter bounds and some different in
         2. Go to the 'Account' tab of your user profile and select 'Create New Token'.
         3. This will trigger the download of kaggle.json, a file containing your API credentials.
 
-    * After inputing credential the files from the-movies-dataset will start downloading in a new folder called "the-movies-dataset".
+    * After inputing credentials the files from the-movies-dataset will start downloading in a new folder called "the-movies-dataset".
 
     * If the files have already been downloaded and stored in the "the-movies-dataset" folder, than this cell does nothing and requires no credentials.
 
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
+## Tips for the notebooks:
+
+* Currently, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type) to make random selection from these user types diverse. In cell(1-4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
+
+* When cell(1-4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing to save time when testing new parameters. 
+
+* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
+It is only included for informative purposes and does not need to be run again. 
+However, it could be useful to try larger parameter bounds and some different inputs to get better results. 
 
 
-LOOK: Need to re-do the above steps in a fresh notebook
-
-
-LOOK: Does the fact that svd, train, and test user can be used more than once introduce problems???
-Not really when they are chosen randomly and there is a large selection.
-
-
-LOOK: Does the fact that the same set of svd users are used for testing and training introduce problems???
-
-Suppose you want to give a rating to a completely new user. 
-you find feature 1 and feature 2
-with feature 3 you use a sample of the same collection of svd users used in training from the database
-and a sample of the train/test users used in training from the database
-
-
-In the training of the model the same set of svd users are used for testing and training
-
-
-
-LOOK: https://choosealicense.com/
-https://choosealicense.com/no-permission/
-
-LOOK: NO more than two code cells per markdown cell???
-https://www.dataquest.io/blog/how-to-share-data-science-portfolio/
-
-LOOK:
-How to write good notebooks:
-https://www.youtube.com/watch?v=tVhh46f6_Dk
 
 
 

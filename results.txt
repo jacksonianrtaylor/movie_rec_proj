@@ -20,13 +20,59 @@ Baysian Optmization Cell Results:
     Solution: (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
     (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
     result: 1.0321909189224243
-    time taken: 182.24611388444902
+    Minutes taken: 182.24611388444902
 
 
 
 Individual Features and model tested on optimzaed params:
 (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
 (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
+Runs: 160
+    Note: Also testing different seeds
+
+    generator: Generator(PCG64(10))
+        Feature 1:
+        RMSE with train users: 1.1039218
+        RMSE with test users: 1.103489
+        Feature 2:
+        RMSE with train users: 1.11689
+        RMSE with test users: 1.1166416
+        Feature 3:
+        RMSE with train users: 1.0411463
+        RMSE with test users: 1.0426018
+        Minutes taken: 24.201359256108603
+        Final Model:
+        Average RMSE test score: 1.03712797164917
+
+    generator: Generator(PCG64(20))
+        Feature 1
+        RMSE with train users: 1.1159052
+        RMSE with test users: 1.110988
+        Feature 2:
+        RMSE with train users: 1.1266861
+        RMSE with test users: 1.123671
+        Feature 3:
+        RMSE with train users: 1.0517306
+        RMSE with test users: 1.0475341
+        Minutes taken: 23.741960096359254
+        Final Model:
+        Average RMSE test score: 1.0428186655044556
+
+    generator: Generator(PCG64(30))
+        Feature 1:
+        RMSE with train users: 1.1090798
+        RMSE with test users: 1.1064758
+        Feature 2:
+        RMSE with train users: 1.1206114
+        RMSE with test users: 1.118382
+        Feature 3:
+        RMSE with train users: 1.0447968
+        RMSE with test users: 1.0435472
+        Minutes taken: 22.011177094777427
+        Final Model:
+        Average RMSE test score: 1.038050889968872
+
+
 Runs: 40
     Note: Also testing different seeds
 
@@ -42,7 +88,7 @@ Runs: 40
         RMSE with test users: 1.0418123
         Minutes taken: 6.038246107101441
         Final Model: 
-        Average RMSE test score without rounding: 1.0372942686080933
+        Average RMSE test score: 1.0372942686080933
 
     generator: Generator(PCG64(20))
         Feature 1:
@@ -56,7 +102,7 @@ Runs: 40
         RMSE with test users: 1.051594
         Minutes taken: 5.558163555463155
         Final Model:
-        Average RMSE test score without rounding: 1.0480594635009766
+        Average RMSE test score: 1.0480594635009766
 
     generator: Generator(PCG64(30))
         Feature 1:
@@ -70,4 +116,4 @@ Runs: 40
         RMSE with test users: 1.0408412
         Minutes taken: 5.561359918117523
         Final Model:
-        Average RMSE test score without rounding: 1.0359361171722412
+        Average RMSE test score: 1.0359361171722412
