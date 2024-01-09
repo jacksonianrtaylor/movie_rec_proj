@@ -59,6 +59,28 @@ After list conversion, for each user, a loop removes movies that already have a 
 
 Then the process randomly chooses users that fall into the apropriate bounds for the number of ratings to be a svd user, train user, or test user (It chooses 10000 of each).
 
+
+LOOK: Put this in the optimization section:
+
+It is important to distinguish svd users, train user, and test users.
+
+SVD users are users that only contribute to the training. 
+Their ratings are used as inputs to the iterative_svd function.
+
+On the other hand, train and test users have ratings to pass to the iterative_svd function and have exactly one movie rating to be predicted by the svd.
+
+The test users are limited because of the problem statement in the goal section. 
+furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
+gives the most accurate prediction to the test ratings. It should not over or under inflate certain features by using more or less data to support them.
+
+svd users dont have these restrictions and therefore should have more ratings. intuitively, the more svd ratings per user, the more it can contributes to the test and train predictions.
+
+currently the svd users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
+To keep things simpler this was not part of the optmization process in bayesian_optimization.ipynb and the values are by no means optmial. 
+Also, due to the sheer combinations of the min and max of the bounds it is better to optmize them manually. 
+
+___
+
 Finally extract the data from those users, structure it into a list, and write it into a csv file in this order (bounds_svd_users, bounds_train_users, bounds_test_users)
 
 Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test)
@@ -74,7 +96,7 @@ There is also target_rating_train used to train the model and target_rating_test
 
 Each of these features stand on their own as predicitons to the target movie's rating but they each have a different method of doing so.
 
-This is why there combination in a linear model is effecttive.
+This is why there combination in a linear model is effective.
 
 
 ## Content Based Filtering:
@@ -90,6 +112,24 @@ Feature_2 is a weighted average of the all the users ratings besides the target 
 
 ## Collaborative filtering:
 
+### User Types:
+
+It is important to distinguish svd users, train user, and test users.
+
+SVD users are users that only contribute to the training. 
+Their ratings are used as inputs to the iterative_svd function.
+
+On the other hand, train and test users have ratings to pass to the iterative_svd function and have exactly one movie rating to be predicted by the svd.
+
+The test users are limited because of the problem statement in the goal section. 
+furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
+gives the most accurate prediction to the test ratings. It should not over or under inflate certain features by using more or less data to support them.
+
+svd users dont have these restrictions and therefore should have more ratings. intuitively, the more svd ratings per user, the more it can contribute to the test and train predictions.
+
+currently the svd users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
+To keep things simpler this was not part of the optmization process in bayesian_optimization.ipynb and the values are by no means optmial. 
+Also, due to the sheer combinations of the min and max of the bounds it is better to optmize them manually.
 
 ### Feature_3:
 
@@ -147,6 +187,7 @@ rt: regression term
 lr: learning rate
 
 
+
 ## Final Model:
 
 * The purpose of the final model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
@@ -189,21 +230,27 @@ randomly selecting them from the larger pool.
 
 There seemed to be good consistency in RSME when number of runs was = 160 regardless of the seed. When the number of runs is increased the less the input seed matters. However, that would take ~30 minute to run on my machine. 
 
-
 * I left the number of runs at 40 which would make 8 blocks of size 5. 
-
 
 * LOOK: What are the model results in the final cell from different seeds (10, 20, 30)
 
 
+...needs to somewhere else
+* Something That was not previously mentioned but still importaant to the model are the svd, train and test bounds
 
+# Tips for the notebooks:
+
+* Currently, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type) to make random selection from these user types diverse. In (cell 1 - cell 4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
+
+* When (cell 1 - cell 4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing to save time when testing new parameters. (cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
+
+* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
+It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more accuracte and honest results.
 
 
 
 
 # How to install/run:
-
-## Manual Way (no docker):
 
 * Requirements:
     * Git
@@ -234,25 +281,24 @@ There seemed to be good consistency in RSME when number of runs was = 160 regard
 6. Lastly, wait for the rest of the cells to finish and observe the results printed for each cell.
 
 
-# Notes for the notebooks:
-
-
-* Currenlty, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type).
-In (cell 1 - cell 4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
-
-
-* When (cell 1 - cell 4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing.
-(cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
-
-
-* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
-It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more accuracte and honest results.
 
 
 
 
 
-LOOK: Is user_to_data_train the apropriate name for being users with train and test ratings in BO notebook 
+LOOK: Does the fact that svd, train, and test user can be used more than once introduce problems???
+Not really when they are chosen randomly and there is a large selection.
+
+
+LOOK: Does the fact that the same set of svd users are used for testing and training introduce problems???
+
+Suppose you want to give a rating to a completely new user. 
+you find feature 1 and feature 2
+with feature 3 you use a sample of the same collection of svd users used in training from the database
+and a sample of the train/test users used in training from the database
+
+
+In the training of the model the same set of svd users are used for testing and training
 
 
 

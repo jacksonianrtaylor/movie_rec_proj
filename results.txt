@@ -1,21 +1,62 @@
-inputs:
-
-upperseed = 42
- 
+Global parameters (they dont change):
+generator in early cells: Generator(PCG64(42))
 svd user rating bounds: 20-30
+test user rating bounds: 5-10
 train user rating bounds: 5-10
+10000 svd user pool, 10000 train user pool, 10000 test user pool
 
 
-10000 svd pool, 10000 train pool
-seed = 5
-initial points = 10
-calls = 30
-runs = 320
-8 blocks
-random selection of users per iteration
-random num range (0,100000)
-middle init
-[(300, 500),(100, 200),(100,300),(100,400),(.01, .075),(.001, .05)]
-Solution: x [467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443]
-Result: y 1.0321909189224243
+
+Baysian Optmization Cell Results:
+
+Inputs:
+generator: Generator(PCG64(5))
+nof_initial points = 10
+nof gp_minimize calls = 30
+tests per call = 320
+parameter bounds: [(300, 500),(100, 200),(100,300),(100,400),(.01, .075),(.001, .05)]
+
+Outputs:
+Solution: (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
+(467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
+result: 1.0321909189224243
 time taken: 182.24611388444902
+
+
+Individual Features tested on optimzaed params:
+(nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
+(467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
+Runs: 40
+
+
+generator: Generator(PCG64(10))
+Feature 1:
+RMSE with train users: 1.1058986
+RMSE with test users: 1.1079229
+Feature 2:
+RMSE with train users: 1.120416
+RMSE with test users: 1.1226492
+Feature 3:
+RMSE with train users: 1.0397173
+RMSE with test users: 1.0418123
+Minutes taken: 6.526767345269521
+Final Model:
+
+
+generator: Generator(PCG64(20))
+Feature 1:
+RMSE with train users: 1.1141559
+RMSE with test users: 1.1172665
+Feature 2:
+RMSE with train users: 1.1238431
+RMSE with test users: 1.1287751
+Feature 3:
+RMSE with train users: 1.0473968
+RMSE with test users: 1.051594
+Minutes taken: 5.558163555463155
+Final Model:
+Average RMSE test score without rounding: 1.0480594635009766
+
+
+generator: Generator(PCG64(30))
+
