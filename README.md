@@ -5,14 +5,14 @@ LOOK: might want a table of contents here....
 
 The full_model.ipynb notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
 
-This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie. It is a step up form simply reccomending the best fit movies to the user. 
+This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie. It is a step up from simply reccomending the best fit movies to the user. 
 
 I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
 In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database.
 
 
-[Click here to view the Jupyter Notebook](full_model.ipynb)
+[Click here to view the full_model Notebook](full_model.ipynb)
 
 ## Clarification:
 
@@ -25,17 +25,18 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 ## Challenges:
 
-* Many times, the users ratings are not accurate to their preference. This can introduce alot of noise. Garbage in garbage out.
+* Many times, the users ratings are not accurate to their preference. This can introduce alot of noise (Garbage in Garbage out).
 
-* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and therefore less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
+* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies, because there is less data that can be used to compare to other users and therefore less potential to accuractely rate movies based on this type of relationship. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
 
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie.
 
-* The iterative_svd function discussed later has hyperparameters that can to be optimized. This is the purpose of the bayesian_optimization.ipynb notebook. 
+* The iterative_svd function discussed later has hyperparameters that can to be optimized. This is the purpose of the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook. 
+
 
 * Larger initial bounds for the optimization function likely gives better performing hyperparameter outputs but also leads to a higher computation time. 
 
-* ALso, increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a jit compiler for the by far most taxing function found in both notebooks "epoch".
+* Increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a jit compiler for the by far most taxing function found in both notebooks "epoch".
 
 
 ## Data source
@@ -43,6 +44,7 @@ The only way the movies metadata is used in the model, is with term frequencies 
 * The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
 * It is too large to fit in the repository and reqires user credentials to download. (see the How to Install/Run section).
 
+* [link]()
 
 # Process: 
 
@@ -240,12 +242,13 @@ There seemed to be good consistency in RSME when number of runs was = 160 regard
 
 # Tips for the notebooks:
 
-* Currently, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type) to make random selection from these user types diverse. In (cell 1 - cell 4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
+* Currently, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type) to make random selection from these user types diverse. In cell(1-4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
 
-* When (cell 1 - cell 4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing to save time when testing new parameters. (cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
+* When cell(1-4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing to save time when testing new parameters. 
 
 * Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
-It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more accuracte and honest results.
+It is only included for informative purposes and does not need to be run again. 
+However, it could be useful to try larger parameter bounds and some different input to get marginally more accurate and honest results. 
 
 
 
@@ -261,20 +264,23 @@ It is only included for informative purposes and does not need to be run again. 
 2. With python3 and pip:
     1. Create a python virtual env in the main project directory. (my working python version: 3.10.7)
     2. Install the following packages to the virtual env: opendatasets, pandas, numpy, scikit-learn, scipy, ordered-set, gensim, nltk, jupyter
-    5. Activate the virtual environment
+    3. Activate the virtual environment (LOOK: This has been changed)
+    LOOK: Should go through this process by removng the env and then reinstalling it 
 
-3. Open the complete_11_03_2023.ipynb file in the main project directory and connect to the kernel of the python virtual environmenty you created.
+3. Open the full_model.ipynb file in the main project directory and connect to the kernel of the python virtual environment you created.
 
-4. Run the complete_11_03_2023.ipynb notebook.
+4. Run the full_model.ipynb notebook top to bottom.
 
-5. Kaggle Requirments (same as above):
+5. Kaggle Requirments:
 
-    * Upon running the first cell for the first time in the containers lifetime, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+    * Upon running the first cell, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
 
     * Instructions to get api token to authenticate the data request(Note: kaggle account required):
         1. Sign into kaggle.
         2. Go to the 'Account' tab of your user profile and select 'Create New Token'.
         3. This will trigger the download of kaggle.json, a file containing your API credentials.
+
+    * After inputing credential the files from the-movies-dataset will start downloading in a new folder called "the-movies-dataset".
 
     * If the files have already been downloaded and stored in the "the-movies-dataset" folder, than this cell does nothing and requires no credentials.
 
@@ -282,8 +288,7 @@ It is only included for informative purposes and does not need to be run again. 
 
 
 
-
-
+LOOK: Need to re-do the above steps in a fresh notebook
 
 
 LOOK: Does the fact that svd, train, and test user can be used more than once introduce problems???
