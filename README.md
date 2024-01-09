@@ -1,8 +1,11 @@
+LOOK: might want a table of contents here....
+
+
 # Goal:
 
 The full_model.ipynb notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
 
-This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie rather then simply reccomending the best fit movies to the user. 
+This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie. It is a step up form simply reccomending the best fit movies to the user. 
 
 I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
@@ -24,15 +27,15 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 * Many times, the users ratings are not accurate to their preference. This can introduce alot of noise. Garbage in garbage out.
 
-* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and thereforre less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
+* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies because there is less data that can be used to compare to other users and therefore less potential to accuractely rate movies based on this type of similairity. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
 
-* Predictions to a movies rating can be worse when there are a small number of users who rated that same movie
+* Predictions to a movies rating can be worse when there are a small number of users who rated that same movie.
 
 * The iterative_svd function discussed later has hyperparameters that can to be optimized. This is the purpose of the bayesian_optimization.ipynb notebook. 
 
 * Larger initial bounds for the optimization function likely gives better performing hyperparameter outputs but also leads to a higher computation time. 
 
-* ALso, increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a jit compiler for the by far most taxing function "epoch".
+* ALso, increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a jit compiler for the by far most taxing function found in both notebooks "epoch".
 
 
 ## Data source
@@ -42,15 +45,36 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 
 # Process: 
-LOOK: should I go through a top to bottom rundown???
 
-## Overview
+## preprocessing cells(1-4)
 
-There are three input features to the final model (features 1 2 and 3)
 
-Each of these features stand on their own as predicitons the target movies rating but they each have a different method of doing so.
+The first portion of the full_model.ipynb notebook (cells(1-4)) is used for preprocessing. 
 
-This is why there combination in a linear model is effecttive even if the benefits are marginal comapared to the most effective feature (feature_3).
+Using pandas, complete data rows are removed where there is a lack of data for certain columns.
+
+Then the data is combined into a dataframe with columns values like this: (user_id, movie_id, users_rating_for_movie, columns for movies metadata..)
+
+After list conversion, for each user, a loop removes movies that already have a rating for that user.
+
+Then the process randomly chooses users that fall into the apropriate bounds for the number of ratings to be a svd user, train user, or test user (It chooses 10000 of each).
+
+Finally extract the data from those users, structure it into a list, and write it into a csv file in this order (bounds_svd_users, bounds_train_users, bounds_test_users)
+
+Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test)
+
+
+## Overview for cells(5-8):
+
+The next cells (cells(5-8)) in the full_model.ipynb notebook are for creating the model specified in the goals section.
+
+There are three input features to the final model features 1, 2, and, 3 (both train and test version)
+
+There is also target_rating_train used to train the model and target_rating_test to test the model
+
+Each of these features stand on their own as predicitons to the target movie's rating but they each have a different method of doing so.
+
+This is why there combination in a linear model is effecttive.
 
 
 ## Content Based Filtering:
@@ -115,7 +139,7 @@ Again the users themselves are not parameters becasue they should always be chos
 Users are randomly chosen from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
 
  
-nof_latent_features: number of factors in the iterative_svd function
+nof_latent_features: nof_factors in the iterative_svd function
     q : is a (nof_movies x nof_factors) array
     p : is a (nof_users x nof_factors) array
 Epochs: nof cycles of stochastic gradient descent on the entire train list.
@@ -125,15 +149,13 @@ lr: learning rate
 
 ## Final Model:
 
-* It is important to note that each feature can function as a predictor to the target movies rating on their own.
-
 * The purpose of the final model (loosley speaking) is how much weight to give to each feature for the optimal prediction.
 
 * The idea was that more than one predictor can fill in the short comings of a single model.
 
 * After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected then they are used to build a simple linear model(linear regression)
 
-* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features. Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
+* Although feature 3 is overwelmingly the most critical feature to the model, with testing the prescence and abscence of features, Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
 
 
 ## Results:
@@ -153,7 +175,7 @@ randomly selecting them from the larger pool.
 
 * This was observed when testing the same parameters for (160 or 320) times in a seperate cell. It showed that with these tests the average RMSE was higher than what was found in the optmimization process. In other words it produced worse results when generalizing to new data.
 
-* Although increasing the number of tests in the bayesain optmiation process helped reduce the overestimation of the hyperparameters there was still slight issues with over estimation. 
+* Although increasing the number of tests in the bayesain optmiation process helped reduce the overestimation of the hyperparameters, there was still slight issues with over estimation. 
 
 * Also, the more iterations of the bayesain optmiation process helps with outputing good parameters but it also increase the chance of over inflating them and likely required more tests per iteration to produce honest results.
 
@@ -218,19 +240,19 @@ There seemed to be good consistency in RSME when number of runs was = 160 regard
 * Currenlty, an excessive amount of data is randomly selected from the full dataset of applicable users (10000 of each users type).
 In (cell 1 - cell 4) this data is written to the "constructed_data.csv" file in the order of svd, train, and test users.
 
-LOOK: (may need to move this) Then the next part of the notebook (cell 5 - cell 8) can randomly take subsets of this large amount of data.
-Since the initial slection of users is large, the random subsets of these lists have a good variety.
-
 
 * When (cell 1 - cell 4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only (cell 5 - cell 8) needs to be rerun for training and testing.
 (cell 5 - cell 8) are for transforming the data in "constructed_data.csv" to build a model.
 
 
-* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and amble memory space on your machine. 
-It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more honest results.
+* Don't run the bayesian_optimization.ipynb unless you have ample time to wait and enough memory on your machine. 
+It is only included for informative purposes and does not need to be run again. However, it could be useful to try larger params to get marginally more accuracte and honest results.
 
 
 
+
+
+LOOK: Is user_to_data_train the apropriate name for being users with train and test ratings in BO notebook 
 
 
 
