@@ -1,8 +1,8 @@
 # Table of Contents:
 
-1. [Project Goal](#Project-Goal)
-2. [Process](#Process)
-3. [How to (Install/Run):](#How-to-(Install/Run):)
+1. [Project Goal](#project-goal)
+2. [Process](#process)
+3. [How to (Install/Run):](#how-to-installrun)
 
 
 # Project Goal:
@@ -44,7 +44,7 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
 
-It is too large to fit in the repository and reqires user credentials to download. [See How to (Install/Run).](#How-to-(Install/Run):)
+It is too large to fit in the repository and reqires user credentials to download. [See How to (Install/Run).](#how-to-installrun)
 
 # Process: 
 
@@ -103,7 +103,7 @@ Their ratings are used as inputs to the iterative_svd function.
 
 On the other hand, train and test users have ratings to pass to the iterative_svd function to train the model and they also have exactly one movie rating to be predicted by the SVD.
 
-The number of test users are limited because of the problem statement in the [goal section](#Project-Goal). 
+The number of test users are limited because of the problem statement in the [goal section](#project-goal). 
 Furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
 gives the most accurate prediction for the test ratings. It should not over or under inflate certain features by using more or less data to support them.
 
