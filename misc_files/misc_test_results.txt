@@ -1,0 +1,90 @@
+# upperseed = 42 (different seeding method)
+# svd bounds: 20-30
+# testbounds: 5-10
+# 10000 svd pool, 10000 test pool
+# seed = 5
+# initial points = 5
+# calls = 10
+# runs = 160
+# 8 blocks
+# random selection of users per iteration
+# random num range (0,100000)
+# middle init
+# [(300, 500),(100, 200),(100,300),(100,400),(.01, .075),(.001, .05)]
+# Solution: x [467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443]
+# Result: y 1.041052222251892
+# time taken: 34.1292045434316
+
+
+# upperseed = 42 (generator seeding method) (dont need to rerun this after this point)
+# svd bounds: 20-30
+# testbounds: 5-10
+# 10000 svd pool, 10000 test pool
+# seed = 5
+# initial points = 10
+# calls = 20
+# runs = 160
+# 8 blocks
+# random selection of users per iteration
+# random num range (0,100000)
+# middle init
+# [(300, 500),(100, 200),(100,300),(100,400),(.01, .075),(.001, .05)]
+# Solution: x [489, 189, 195, 281, 0.05811499690421312, 0.020993906096594878]
+# Result: y 1.0355569839477539
+# time taken: 43.65035067399343
+
+
+# upperseed = 42 (generator seeding method) (dont need to rerun this after this point)
+# svd bounds: 20-30
+# testbounds: 5-10
+# 10000 svd pool, 10000 test pool
+# seed = 5
+# initial points = 10
+# calls = 30
+# runs = 320
+# 8 blocks
+# random selection of users per iteration
+# random num range (0,100000)
+# middle init
+# [(300, 500),(100, 200),(100,300),(100,400),(.01, .075),(.001, .05)]
+# Solution: x [467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443]
+# Result: y 1.0321909189224243
+# time taken: 182.24611388444902
+
+
+# old (489, 189, 195, 281, 0.05811499690421312, 0.020993906096594878)
+# original: 1.0355569839477539
+# seed  = 5
+# 1.0519198894500732
+# seed = 10
+# 1.0391090869903565
+# seed = 15
+# 1.039274764060974
+# seed = 20
+# 1.0433350563049317
+
+# new (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
+# orginal: 1.0321909189224243
+# seed = 5
+# fixed parameters rmse score: 1.038491153717041
+# seed = 10
+# fixed parameters rmse score: 1.0420018315315247 
+# seed = 15 
+# fixed parameters rmse score: 1.0392696380615234
+# seed = 20
+
+# 320 groups of users:
+# seed = 5
+# fixed parameters rmse score: 1.0413376092910767
+
+# seed = 10
+# fixed parameters rmse score: 1.0433626174926758
+
+# seed = 20
+# fixed parameters rmse score: 1.0349012613296509
+
+
+# Test users instead of train users used:
+# seed = 10
+# Fixed Parameters rmse score: 1.0430915474891662
+# Time Taken 8.488134260972341

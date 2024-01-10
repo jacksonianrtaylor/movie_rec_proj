@@ -24,10 +24,10 @@ Baysian Optmization Cell Results:
 
 
 
-Individual Features and model tested on optimzaed params:
+Individual Features and model tested on optimized params:
 (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
 (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
-Runs: 160
+Iterations: 160
     Note: Also testing different seeds
 
     generator: Generator(PCG64(10))
@@ -70,7 +70,7 @@ Runs: 160
         Average RMSE test score: 1.038050889968872
 
 
-Runs: 40
+Iterations: 40
     Note: Also testing different seeds
 
     generator: Generator(PCG64(10))

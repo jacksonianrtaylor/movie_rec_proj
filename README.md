@@ -198,9 +198,9 @@ This means that the same parameter values were tested a large amount of times, e
 
 * The most important results were the Final Model results (combination of all features 1, 2, and 3) using the best hyperparameters found in [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
 
-* There seemed to be reasonable consistency in RMSE when the number of runs was 160 after testing multiple seeds to the generator function (10,20,30). Intuitively, when the number of runs is increased the less the input seed matters. 
+* There seemed to be reasonable consistency in RMSE when the number of Iterations was 160 after testing multiple seeds to the generator function (10,20,30). Intuitively, when the number of Iterations is increased the less the input seed matters. 
 
-* I left the number of runs at 40 in the notebook for user friendly runtimes and again tested three different seeds to the generator function (10,20,30)
+* I left the number of Iterations at 40 in the notebook for user friendly runtimes and again tested three different seeds to the generator function (10,20,30)
 
 * Here is the summary of the error results for these tests: [results.txt](results.txt)
 
