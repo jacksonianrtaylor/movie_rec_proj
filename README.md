@@ -9,9 +9,9 @@
 
 The [full_model.ipynb](full_model.ipynb) notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
 
-This is an invaluable goal, because the model can give users an idea about how satisfied they will be with any movie. It is a step up from simply reccomending the best fit movies to the user. 
+This is an invaluable objective, because the model can give users an idea about how satisfied they will be with any movie. It is a step up from simply reccomending the best fit movies to the user. 
 
-I also wanted the model inputs to not be so demanding for a client user. The users must only provide 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
+One of my concerns was limiting the demand for the client user with simple requirements. The user only needs to enter 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
 In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database. The model is designed to harness this data with both content based and collabortive based filtering to make predictions.
 
@@ -26,18 +26,16 @@ The only way the movies metadata is used in the model, is with term frequencies 
 
 ## Challenges:
 
-* Many times, the users ratings are not accurate to their preference. This introduces poorly informed decisions (Garbage in Garbage out).
+* Realistically, the users ratings are not always accurate to their preference. This introduces poorly informed decisions in training and testing (Garbage in Garbage out).
 
-* Intuitively, rating predictions to a users requested movie can be worse if the user only inputs a small number of rated movies, because there is less data that can be used to compare to other users and therefore less potential to accuractely rate movies based on this type of relationship. However, it is best to train and test a model where test users enter a small number of ratings because it is an easier task for the user in a front-end implementation of this model. There is a massive tradeoff between user friendly service and accuracy.
+* Intuitively, rating predictions to a users requested movie will lose precision when less userprovided ratings are entered by the user. The less data that can be used to relate or dissociate users, the less grounded the predictions become. On the other hand, the benefits of training a model that requires less from the the user, will only improve the user experience when the model is implemented. Unfortunately, there is a massive tradeoff between effective service and accuracy in model predictions.
 
 * Predictions to a movies rating can be worse when there are a small number of users who rated that same movie.
 
-* The iterative_svd function discussed later has hyperparameters that to be optimized. This is the purpose of the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook. 
+* The iterative_svd function discussed later has hyperparameters that need to be optimized. This is the purpose of the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook. 
 
 
-* Larger initial bounds for the optimization function likely gives better performing hyperparameter outputs but also leads to a higher computation time. 
-
-* Increasing the number of calls to the optimization function and the number of tests per call can help the model produce better hyperparametrs but it is expensive. This is why dask is used for parrallel processing and numba is used as a just-in-time(jit) compiler for the by far most taxing function found in both notebooks: "epoch".
+* Larger initial bounds for the parameters of the Baysian Optimization function may lead to the output of more effective hyperparameters, but it also magnifies the cost of the already time consuming optimization process. Increasing the number of calls to the optimization function and the number of tests per call has the same effect. This is why dask is used for parrallel processing and numba is used as a just-in-time(jit) compiler for the by far most taxing function found in both notebooks: "epoch".
 
 
 ## Data source:
@@ -89,7 +87,9 @@ Feature_1 is a non-weighted average of all the ratings for a user besides the ta
 
 ### Feature_2:
 
-Feature_2 is a weighted average of the all the users ratings besides the target movie. The weighting for each rated movie is based on how similair the target movie is to the rated movies. The similairty is determined by cossine simialirty of normalized tf-idf vectors for word counts of a rated movie and a target movie. 
+Feature_2 is a weighted average of the all the users ratings besides the target movie. The weighting for each rated movie is based on how similair the target movie is to the rated movies. The similairty is determined by cossine simialirty between the normalized 
+tf-idf vectors of the word counts of the target movie and the normalized 
+tf-idf vectors of the word counts of other movies provided by the user.
 
 
 ## Collaborative filtering:
@@ -166,7 +166,7 @@ The purpose of the final model (loosley speaking) is how much weight to give to 
 
 The idea was that more than one predictor can fill in the short comings of a single model.
 
-After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected, then they are used as input featurs to build a simple linear regression model.
+After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected, then they are used as input features to build a simple linear regression model.
 
 Although feature 3 is overwelmingly the most critical feature to the model, in testing the prescence and abscence of features, Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
 
