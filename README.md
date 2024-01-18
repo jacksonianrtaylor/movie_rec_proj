@@ -7,42 +7,28 @@
 
 # Project Goal:
 
-The [full_model.ipynb](full_model.ipynb) notebook builds a model that could be used to predict a users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
+The [full_model.ipynb](full_model.ipynb) notebook builds a model that could be used to predict a client users rating for an unwatched movie given that they submit a few ratings for movies they have watched.
 
 This is an invaluable objective, because the model can give users an idea about how satisfied they will be with any movie. It is a step up from simply reccomending the best fit movies to the user. 
 
-One of my concerns was limiting the demand for the client user with simple requirements. The user only needs to enter 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
+One of my concerns was limiting the demand for the client user. In the current model, the user only needs to enter 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
 In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database. The model is designed to harness this data with both content based and collabortive based filtering to make predictions.
 
-The process should not be confused with predicting a critics score or some metascore from a review website. It predicts user scores. 
+The process should not be confused with predicting a critics score or some metascore from a review website. It predicts user scores which have there own set of rules. 
 
-The model could benfit if the metadata was someway integrated in a column by column basis. However, these details were not part of the focus of the model.
+The model could benefit if the metadata was someway integrated in a column by column basis. However, these details were not part of the focus of the model.
 
 The only way the movies metadata is used in the model, is with term frequencies from the combined corpus of relevant column attributes.
 
 [Link to the full_model Notebook](full_model.ipynb)
 
 
-## Challenges:
-
-* Realistically, the users ratings are not always accurate to their preference. This introduces poorly informed decisions in training and testing (Garbage in Garbage out).
-
-* Intuitively, rating predictions to a users requested movie will lose precision when less userprovided ratings are entered by the user. The less data that can be used to relate or dissociate users, the less grounded the predictions become. On the other hand, the benefits of training a model that requires less from the the user, will only improve the user experience when the model is implemented. Unfortunately, there is a massive tradeoff between effective service and accuracy in model predictions.
-
-* Predictions to a movies rating can be worse when there are a small number of users who rated that same movie.
-
-* The iterative_svd function discussed later has hyperparameters that need to be optimized. This is the purpose of the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook. 
-
-
-* Larger initial bounds for the parameters of the Baysian Optimization function may lead to the output of more effective hyperparameters, but it also magnifies the cost of the already time consuming optimization process. Increasing the number of calls to the optimization function and the number of tests per call has the same effect. This is why dask is used for parrallel processing and numba is used as a just-in-time(jit) compiler for the by far most taxing function found in both notebooks: "epoch".
-
-
 ## Data source:
 
 The raw data collected for this program/model is soley from: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv
 
-It is too large to fit in the repository and reqires user credentials to download. [See How to (Install/Run).](#how-to-installrun)
+It is too large to fit in the repository and requires user credentials to download. [See How to (Install/Run).](#how-to-installrun)
 
 # Process: 
 
@@ -55,7 +41,7 @@ The first portion of the [full_model.ipynb](full_model.ipynb) notebook (cells(1-
 
 * Then the data is combined into a dataframe with columns values like this: (user_id, movie_id, users_rating_for_movie, columns for movies metadata...)
 
-* After converting the dataframe into a list, for each user, a loop removes rows of the list that contain a movie which already has a previous rating by the user. The first movie rating for a movie is kept for each user.
+* After converting the dataframe into a list, for each user, a loop removes rows of the list that contain a movie which already has a previous rating by the coresponding user. In other words, the first movie rating for a particular movie is kept on a user by user basis.
 
 
 * Then the process randomly chooses users that fall into the apropriate bounds for the number of ratings to be a Singular_Value_Decomposition(SVD) user, train user, or test user (It chooses 10000 of each).
@@ -70,9 +56,11 @@ Then in the next part of the notebook (cells(5-8)) extracts the data in a format
 
 The next cells (cells(5-8)) in the [full_model.ipynb](full_model.ipynb) notebook are for creating the model specified in the goals section.
 
-There are three input features to the final model features 1, 2, and, 3 (both train and test versions)
+There are three input features to the final model (features 1, 2, and, 3).
 
-There is also target_rating_train used to train the model and target_rating_test to test the model. 
+Furthermore, there are train and test users with these features in addition to a target rating from one of their randomly selected movies. Intuitively, train users train the final model against their target rating and test users test the final model against their target rating.
+
+For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the target movie rating. feature_3 is another rating prediction of the target movie by an svd model using the best hyperprarmeters found in the bayesian_optimization.ipynb notebook.
 
 Each of the three features stand on their own as predicitons to the target movie's rating but they each have a different method of doing so.
 
@@ -118,7 +106,7 @@ Also, due to the sheer combinations of the min and max of the bounds, it may be 
 Feature_3 is the prediction from the terms of the trained SVD for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
 where u represents the users index and i represents the movies index to be rated. 
 
-Before this prediction is made the svd_iterative function undergoes a process where it trains the SVD to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables b1[u], b2[i], q[i], p[u] in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
+Before this prediction is made the svd_iterative function undergoes a process where it trains the SVD to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
 
 Initial Conditions:\
 overall_average: The average of all ratings used to train the SVD model (does not change in training)\
@@ -143,11 +131,11 @@ What do these parameters mean?:
 
 nof_svd_users is the number of users that that help train the iterative svd function but don't have a rating to be predicted by the trained svd.
 
-The users themselves are not parameters because they should always be chosen randomly from the pool of svd users.
+The users themselves are not parameters because they should always be chosen randomly from the pool of svd users to reduce noise.
 
-In the [full_model.ipynb](full_model.ipynb) notebook the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require prediction for exactly one of their movies. (These emulate the users that the final trained model is designed for)
+In the [full_model.ipynb](full_model.ipynb) notebook the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require predictions for exactly one of their movies. (These emulate the users that the final trained model is designed for)
 
-Again, the users themselves are not parameters because they should always be chosen randomly.
+Again, the users themselves are not parameters because they should always be chosen randomly from the pool of svd users to reduce noise.
 
 Users are randomly sampled each run from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
 
@@ -185,7 +173,7 @@ This means that the same parameter values were tested a large amount of times, e
 
 * Even with a large amount of tests (160 or 320) for each iteration, the optmization process seemed to inflate the RMSE results.
 
-* This was observed when testing the same parameters for (160 or 320) times in a seperate cell. It showed that with these tests the average RMSE was higher than what was found in the optmimization process. In other words, it produced worse results when generalizing to new data.
+* This was observed when testing the same parameters for (160 or 320) times in a seperate cell. It showed that with these tests, the average RMSE was higher than what was found in the optmimization process. In other words, it produced worse results when generalizing to new data.
 
 * Although increasing the number of tests in the Bayesain Optmiation process helped reduce the overestimation of the hyperparameters, there was still slight issues with over estimation. 
 
@@ -204,7 +192,18 @@ This means that the same parameter values were tested a large amount of times, e
 
 * Here is the summary of the error results for these tests: [results.txt](results.txt)
 
+## Challenges:
 
+* Realistically, the users ratings are not always accurate to their preference. This introduces poorly informed decisions in training and testing (Garbage in Garbage out).
+
+* Intuitively, rating predictions to a users requested movie will lose precision when less userprovided ratings are entered by the user. The less data that can be used to relate or dissociate users, the less grounded the predictions become. On the other hand, the benefits of training a model that requires less from the the user, will only improve the user experience when the model is implemented. Unfortunately, there is a massive tradeoff between effective service and accuracy in model predictions.
+
+* Predictions to a movies rating can be worse when there are a small number of users who rated that same movie.
+
+* The iterative_svd function discussed later has hyperparameters that need to be optimized. This is the purpose of the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook. 
+
+
+* Larger initial bounds for the parameters of the Baysian Optimization function may lead to the output of more effective hyperparameters, but it also magnifies the cost of the already time consuming optimization process. Increasing the number of calls to the optimization function and the number of tests per call has the same effect. This is why dask is used for parrallel processing and numba is used as a just-in-time(jit) compiler for the by far most taxing function found in both notebooks: "epoch".
 
 
 # How to (Install/Run):
