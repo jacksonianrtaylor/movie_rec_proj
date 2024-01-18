@@ -60,7 +60,7 @@ There are three input features to the final model (features 1, 2, and, 3).
 
 Furthermore, there are train and test users with these features in addition to a target rating from one of their randomly selected movies. Intuitively, train users train the final model against their target rating and test users test the final model against their target rating.
 
-For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an SVD model using the best hyperparameters found in the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook.
+For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movie ratings and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an SVD model using the best hyperparameters found in the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook.
 
 Each of the three features stand on their own as predictions to the target movie's rating but they each have a different method of making these predictions.
 
@@ -107,7 +107,7 @@ Also, due to the sheer combinations of the min and max of the bounds, it may be 
 Feature_3 is the prediction from the terms of the trained SVD model for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
 where u represents the users index and i represents the movies index to be rated. 
 
-Before this prediction is made, the iterative_svd function undergoes a process where it trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
+Before this prediction is made, the iterative_svd function trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
 
 Initial Conditions:\
 overall_average: The average of all ratings used to train the SVD model (does not change in training)\
@@ -130,7 +130,7 @@ nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
 
 What do these parameters mean?
 
-nof_svd_users is the number of users that that help train the iterative_svd function but don't have a rating to be predicted by the trained SVD model.
+nof_svd_users is the number of users that that help train the SVD model but don't have a rating to be predicted by the trained SVD model.
 
 The users themselves are not parameters because they should always be chosen randomly from the pool of SVD users to limit noise.
 
@@ -164,7 +164,7 @@ Although feature 3 is overwhelmingly the most critical feature to the model, in 
 
 * Gathering accurate and consistent results was a challenging task and is somewhat incomplete.
 
-* The first challenge was finding the hyperparameters that produced the best results for the iterative_svd function. 
+* The first challenge was finding the hyperparameters that produced the best results for the SVD model. 
 
 * A set of hyperparamters can simply produce a good Root_Mean_Squared_Error(RMSE) by chance, meaning that the random conditions
 in testing may contribute highly to its success.
@@ -176,7 +176,7 @@ This means that the same parameter values were tested a large amount of times, e
 
 * This was observed when testing the same parameters for (160 or 320) times in a separate cell. It showed that with these tests, the average RMSE was higher than what was found in the optimization process. In other words, it produced worse results when generalizing to new data.
 
-* Although increasing the number of tests in the Bayesian Optimization process helped reduce the overestimation of the hyperparameters, there was still slight issues with over estimation. 
+* Although increasing the number of tests in the Bayesian Optimization process helped reduce the overestimation of the hyperparameters, there was still slight evidence of over estimation. 
 
 * Also, more iterations of the Bayesian Optimization process helps with outputting good parameters, but it also increases the chance of over inflating them and likely required more tests per iteration to produce honest results.
 
