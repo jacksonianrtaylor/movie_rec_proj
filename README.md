@@ -13,7 +13,7 @@ This is an invaluable objective, because the model can give users an idea about 
 
 One of my concerns was limiting the demand for the client user. In the current model, the user only needs to enter 4-9 ratings for movies they watched as well as the single movie they desire a rating for.
 
-In theory the prediction uses a combination of the users data along with potentially massive amounts of rating data and movie data stored in a database. The model is designed to harness this data with both content based and collaborative based filtering to make predictions.
+In theory, the prediction uses a combination of the users provided ratings along with potentially massive amounts of rating data and movie data stored in a database. The model is designed to harness this data with both content based and collaborative based filtering to make predictions.
 
 The process should not be confused with predicting a critics score or some metascore from a review website. It predicts user scores which have there own set of rules.
 
@@ -49,7 +49,7 @@ The first portion of the [full_model.ipynb](full_model.ipynb) notebook (cells(1-
 
 * Finally, the data is extracted from those users, structured into a list, and written into a csv file in this order (SVD users, train users, test users).
 
-Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test)
+Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test).
 
 
 ## Overview for cells(5-8):
@@ -95,7 +95,7 @@ The number of test users are limited because of the problem statement in the [go
 Furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
 gives the most accurate prediction for the test ratings. It should not over or under estimate certain features by using more or less data to support them.
 
-SVD users don't have these restrictions and therefore should have more ratings. Intuitively, the more SVD ratings per user, the more it can contribute to the accuracy of the test and train predictions.
+SVD users don't have these restrictions and therefore should have more ratings. Intuitively, the more SVD ratings per user, the more it can positively interact with train and test users.
 
 Currently the SVD users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
 To keep things simpler this was not part of the optimization process in [bayesian_optimization.ipynb](bayesian_optimization.ipynb) and the values are by no means optimal. 
@@ -106,12 +106,12 @@ Also, due to the sheer combinations of the min and max of the bounds, it may be 
 Feature_3 is the prediction from the terms of the trained SVD for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
 where u represents the users index and i represents the movies index to be rated. 
 
-Before this prediction is made, the svd_iterative function undergoes a process where it trains the SVD to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
+Before this prediction is made, the svd_iterative function undergoes a process where it trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
 
 Initial Conditions:\
 overall_average: The average of all ratings used to train the SVD model (does not change in training)\
 Users factors: p = gen_input.normal(0, .1, (nof_users, n))\
-Item factors: q = gen_input.normal(0, .1, (nof_movies, n))\
+Movie factors: q = gen_input.normal(0, .1, (nof_movies, n))\
 User biases: b1 = np.zeros(nof_users)\
 Movie biases: b2 = np.zeros(nof_movies)
 
@@ -127,13 +127,13 @@ The entire point of this notebook is to find the highest performing parameters f
 nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
 
 
-What do these parameters mean?:
+What do these parameters mean?
 
 nof_svd_users is the number of users that that help train the iterative svd function but don't have a rating to be predicted by the trained svd.
 
 The users themselves are not parameters because they should always be chosen randomly from the pool of svd users to limit noise.
 
-In the [full_model.ipynb](full_model.ipynb) notebook, the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require predictions for exactly one of their movies. (These emulate the users that the final trained model is designed for)
+In the [full_model.ipynb](full_model.ipynb) notebook, the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require predictions for exactly one of their movies. (These simulate the users that the final trained model is designed to make predictions for)
 
 Again, the users themselves are not parameters because they should always be chosen randomly from the pool of svd users to limit noise.
 
@@ -165,7 +165,7 @@ Although feature 3 is overwhelmingly the most critical feature to the model, in 
 
 * The first challenge was finding the hyperparameters that produced the best results for the iterative_svd function. 
 
-* A set of hyperparamters can simply produce good Root_Mean_Squared_Error(RMSE) by chance, meaning that the random conditions
+* A set of hyperparamters can simply produce a good Root_Mean_Squared_Error(RMSE) by chance, meaning that the random conditions
 in testing may contribute highly to its success.
 
 * In order to mitigate this, many tests were done for each iteration of the gp_minimize function.
@@ -187,7 +187,7 @@ This means that the same parameter values were tested a large amount of times, e
 
 * There seemed to be reasonable consistency in RMSE when the number of Iterations was 160 after testing multiple seeds to the generator function (10,20,30). Intuitively, when the number of Iterations is increased the less the input seed matters. 
 
-* I left the number of Iterations at 40 in the notebook for user friendly runtimes and again tested three different seeds to the generator function (10,20,30)
+* I left the number of Iterations at 40 in the notebook for user friendly runtimes and again tested three different seeds to the generator function (10,20,30).
 
 * Here is the summary of the error results for these tests: [results.txt](results.txt)
 

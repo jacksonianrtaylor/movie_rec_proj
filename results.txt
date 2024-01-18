@@ -19,7 +19,7 @@ Bayesian Optimization Cell Results:
     Outputs:
     Solution: (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
     (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
-    result: 1.0321909189224243
+    RMSE result: 1.0321909189224243
     Minutes taken: 182.24611388444902
 
 
@@ -27,6 +27,7 @@ Bayesian Optimization Cell Results:
 Individual Features and model tested on optimized params:
 (nof_svd_users, nof_test_users, nof_latent_features, epochs, rt, lr) = 
 (467, 189, 292, 268, 0.01588566520994121, 0.04980345674001443)
+
 Iterations: 160
     Note: Also testing different seeds
 
@@ -41,7 +42,7 @@ Iterations: 160
         RMSE with train users: 1.0411463
         RMSE with test users: 1.0426018
         Final Model:
-        Average RMSE test score: 1.03712797164917
+        RMSE test score: 1.03712797164917
 
     generator: Generator(PCG64(20))
         Feature 1
@@ -54,7 +55,7 @@ Iterations: 160
         RMSE with train users: 1.0517306
         RMSE with test users: 1.0475341
         Final Model:
-        Average RMSE test score: 1.0428186655044556
+        RMSE test score: 1.0428186655044556
 
     generator: Generator(PCG64(30))
         Feature 1:
@@ -67,7 +68,7 @@ Iterations: 160
         RMSE with train users: 1.0447968
         RMSE with test users: 1.0435472
         Final Model:
-        Average RMSE test score: 1.038050889968872
+        RMSE test score: 1.038050889968872
 
 
 Iterations: 40
@@ -84,7 +85,7 @@ Iterations: 40
         RMSE with train users: 1.0397173
         RMSE with test users: 1.0418123
         Final Model: 
-        Average RMSE test score: 1.0372942686080933
+        RMSE test score: 1.0372942686080933
 
     generator: Generator(PCG64(20))
         Feature 1:
@@ -97,7 +98,7 @@ Iterations: 40
         RMSE with train users: 1.0473968
         RMSE with test users: 1.051594
         Final Model:
-        Average RMSE test score: 1.0480594635009766
+        RMSE test score: 1.0480594635009766
 
     generator: Generator(PCG64(30))
         Feature 1:
@@ -110,4 +111,4 @@ Iterations: 40
         RMSE with train users: 1.055824
         RMSE with test users: 1.0408412
         Final Model:
-        Average RMSE test score: 1.0359361171722412
+        RMSE test score: 1.0359361171722412
