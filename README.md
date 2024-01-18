@@ -49,7 +49,7 @@ The first portion of the [full_model.ipynb](full_model.ipynb) notebook (cells(1-
 
 * Finally, the data is extracted from those users, structured into a list, and written into a csv file in this order (SVD users, train users, test users).
 
-Then in the next part of the notebook (cells(5-8)) extracts the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test).
+Then in the next part of the notebook, cells(5-8) extract the data in a format where random samples can be taken of the 10000 users of each type (user_to_data_svd, user_to_data_train, user_to_data_test).
 
 
 ## Overview for cells(5-8):
@@ -97,13 +97,14 @@ gives the most accurate prediction for the test ratings. It should not over or u
 
 SVD users don't have these restrictions and therefore should have more ratings. Intuitively, the more SVD ratings per user, the more it can positively interact with train and test users.
 
-Currently the SVD users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
+Currently, the SVD users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
+The test and train bounds stay consistent with the goal of the project, but the svd user bounds can be modified.
 To keep things simpler this was not part of the optimization process in [bayesian_optimization.ipynb](bayesian_optimization.ipynb) and the values are by no means optimal. 
 Also, due to the sheer combinations of the min and max of the bounds, it may be better to optimize them manually.
 
 ### Feature_3:
 
-Feature_3 is the prediction from the terms of the trained SVD for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
+Feature_3 is the prediction from the terms of the trained SVD model for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
 where u represents the users index and i represents the movies index to be rated. 
 
 Before this prediction is made, the svd_iterative function undergoes a process where it trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
@@ -223,7 +224,7 @@ scikit-learn, numba, dask, scikit-optimize, dask\[distributed\]
 
 5. Kaggle Requirements:
 
-    * Upon running the first cell, the user will be asked for their username and key which can be found in a fresh api token from kaggle.
+    * Upon running the first cell, the user will be asked for their username and key which can be found in a fresh api token from kaggle.com.
 
     * Instructions to get api token to authenticate the data request(Note: kaggle account required):
         1. Sign into kaggle.
