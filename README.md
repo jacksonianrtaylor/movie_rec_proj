@@ -136,9 +136,7 @@ The users themselves are not parameters because they should always be chosen ran
 
 In the [full_model.ipynb](full_model.ipynb) notebook, the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require predictions for exactly one of their movies. (These simulate the users that the final trained model is designed to make predictions for)
 
-Again, the users themselves are not parameters because they should always be chosen randomly from the pool of SVD users to limit noise.
-
-Users are randomly sampled each run from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
+Again, the users themselves are not parameters. Users are randomly sampled each run from their respective user pool (user_to_data_svd, user_to_data_train, or user_to_data_test) which each have 10000 users.
 
 nof_latent_features: nof_factors in the iterative_svd function (used like this):\
 q : is a (nof_movies x nof_factors) array\
