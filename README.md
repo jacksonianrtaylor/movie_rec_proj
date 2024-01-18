@@ -60,7 +60,7 @@ There are three input features to the final model (features 1, 2, and, 3).
 
 Furthermore, there are train and test users with these features in addition to a target rating from one of their randomly selected movies. Intuitively, train users train the final model against their target rating and test users test the final model against their target rating.
 
-For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the target movie rating. feature_3 is another rating prediction of the target movie by an svd model using the best hyperparameters found in the bayesian_optimization.ipynb notebook.
+For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an svd model using the best hyperparameters found in the bayesian_optimization.ipynb notebook.
 
 Each of the three features stand on their own as predictions to the target movie's rating but they each have a different method of making these predictions.
 
@@ -75,7 +75,7 @@ Feature_1 is a non-weighted average of all the ratings for a user besides the ta
 
 ### Feature_2:
 
-Feature_2 is a weighted average of the all the users ratings besides the target movie. The weighting for each rated movie is based on how similarity the target movie is to the rated movies. The similarity is determined by cosine similarity between the normalized 
+Feature_2 is a weighted average of the all the users ratings besides the target movie. The weighting for each rated movie is based on how similar the target movie is to the rated movies. The similarity is determined by cosine similarity between the normalized 
 tf-idf vectors of the word counts of the target movie and the normalized 
 tf-idf vectors of the word counts of other movies provided by the user.
 
@@ -183,7 +183,7 @@ This means that the same parameter values were tested a large amount of times, e
 
 * The average RMSE results were the best so far and it generalized relatively well, but there was still a discrepancy between the performance in the optimization process and the generalization test. 
 
-* The most important results were the Final Model results (combination of all features 1, 2, and 3) using the best hyperparameters found in [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
+* The most important results were the Final Model results from [full_model.ipynb](full_model.ipynb) (combination of all features 1, 2, and 3) using the best hyperparameters found in [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
 
 * There seemed to be reasonable consistency in RMSE when the number of Iterations was 160 after testing multiple seeds to the generator function (10,20,30). Intuitively, when the number of Iterations is increased the less the input seed matters. 
 

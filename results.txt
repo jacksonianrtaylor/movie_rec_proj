@@ -1,4 +1,4 @@
-Global parameters (they dont change):
+Global parameters (they don't change):
     generator in early cells: Generator(PCG64(42))
     svd user rating bounds: 20-30
     test user rating bounds: 5-10
@@ -7,7 +7,7 @@ Global parameters (they dont change):
 
 
 
-Baysian Optmization Cell Results:
+Bayesian Optimization Cell Results:
     Inputs:
     generator: Generator(PCG64(5))
     nof_initial points = 10
