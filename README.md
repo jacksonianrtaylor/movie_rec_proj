@@ -44,7 +44,7 @@ The first portion of the [full_model.ipynb](full_model.ipynb) notebook (cells(1-
 * After converting the dataframe into a list, for each user, a loop removes rows of the list that contain a movie which already has a previous rating by the corresponding user. In other words, the first movie rating for a particular movie is kept on a user by user basis.
 
 
-* Then the process randomly chooses users that fall into the appropriate bounds for the number of ratings to be a Singular_Value_Decomposition(SVD) user, train user, or test user (It chooses 10000 of each).
+* Then the process randomly chooses users that fall into the appropriate bounds for the number of ratings to be a Singular_Value_Decomposition (SVD) user, train user, or test user (It chooses 10000 of each).
 
 
 * Finally, the data is extracted from those users, structured into a list, and written into a csv file in this order (SVD users, train users, test users).
@@ -60,7 +60,7 @@ There are three input features to the final model (features 1, 2, and, 3).
 
 Furthermore, there are train and test users with these features in addition to a target rating from one of their randomly selected movies. Intuitively, train users train the final model against their target rating and test users test the final model against their target rating.
 
-For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an svd model using the best hyperparameters found in the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook.
+For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an SVD model using the best hyperparameters found in the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook.
 
 Each of the three features stand on their own as predictions to the target movie's rating but they each have a different method of making these predictions.
 
@@ -89,7 +89,7 @@ It is important to distinguish SVD users, train user, and test users.
 SVD users are users that only contribute to the training. 
 Their ratings are used as inputs to the iterative_svd function.
 
-On the other hand, train and test users have ratings to pass to the iterative_svd function to train the model and they also have exactly one movie rating to be predicted by the SVD.
+On the other hand, train and test users have ratings to pass to the iterative_svd function to train the model and they also have exactly one movie rating to be predicted by the SVD model.
 
 The number of test users are limited because of the problem statement in the [goal section](#project-goal). 
 Furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
@@ -98,7 +98,7 @@ gives the most accurate prediction for the test ratings. It should not over or u
 SVD users don't have these restrictions and therefore should have more ratings. Intuitively, the more SVD ratings per user, the more it can positively interact with train and test users.
 
 Currently, the SVD users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
-The test and train bounds stay consistent with the goal of the project, but the svd user bounds can be modified.
+The test and train bounds stay consistent with the goal of the project, but the SVD user bounds can be modified.
 To keep things simpler this was not part of the optimization process in [bayesian_optimization.ipynb](bayesian_optimization.ipynb) and the values are by no means optimal. 
 Also, due to the sheer combinations of the min and max of the bounds, it may be better to optimize them manually.
 
@@ -107,7 +107,7 @@ Also, due to the sheer combinations of the min and max of the bounds, it may be 
 Feature_3 is the prediction from the terms of the trained SVD model for a (user, movie) combination: (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i]))\
 where u represents the users index and i represents the movies index to be rated. 
 
-Before this prediction is made, the svd_iterative function undergoes a process where it trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
+Before this prediction is made, the iterative_svd function undergoes a process where it trains the SVD model to make predictions with (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])) by using stochastic gradient descent to change the variables (b1[u], b2[i], q[i], p[u]) in the direction that minimizes the error between an actual rating and (overall_average+b1[u]+b2[i]+np.dot(p[u],q[i])). 
 
 Initial Conditions:\
 overall_average: The average of all ratings used to train the SVD model (does not change in training)\
@@ -120,7 +120,7 @@ Movie biases: b2 = np.zeros(nof_movies)
 #### Bayesian Optimization:
 
 The Bayesian Optimization process is critical to the effectiveness of feature_3 in the final model.
-This means that tuning the hyperparameters to the iterative svd function goes a long way.
+This means that tuning the hyperparameters to the iterative_svd function goes a long way.
 
 This is what sparked the creation of the other notebook: [bayesian_optimization.ipynb](bayesian_optimization.ipynb)
 
@@ -130,13 +130,13 @@ nof_svd_users, nof_train_users, nof_latent_features, epochs, rt, lr
 
 What do these parameters mean?
 
-nof_svd_users is the number of users that that help train the iterative svd function but don't have a rating to be predicted by the trained svd.
+nof_svd_users is the number of users that that help train the iterative_svd function but don't have a rating to be predicted by the trained SVD model.
 
-The users themselves are not parameters because they should always be chosen randomly from the pool of svd users to limit noise.
+The users themselves are not parameters because they should always be chosen randomly from the pool of SVD users to limit noise.
 
 In the [full_model.ipynb](full_model.ipynb) notebook, the nof_train_users and nof_test_users are always equal and they are the number of users that both help train their respective model but also require predictions for exactly one of their movies. (These simulate the users that the final trained model is designed to make predictions for)
 
-Again, the users themselves are not parameters because they should always be chosen randomly from the pool of svd users to limit noise.
+Again, the users themselves are not parameters because they should always be chosen randomly from the pool of SVD users to limit noise.
 
 Users are randomly sampled each run from the respective user_to_data_svd, user_to_data_train, user_to_data_test which each have 10000 users.
 
