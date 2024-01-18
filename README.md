@@ -60,7 +60,7 @@ There are three input features to the final model (features 1, 2, and, 3).
 
 Furthermore, there are train and test users with these features in addition to a target rating from one of their randomly selected movies. Intuitively, train users train the final model against their target rating and test users test the final model against their target rating.
 
-For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an svd model using the best hyperparameters found in the bayesian_optimization.ipynb notebook.
+For each user (train or test), feature_1 and feature_2 are respectively un_weighted and weighted averages of the users non-target movies and serve as predictions to the users target movie rating. feature_3 is another rating prediction of the users target movie by an svd model using the best hyperparameters found in the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) notebook.
 
 Each of the three features stand on their own as predictions to the target movie's rating but they each have a different method of making these predictions.
 
@@ -93,7 +93,7 @@ On the other hand, train and test users have ratings to pass to the iterative_sv
 
 The number of test users are limited because of the problem statement in the [goal section](#project-goal). 
 Furthermore, train users should have the same bounds as the test users because the trained model should value features in the same way that
-gives the most accurate prediction for the test ratings. It should not over or under inflate certain features by using more or less data to support them.
+gives the most accurate prediction for the test ratings. It should not over or under estimate certain features by using more or less data to support them.
 
 SVD users don't have these restrictions and therefore should have more ratings. Intuitively, the more SVD ratings per user, the more it can contribute to the accuracy of the test and train predictions.
 
@@ -154,7 +154,7 @@ The purpose of the final model (loosely speaking) is how much weight to give to 
 
 The idea was that more than one predictor can fill in the short comings of a single model.
 
-After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected, then they are used as input features to build a simple linear regression model.
+After features (1, 2, and 3) for the train and test users and the target train and test ratings are collected, then they are used as input features to build and test a simple linear regression model.
 
 Although feature 3 is overwhelmingly the most critical feature to the model, in testing the presence and absence of features, Feature 1 and Feature 2 were shown have a positive impact on the linear regression model and the best performance was obtained by using all three features.
 
