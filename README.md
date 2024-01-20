@@ -208,7 +208,7 @@ This means that the same parameter values were tested a large amount of times, e
     * Git
     * python3 and pip (my working python version: 3.10.7)
     * Kaggle account and API token
-    * 16 GBs of total ram on machine to be safe (less is workable depending on the concurrent tasks running on machines).
+    * 16 GBs of total ram on machine to be safe (less is workable depending on the concurrent tasks running on machine).
 
 1. Clone the repository with git.
 2. With python3 and pip:
