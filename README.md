@@ -99,7 +99,7 @@ SVD users don't have these restrictions and therefore should have more ratings. 
 
 Currently, the SVD users bounds are (20-30) ratings while test and train user bound are (5-10) ratings. 
 The test and train bounds stay consistent with the goal of the project, but the SVD user bounds can be modified.
-To keep things simpler this was not part of the optimization process in [bayesian_optimization.ipynb](bayesian_optimization.ipynb) and the values are by no means optimal. 
+To keep things simpler, this was not part of the optimization process in [bayesian_optimization.ipynb](bayesian_optimization.ipynb) and the values are by no means optimal. 
 Also, due to the sheer combinations of the min and max of the bounds, it may be better to optimize them manually.
 
 ### Feature_3:
@@ -140,7 +140,8 @@ Again, the users themselves are not parameters. Users are randomly sampled each 
 
 nof_latent_features: nof_factors in the iterative_svd function (used like this):\
 q : is a (nof_movies x nof_factors) array\
-p : is a (nof_users x nof_factors) array\
+p : is a (nof_users x nof_factors) array
+
 Epochs: nof cycles of stochastic gradient descent on the entire train list.\
 rt: regularization term\
 lr: learning rate
@@ -176,7 +177,7 @@ This means that the same parameter values were tested a large amount of times, e
 
 * Although increasing the number of tests in the Bayesian Optimization process helped reduce the overestimation of the hyperparameters, there was still slight evidence of over estimation. 
 
-* Also, more iterations of the Bayesian Optimization process helps with outputting good parameters, but it also increases the chance of over inflating them and likely required more tests per iteration to produce honest results.
+* Also, more iterations of the Bayesian Optimization process helps with outputting good parameters, but it also increases the chance of over inflating them and likely required more tests per iteration to produce more realistic results.
 
 * After many tests of the Bayesian Optimization process, I decided to settle on hyperparameters produced by a three hour long process on my machine with the input parameters found in the results file: [results.txt](results.txt)
 
@@ -207,7 +208,7 @@ This means that the same parameter values were tested a large amount of times, e
     * Git
     * python3 and pip (my working python version: 3.10.7)
     * Kaggle account and API token
-    * 8 GBs of ram total on machine (to be safe)
+    * 16 GBs of total ram on machine to be safe (less is workable depending on the concurrent tasks running on machines).
 
 1. Clone the repository with git.
 2. With python3 and pip:
@@ -242,7 +243,7 @@ scikit-learn, numba, dask, scikit-optimize, dask\[distributed\]
 
 * When cells(1-4) have been run to completion, the data persists in the form of "constructed_data.csv" so that only cells(5-8) needs to be rerun for training and testing to save time when testing new parameters. 
 
-* Don't run the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) unless you have ample time to wait and sufficient memory on your machine. 
+* Don't run the [bayesian_optimization.ipynb](bayesian_optimization.ipynb) unless you have ample time to wait and sufficient total memory on your machine (16 GBs). 
 It is only included for informative purposes and does not need to be run again. 
 However, it could be useful to try larger parameter bounds and some different inputs to get better results. 
 
